@@ -16,7 +16,7 @@
       "Хіхві"
     ],
     "region": "регіон Кахетія",
-    "image": "../wine/Kisi%20Rcheuli%20Qvevri%202020%2C%20Tchotiashvil.webp"
+    "image": "./wine/Kisi%20Rcheuli%20Qvevri%202020%2C%20Tchotiashvil.webp"
   },
   {
     "id": "remparts-bastor-2022",
@@ -35,7 +35,7 @@
       "Шардоне, Віоньє"
     ],
     "region": "регіон Бордо, Сотерн",
-    "image": "../wine/Remparts%20De%20Bastor%20Lamontagne%202022.webp"
+    "image": "./wine/Remparts%20De%20Bastor%20Lamontagne%202022.webp"
   },
   {
     "id": "chateau-grange-neuve-2020",
@@ -54,7 +54,7 @@
       "Каберне Совіньйон, Сіра"
     ],
     "region": "регіон Бордо, Помроль",
-    "image": "../wine/Chateau%20Grange-Neuve%202020.webp"
+    "image": "./wine/Chateau%20Grange-Neuve%202020.webp"
   },
   {
     "id": "planeta-chardonnay-2024",
@@ -73,7 +73,7 @@
       "Піно Гріджо"
     ],
     "region": "Сицилія",
-    "image": "../wine/Planeta%20Chardonnay%202024.webp"
+    "image": "./wine/Planeta%20Chardonnay%202024.webp"
   },
   {
     "id": "tenuta-ulisse-10-vendemmie",
@@ -92,7 +92,7 @@
       "Примітіво"
     ],
     "region": "Абруццо",
-    "image": "../wine/10%20Vendemmie%20Limited%20Edition%2C%20Tenuta%20Ulisse.webp"
+    "image": "./wine/10%20Vendemmie%20Limited%20Edition%2C%20Tenuta%20Ulisse.webp"
   },
   {
     "id": "gamla-cabernet-2021",
@@ -111,7 +111,7 @@
       "Мерло"
     ],
     "region": "Голанські висоти",
-    "image": "../wine/Cabernet%20Sauvignon%202021%2C%20Gamla.webp"
+    "image": "./wine/Cabernet%20Sauvignon%202021%2C%20Gamla.webp"
   },
   {
     "id": "amarone-zeni-2022",
@@ -130,7 +130,7 @@
       "Монтепульчано"
     ],
     "region": "Венето, Вальполічелла",
-    "image": "../wine/Amarone%20della%20Valpolicella%20Classico%202022%2C%20Zeni.webp"
+    "image": "./wine/Amarone%20della%20Valpolicella%20Classico%202022%2C%20Zeni.webp"
   },
   {
     "id": "sancerre-sauvion-2023",
@@ -149,7 +149,7 @@
       "Ріслінг"
     ],
     "region": "Долина Луари, Сансер",
-    "image": "../wine/Sancerre%202023%2C%20Sauvion%20Les%20Fondettes.webp"
+    "image": "./wine/Sancerre%202023%2C%20Sauvion%20Les%20Fondettes.webp"
   },
   {
     "id": "catena-alta-malbec-2022",
@@ -168,7 +168,7 @@
       "Шираз"
     ],
     "region": "Мендоса",
-    "image": "../wine/Catena%20Alta%20Malbec%202022%2C%20Catena%20Zapata.webp"
+    "image": "./wine/Catena%20Alta%20Malbec%202022%2C%20Catena%20Zapata.webp"
   },
   {
     "id": "chablis-colombier",
@@ -187,7 +187,7 @@
       "Піно Блан"
     ],
     "region": "Бургундія, Шаблі",
-    "image": "../wine/Chablis%2C%20Domaine%20Du%20Colombier.webp"
+    "image": "./wine/Chablis%2C%20Domaine%20Du%20Colombier.webp"
   },
   {
     "id": "cava-jaume-serra-2022",
@@ -206,7 +206,7 @@
       "Вердехо, Віура"
     ],
     "region": "Каталонія, Пенедес",
-    "image": "../wine/Cava%20Brut%20Nature%20Reserva%20Vintage%202022%2C%20Jaume%20Serra.webp"
+    "image": "./wine/Cava%20Brut%20Nature%20Reserva%20Vintage%202022%2C%20Jaume%20Serra.webp"
   },
   {
     "id": "miol-prosecco-2025",
@@ -225,7 +225,7 @@
       "Гарганега"
     ],
     "region": "Венето",
-    "image": "../wine/Miol%20Prosecco%20Extra%20Dry%20Millesimato%202025%2C%20Bartolomiol.webp"
+    "image": "./wine/Miol%20Prosecco%20Extra%20Dry%20Millesimato%202025%2C%20Bartolomiol.webp"
   },
   {
     "id": "jean-mallet-champagne",
@@ -244,7 +244,7 @@
       "Шардоне"
     ],
     "region": "Шампань, Кот-де-Бар",
-    "image": "../wine/Jean%20Mallet%2C%20Champaigne.webp"
+    "image": "./wine/Jean%20Mallet%2C%20Champaigne.webp"
   },
   {
     "id": "caste-prosecco-merotto-2024",
@@ -263,7 +263,7 @@
       "Піно Б'янко"
     ],
     "region": "Венето, Валдобб'ядене",
-    "image": "../wine/Caste%20Prosecco%20Superiore%20Extra%20Dry%20Millesimato%202024%2C%20Merotto.webp"
+    "image": "./wine/Caste%20Prosecco%20Superiore%20Extra%20Dry%20Millesimato%202024%2C%20Merotto.webp"
   },
   {
     "id": "asti-zonin",
@@ -282,7 +282,7 @@
       "Требб'яно"
     ],
     "region": "П'ємонт, Асті",
-    "image": "../wine/Asti%2C%20Zonin.webp"
+    "image": "./wine/Asti%2C%20Zonin.webp"
   },
   {
     "id": "miol-zero-bartolomiol",
@@ -301,7 +301,7 @@
       "Айрен"
     ],
     "region": "Венето",
-    "image": "../wine/%D0%91%D0%B5%D0%B7%D0%B0%D0%BB%D0%BA%D0%BE%D0%B3%D0%BE%D0%BB%D1%8C%D0%BD%D0%B5%20%D1%96%D0%B3%D1%80%D0%B8%D1%81%D1%82%D0%B5%20Miol%20Zero%2C%20Bartolomiol.webp"
+    "image": "./wine/%D0%91%D0%B5%D0%B7%D0%B0%D0%BB%D0%BA%D0%BE%D0%B3%D0%BE%D0%BB%D1%8C%D0%BD%D0%B5%20%D1%96%D0%B3%D1%80%D0%B8%D1%81%D1%82%D0%B5%20Miol%20Zero%2C%20Bartolomiol.webp"
   },
   {
     "id": "pinot-grigio-petes-pure",
@@ -320,7 +320,7 @@
       "Семильйон"
     ],
     "region": "Долина Баросса",
-    "image": "../wine/Pinot%20Grigio%2C%20Pete's%20Pure.webp"
+    "image": "./wine/Pinot%20Grigio%2C%20Pete's%20Pure.webp"
   },
   {
     "id": "zeni-garganega",
@@ -339,7 +339,7 @@
       "Піно Гріджо"
     ],
     "region": "Венето",
-    "image": "../wine/Garganega%20Alte%202024%2C%20Zeni.webp"
+    "image": "./wine/Garganega%20Alte%202024%2C%20Zeni.webp"
   },
   {
     "id": "riesling-dr-loosen",
@@ -358,7 +358,7 @@
       "Сільванер"
     ],
     "region": "Мозель",
-    "image": "../wine/Riesling%2C%20Feinherb%2C%20Dr.%20Loosen.webp"
+    "image": "./wine/Riesling%2C%20Feinherb%2C%20Dr.%20Loosen.webp"
   },
   {
     "id": "sauvignon-marlborough-sun",
@@ -377,7 +377,7 @@
       "Піно Грі"
     ],
     "region": "Мальборо",
-    "image": "../wine/Sauvignon%20Blanc%2C%20Marlborough%20Sun.webp"
+    "image": "./wine/Sauvignon%20Blanc%2C%20Marlborough%20Sun.webp"
   },
   {
     "id": "no-limite-white",
@@ -396,7 +396,7 @@
       "Ріслінг"
     ],
     "region": "",
-    "image": "../wine/No%20Limite.webp"
+    "image": "./wine/No%20Limite.webp"
   },
   {
     "id": "torres-flor-dorange",
@@ -415,7 +415,7 @@
       "Альбаріньйо"
     ],
     "region": "Каталонія",
-    "image": "../wine/Torres%20Vina%20Esmeralda%20Flor%20D'orange.webp"
+    "image": "./wine/Torres%20Vina%20Esmeralda%20Flor%20D'orange.webp"
   },
   {
     "id": "cerro-anon-reserva",
@@ -434,7 +434,7 @@
       "Гарнача, Каріньян"
     ],
     "region": "Ріоха",
-    "image": "../wine/Bodegas%20Olarra%20Cerro%20Anon%20Reserva.webp"
+    "image": "./wine/Bodegas%20Olarra%20Cerro%20Anon%20Reserva.webp"
   },
   {
     "id": "mondavi-bourbon-barrel",
@@ -453,7 +453,7 @@
       "Мерло"
     ],
     "region": "Каліфорнія",
-    "image": "../wine/%D0%A1abernet%20Sauvignon%20Bourbon%20Barrel%20Aged%202022%2C%20Robert%20Mondavi.webp"
+    "image": "./wine/%D0%A1abernet%20Sauvignon%20Bourbon%20Barrel%20Aged%202022%2C%20Robert%20Mondavi.webp"
   },
   {
     "id": "primitivo-gran-maestro",
@@ -472,7 +472,7 @@
       "Санджовезе"
     ],
     "region": "Апулія, Мандурія",
-    "image": "../wine/Primitivo%20di%20Manduria%2C%20Gran%20Maestro.webp"
+    "image": "./wine/Primitivo%20di%20Manduria%2C%20Gran%20Maestro.webp"
   },
   {
     "id": "callia-shiraz-malbec",
@@ -491,7 +491,7 @@
       "Бонарда, Мальбек"
     ],
     "region": "Сан-Хуан",
-    "image": "../wine/Callia%20Shiraz%20Malbec%20Esperado.webp"
+    "image": "./wine/Callia%20Shiraz%20Malbec%20Esperado.webp"
   },
   {
     "id": "tarapaca-cabernet-gentle",
@@ -510,7 +510,7 @@
       "Шираз"
     ],
     "region": "Центральна долина",
-    "image": "../wine/Cabernet%20Sauvignon%20Reserva%20Gentle%2C%20Tarapaca.webp"
+    "image": "./wine/Cabernet%20Sauvignon%20Reserva%20Gentle%2C%20Tarapaca.webp"
   },
   {
     "id": "pinot-noir-petes-pure",
@@ -529,7 +529,7 @@
       "Каберне Фран"
     ],
     "region": "",
-    "image": "../wine/Pinot%20Noir%2C%20Pete's%20Pure.webp"
+    "image": "./wine/Pinot%20Noir%2C%20Pete's%20Pure.webp"
   },
   {
     "id": "vino-rosso-le-nature",
@@ -548,7 +548,7 @@
       "Примітіво"
     ],
     "region": "П'ємонт",
-    "image": "../wine/Vino%20Rosso%20Le%20Nature%2C%20Pelissero.webp"
+    "image": "./wine/Vino%20Rosso%20Le%20Nature%2C%20Pelissero.webp"
   },
   {
     "id": "no-limite-red",
@@ -567,7 +567,7 @@
       "Мерло"
     ],
     "region": "Casa Santos Lima",
-    "image": "../wine/No%20Limite%20%D1%87%D0%B5%D1%80%D0%B2.webp"
+    "image": "./wine/No%20Limite%20%D1%87%D0%B5%D1%80%D0%B2.webp"
   },
   {
     "id": "porto-fine-ruby-maynards",
@@ -586,6 +586,6 @@
       "Тінта Барокка, Каштелау"
     ],
     "region": "Долина Дору",
-    "image": "../wine/Porto%20Fine%20Ruby%2C%20Maynard's.webp"
+    "image": "./wine/Porto%20Fine%20Ruby%2C%20Maynard's.webp"
   }
 ]
