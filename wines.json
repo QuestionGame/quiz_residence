@@ -1,0 +1,591 @@
+[
+  {
+    "id": "kisi-rcheuli-2020",
+    "name": "Kisi Rcheuli Qvevri 2020, Tchotiashvili",
+    "category": "CORAVIN SELECTION",
+    "country": "Грузія",
+    "classification": "Помаранчеве, сухе",
+    "classificationGeneral": "Помаранчеве (янтарне), сухе (кахетинська витримка у квеврі)",
+    "grapes": "Кісі",
+    "priceHint": "250 ₴ (100 мл)",
+    "volume": "100 мл • 12.5%",
+    "tastingNotes": "Стародавня технологія витримки в глиняних квеврі. Ноти кураги, сушеного інжиру, волоського горіха та відчутні терпкі таніни.",
+    "distractors": [
+      "Ркацителі",
+      "Сапераві",
+      "Хіхві"
+    ],
+    "region": "регіон Кахетія",
+    "image": "../wine/Kisi%20Rcheuli%20Qvevri%202020%2C%20Tchotiashvil.webp"
+  },
+  {
+    "id": "remparts-bastor-2022",
+    "name": "Remparts De Bastor Lamontagne 2022",
+    "category": "CORAVIN SELECTION",
+    "country": "Франція",
+    "classification": "Солодке",
+    "classificationGeneral": "Біле десертне, солодке (ботритизоване)",
+    "grapes": "Семійон, Совіньйон Блан",
+    "priceHint": "125 ₴ (50 мл)",
+    "volume": "50 мл • 13.5%",
+    "tastingNotes": "Бордо (Сотерн). Виноград уражений благородною пліснявою ботритис. Аромати квіткового меду, стиглої кураги, цедри апельсина та шафрану.",
+    "distractors": [
+      "Шенен Блан",
+      "Мускат Олександрійський",
+      "Шардоне, Віоньє"
+    ],
+    "region": "регіон Бордо, Сотерн",
+    "image": "../wine/Remparts%20De%20Bastor%20Lamontagne%202022.webp"
+  },
+  {
+    "id": "chateau-grange-neuve-2020",
+    "name": "Chateau Grange-Neuve 2020",
+    "category": "CORAVIN SELECTION",
+    "country": "Франція",
+    "classification": "Сухе",
+    "classificationGeneral": "Червоне, сухе",
+    "grapes": "Мерло, Каберне Фран",
+    "priceHint": "362 ₴ (100 мл)",
+    "volume": "100 мл • 13.5%",
+    "tastingNotes": "Бордо (Помроль). Витончене рубінове тіло, оксамитові зрілі таніни, тони чорної вишні, ожини, кедрового дерева та тютюну.",
+    "distractors": [
+      "Піно Нуар",
+      "Сіра, Гренаш",
+      "Каберне Совіньйон, Сіра"
+    ],
+    "region": "регіон Бордо, Помроль",
+    "image": "../wine/Chateau%20Grange-Neuve%202020.webp"
+  },
+  {
+    "id": "planeta-chardonnay-2024",
+    "name": "Planeta Chardonnay 2024",
+    "category": "CORAVIN SELECTION",
+    "country": "Італія",
+    "classification": "Сухе",
+    "classificationGeneral": "Біле, сухе (з витримкою у дубі)",
+    "grapes": "Шардоне",
+    "priceHint": "305 ₴ (100 мл)",
+    "volume": "100 мл • 13%",
+    "tastingNotes": "Сицилійська ікона білих вин. В ароматі домінують солодкий мигдаль, курага, сицилійські цукати та ніжний вершковий бріош.",
+    "distractors": [
+      "Гарганега",
+      "Верментіно",
+      "Піно Гріджо"
+    ],
+    "region": "Сицилія",
+    "image": "../wine/Planeta%20Chardonnay%202024.webp"
+  },
+  {
+    "id": "tenuta-ulisse-10-vendemmie",
+    "name": "10 Vendemmie Limited Edition, Tenuta Ulisse",
+    "category": "CORAVIN SELECTION",
+    "country": "Італія",
+    "classification": "Напівсухе",
+    "classificationGeneral": "Червоне, напівсухе",
+    "grapes": "Монтепульчано",
+    "priceHint": "370 ₴ (100 мл)",
+    "volume": "100 мл",
+    "tastingNotes": "Абруццо. Бленд 10 найкращих вінтажів виноробні. Колосальна концентрація, стиглі лісові чорні ягоди, темний шоколад та ваніль.",
+    "distractors": [
+      "Неббіоло",
+      "Санджовезе",
+      "Примітіво"
+    ],
+    "region": "Абруццо",
+    "image": "../wine/10%20Vendemmie%20Limited%20Edition%2C%20Tenuta%20Ulisse.webp"
+  },
+  {
+    "id": "gamla-cabernet-2021",
+    "name": "Cabernet Sauvignon 2021, Gamla",
+    "category": "CORAVIN SELECTION",
+    "country": "Ізраїль",
+    "classification": "Сухе",
+    "classificationGeneral": "Червоне, сухе (кошерне)",
+    "grapes": "Каберне Совіньйон",
+    "priceHint": "212 ₴ (100 мл)",
+    "volume": "100 мл",
+    "tastingNotes": "Голанські висоти. Кошерне преміум-вино. Насичений виразний смак із шовковистою ваніллю, прянощами східних спецій та стиглої смородини.",
+    "distractors": [
+      "Шираз",
+      "Карменер",
+      "Мерло"
+    ],
+    "region": "Голанські висоти",
+    "image": "../wine/Cabernet%20Sauvignon%202021%2C%20Gamla.webp"
+  },
+  {
+    "id": "amarone-zeni-2022",
+    "name": "Amarone della Valpolicella Classico 2022, Zeni",
+    "category": "CORAVIN SELECTION",
+    "country": "Італія",
+    "classification": "Сухе",
+    "classificationGeneral": "Червоне, сухе (метод апасіменто — заізюмлений виноград)",
+    "grapes": "Корвіна, Рондінелла, Молінара",
+    "priceHint": "303 ₴ (100 мл)",
+    "volume": "100 мл",
+    "tastingNotes": "Венето (Вальполічелла). Виготовляється із підсушеного на солом'яних матах винограду (appassimento). Чорнослив, інжир, вишня у коньяку та тютюн.",
+    "distractors": [
+      "Санджовезе, Канайоло",
+      "Барбера, Неббіоло",
+      "Монтепульчано"
+    ],
+    "region": "Венето, Вальполічелла",
+    "image": "../wine/Amarone%20della%20Valpolicella%20Classico%202022%2C%20Zeni.webp"
+  },
+  {
+    "id": "sancerre-sauvion-2023",
+    "name": "Sancerre 2023, Sauvion Les Fondettes",
+    "category": "CORAVIN SELECTION",
+    "country": "Франція",
+    "classification": "Сухе",
+    "classificationGeneral": "Біле, сухе",
+    "grapes": "Совіньйон Блан",
+    "priceHint": "310 ₴ (100 мл)",
+    "volume": "100 мл",
+    "tastingNotes": "Долина Луари. Еталонне граційне біле сухе вино. Яскрава крейдяна мінеральність, свіжий аґрус, лайм та лист чорної смородини.",
+    "distractors": [
+      "Шардоне",
+      "Шенен Блан",
+      "Ріслінг"
+    ],
+    "region": "Долина Луари, Сансер",
+    "image": "../wine/Sancerre%202023%2C%20Sauvion%20Les%20Fondettes.webp"
+  },
+  {
+    "id": "catena-alta-malbec-2022",
+    "name": "Catena Alta Malbec 2022, Catena Zapata",
+    "category": "CORAVIN SELECTION",
+    "country": "Аргентина",
+    "classification": "Сухе",
+    "classificationGeneral": "Червоне, сухе",
+    "grapes": "Мальбек",
+    "priceHint": "297 ₴ (100 мл)",
+    "volume": "100 мл • 13.5%",
+    "tastingNotes": "Мендоса (високогірні лози Анд). Щільне, багатошарове тіло: стигла чорна смородина, фіалка, какао-боби, солодкий дуб.",
+    "distractors": [
+      "Карменер",
+      "Темпранільйо",
+      "Шираз"
+    ],
+    "region": "Мендоса",
+    "image": "../wine/Catena%20Alta%20Malbec%202022%2C%20Catena%20Zapata.webp"
+  },
+  {
+    "id": "chablis-colombier",
+    "name": "Chablis, Domaine Du Colombier",
+    "category": "CORAVIN SELECTION",
+    "country": "Франція",
+    "classification": "Сухе",
+    "classificationGeneral": "Біле, сухе",
+    "grapes": "Шардоне",
+    "priceHint": "215 ₴ (100 мл)",
+    "volume": "100 мл",
+    "tastingNotes": "Північна Бургундія на древніх ґрунтах Кіммерідж. Витончений аромат зеленого яблука, лимонної цедри та фірмова йодована мінеральність.",
+    "distractors": [
+      "Совіньйон Блан",
+      "Аліготе",
+      "Піно Блан"
+    ],
+    "region": "Бургундія, Шаблі",
+    "image": "../wine/Chablis%2C%20Domaine%20Du%20Colombier.webp"
+  },
+  {
+    "id": "cava-jaume-serra-2022",
+    "name": "Cava Brut Nature Reserva Vintage 2022, Jaume Serra",
+    "category": "Ігристе та шампанське",
+    "country": "Іспанія",
+    "classification": "Брют / Брют Натюр",
+    "classificationGeneral": "Ігристе біле, брют натюр (Reserva, повністю сухе без дозажного цукру)",
+    "grapes": "Макабео, Шарелло, Парельяда",
+    "priceHint": "Від 140 ₴",
+    "volume": "Келих / пляшка",
+    "tastingNotes": "Каталонія (Пенедес). Категорія Brut Nature — абсолютно сухе без дозажного цукру. Ноти випічки, підсмаженого фундука, бріошу та цитрусів.",
+    "distractors": [
+      "Глера",
+      "Шардоне, Піно Нуар",
+      "Вердехо, Віура"
+    ],
+    "region": "Каталонія, Пенедес",
+    "image": "../wine/Cava%20Brut%20Nature%20Reserva%20Vintage%202022%2C%20Jaume%20Serra.webp"
+  },
+  {
+    "id": "miol-prosecco-2025",
+    "name": "Miol Prosecco Extra Dry Millesimato 2025, Bartolomiol",
+    "category": "Ігристе та шампанське",
+    "country": "Італія",
+    "classification": "Напівсухе",
+    "classificationGeneral": "Ігристе біле, Extra Dry (напівсухе)",
+    "grapes": "Глера",
+    "priceHint": "Від 168 ₴",
+    "volume": "11%",
+    "tastingNotes": "Венето. Класичне італійське просеко з бірюзовою капсулою. Extra Dry означає легку ніжну фруктову солодкість, ноти білої груші та жасмину.",
+    "distractors": [
+      "Требб'яно",
+      "Мускат Б'янко",
+      "Гарганега"
+    ],
+    "region": "Венето",
+    "image": "../wine/Miol%20Prosecco%20Extra%20Dry%20Millesimato%202025%2C%20Bartolomiol.webp"
+  },
+  {
+    "id": "jean-mallet-champagne",
+    "name": "Jean Mallet, Champaigne",
+    "category": "Ігристе та шампанське",
+    "country": "Франція",
+    "classification": "Брют / Брют Натюр",
+    "classificationGeneral": "Шампанське біле, брют (сухе)",
+    "grapes": "Піно Нуар (70%), Шардоне (30%)",
+    "priceHint": "2 900 ₴ (750 мл)",
+    "volume": "750 мл • 12%",
+    "tastingNotes": "Шампань. Справжнє автентичне шампанське з тривалою витримкою на осаді. Стійкий оксамитовий перляж, тости з вершковим маслом, стигле яблуко.",
+    "distractors": [
+      "Шенен Блан, Каберне Фран",
+      "Глера",
+      "Шардоне"
+    ],
+    "region": "Шампань, Кот-де-Бар",
+    "image": "../wine/Jean%20Mallet%2C%20Champaigne.webp"
+  },
+  {
+    "id": "caste-prosecco-merotto-2024",
+    "name": "Caste Prosecco Superiore Extra Dry Millesimato 2024, Merotto",
+    "category": "Ігристе та шампанське",
+    "country": "Італія",
+    "classification": "Напівсухе",
+    "classificationGeneral": "Ігристе біле, Superiore DOCG, Extra Dry (напівсухе)",
+    "grapes": "Глера",
+    "priceHint": "235 ₴",
+    "volume": "Келих",
+    "tastingNotes": "Валдобб'ядене DOCG. Елітна зона просеко з пагорбів. Шовковиста піна, ноти білого персика, польових квітів та зеленого яблука.",
+    "distractors": [
+      "Корвіна",
+      "Мускат Б'янко",
+      "Піно Б'янко"
+    ],
+    "region": "Венето, Валдобб'ядене",
+    "image": "../wine/Caste%20Prosecco%20Superiore%20Extra%20Dry%20Millesimato%202024%2C%20Merotto.webp"
+  },
+  {
+    "id": "asti-zonin",
+    "name": "Asti, Zonin",
+    "category": "Ігристе та шампанське",
+    "country": "Італія",
+    "classification": "Солодке",
+    "classificationGeneral": "Ігристе біле, солодке",
+    "grapes": "Мускат Б'янко",
+    "priceHint": "940 ₴ (750 мл)",
+    "volume": "750 мл",
+    "tastingNotes": "П'ємонт (Асті). Натурально солодке, ніжне та ароматне вино. Медові персики, біла акація, стиглий виноград та низький алкоголь.",
+    "distractors": [
+      "Глера",
+      "Мальвазія",
+      "Требб'яно"
+    ],
+    "region": "П'ємонт, Асті",
+    "image": "../wine/Asti%2C%20Zonin.webp"
+  },
+  {
+    "id": "miol-zero-bartolomiol",
+    "name": "Безалкогольне ігристе Miol Zero, Bartolomiol",
+    "category": "Ігристе та шампанське",
+    "country": "Італія",
+    "classification": "Безалкогольне",
+    "classificationGeneral": "Ігристе біле, безалкогольне",
+    "grapes": "Глера (деалкоголізоване)",
+    "priceHint": "165 ₴ (100 мл)",
+    "volume": "100 мл • 0.0%",
+    "tastingNotes": "Безалкогольна версія просеко з яскраво-жовтою капсулою. Зберігає свіжість цитрусів, яблучний профіль та святковий перляж.",
+    "distractors": [
+      "Шардоне",
+      "Мускат",
+      "Айрен"
+    ],
+    "region": "Венето",
+    "image": "../wine/%D0%91%D0%B5%D0%B7%D0%B0%D0%BB%D0%BA%D0%BE%D0%B3%D0%BE%D0%BB%D1%8C%D0%BD%D0%B5%20%D1%96%D0%B3%D1%80%D0%B8%D1%81%D1%82%D0%B5%20Miol%20Zero%2C%20Bartolomiol.webp"
+  },
+  {
+    "id": "pinot-grigio-petes-pure",
+    "name": "Pinot Grigio, Pete's Pure",
+    "category": "Біле",
+    "country": "Австралія",
+    "classification": "Сухе",
+    "classificationGeneral": "Біле, сухе",
+    "grapes": "Піно Гріджо",
+    "priceHint": "Від 150 ₴",
+    "volume": "12.5%",
+    "tastingNotes": "Австралія. Свіже, легке вино на кожен день з портретом на етикетці. Хрустка груша, лимонний сік, легка мінеральність.",
+    "distractors": [
+      "Совіньйон Блан",
+      "Шардоне",
+      "Семильйон"
+    ],
+    "region": "Долина Баросса",
+    "image": "../wine/Pinot%20Grigio%2C%20Pete's%20Pure.webp"
+  },
+  {
+    "id": "zeni-garganega",
+    "name": "Garganega Alte 2024, Zeni",
+    "category": "Біле",
+    "country": "Італія",
+    "classification": "Сухе",
+    "classificationGeneral": "Біле, сухе",
+    "grapes": "Гарганега",
+    "priceHint": "Від 135 ₴",
+    "volume": "12%",
+    "tastingNotes": "Венето (батьківщина Соаве). Надзвичайно питке вино з нотами польової ромашки, білого персика та фірмовим мигдальним посмаком.",
+    "distractors": [
+      "Корвіна",
+      "Требб'яно",
+      "Піно Гріджо"
+    ],
+    "region": "Венето",
+    "image": "../wine/Garganega%20Alte%202024%2C%20Zeni.webp"
+  },
+  {
+    "id": "riesling-dr-loosen",
+    "name": "Riesling, Feinherb, Dr. Loosen",
+    "category": "Біле",
+    "country": "Німеччина",
+    "classification": "Напівсолодке",
+    "classificationGeneral": "Біле, напівсолодке",
+    "grapes": "Ріслінг (100%)",
+    "priceHint": "Від 140 ₴",
+    "volume": "10.5%",
+    "tastingNotes": "Мозель. Німецький термін Feinherb позначає напівсухий стиль. Еталонний баланс пронизливої кислотності та яблучно-персикової солодкості.",
+    "distractors": [
+      "Гевюрцтрамінер",
+      "Грюнер Вельтлінер",
+      "Сільванер"
+    ],
+    "region": "Мозель",
+    "image": "../wine/Riesling%2C%20Feinherb%2C%20Dr.%20Loosen.webp"
+  },
+  {
+    "id": "sauvignon-marlborough-sun",
+    "name": "Sauvignon Blanc, Marlborough Sun",
+    "category": "Біле",
+    "country": "Нова Зеландія",
+    "classification": "Сухе",
+    "classificationGeneral": "Біле, сухе",
+    "grapes": "Совіньйон Блан",
+    "priceHint": "Від 145 ₴",
+    "volume": "Келих",
+    "tastingNotes": "Мальборо. Чорно-біле фото відпочивальників на етикетці. Вибух маракуї, стиглого аґрусу, листа чорної смородини та цитрусового фрешу.",
+    "distractors": [
+      "Шардоне",
+      "Шенен Блан",
+      "Піно Грі"
+    ],
+    "region": "Мальборо",
+    "image": "../wine/Sauvignon%20Blanc%2C%20Marlborough%20Sun.webp"
+  },
+  {
+    "id": "no-limite-white",
+    "name": "No Limite б/а (біле)",
+    "category": "Біле",
+    "country": "Португалія",
+    "classification": "Безалкогольне",
+    "classificationGeneral": "Біле, безалкогольне (сухий смаковий профіль)",
+    "grapes": "Купаж білих португальських сортів",
+    "priceHint": "Від 125 ₴",
+    "volume": "Келих",
+    "tastingNotes": "Безалкогольне чисте тихе вино з блакитним ковпачком. Освіжаючий аромат зеленого яблука та лимона без вмісту спирту.",
+    "distractors": [
+      "Шардоне",
+      "Совіньйон Блан",
+      "Ріслінг"
+    ],
+    "region": "",
+    "image": "../wine/No%20Limite.webp"
+  },
+  {
+    "id": "torres-flor-dorange",
+    "name": "Torres Vina Esmeralda Flor D'orange",
+    "category": "Рожеве & помаранчеве",
+    "country": "Іспанія",
+    "classification": "Напівсухе",
+    "classificationGeneral": "Помаранчеве, напівсухе",
+    "grapes": "Мускат",
+    "priceHint": "Від 154 ₴",
+    "volume": "12.5%",
+    "tastingNotes": "Каталонія (Торрес). Помаранчеве вино з білого винограду за технологією мацерації. Апельсиновий цвіт, грейпфрут, легка чайна терпкість.",
+    "distractors": [
+      "Гарнача Тінта",
+      "Темпранільйо",
+      "Альбаріньйо"
+    ],
+    "region": "Каталонія",
+    "image": "../wine/Torres%20Vina%20Esmeralda%20Flor%20D'orange.webp"
+  },
+  {
+    "id": "cerro-anon-reserva",
+    "name": "Bodegas Olarra Cerro Anon Reserva",
+    "category": "Червоне",
+    "country": "Іспанія",
+    "classification": "Сухе",
+    "classificationGeneral": "Червоне, сухе (Reserva)",
+    "grapes": "Темпранільйо, Грасіано, Гарнача, Мазуело",
+    "priceHint": "Від 162 ₴",
+    "volume": "Келих",
+    "tastingNotes": "Ріоха. Класична витримка Reserva у бочках. Аромати стиглої темної вишні, шкіри, димного тютюну та солодкої пряної ванілі.",
+    "distractors": [
+      "Монастрель, Сіра",
+      "Каберне Совіньйон",
+      "Гарнача, Каріньян"
+    ],
+    "region": "Ріоха",
+    "image": "../wine/Bodegas%20Olarra%20Cerro%20Anon%20Reserva.webp"
+  },
+  {
+    "id": "mondavi-bourbon-barrel",
+    "name": "Cabernet Sauvignon Bourbon Barrel Aged 2022, Robert Mondavi",
+    "category": "Червоне",
+    "country": "США",
+    "classification": "Сухе",
+    "classificationGeneral": "Червоне, сухе (витримане в бочках з-під бурбона)",
+    "grapes": "Каберне Совіньйон",
+    "priceHint": "1 630 ₴ (750 мл)",
+    "volume": "750 мл • 14.5%",
+    "tastingNotes": "Каліфорнія. Витримка у дубових діжках з-під американського бурбона. Розкішний смак чорничного пирога, смаженого дуба, ванілі та карамелі.",
+    "distractors": [
+      "Зінфандель",
+      "Піно Нуар",
+      "Мерло"
+    ],
+    "region": "Каліфорнія",
+    "image": "../wine/%D0%A1abernet%20Sauvignon%20Bourbon%20Barrel%20Aged%202022%2C%20Robert%20Mondavi.webp"
+  },
+  {
+    "id": "primitivo-gran-maestro",
+    "name": "Primitivo di Manduria, Gran Maestro",
+    "category": "Червоне",
+    "country": "Італія",
+    "classification": "Сухе",
+    "classificationGeneral": "Червоне, сухе",
+    "grapes": "Примітіво",
+    "priceHint": "1 250 ₴",
+    "volume": "Пляшка",
+    "tastingNotes": "Апулія (Мандурія). Лицарський герб на чорній етикетці. Густий, насичений ягідний смак, східні солодкі спеції, чорнослив та вишневий джем.",
+    "distractors": [
+      "Негроамаро",
+      "Неро д'Авола",
+      "Санджовезе"
+    ],
+    "region": "Апулія, Мандурія",
+    "image": "../wine/Primitivo%20di%20Manduria%2C%20Gran%20Maestro.webp"
+  },
+  {
+    "id": "callia-shiraz-malbec",
+    "name": "Callia Shiraz Malbec Esperado",
+    "category": "Червоне",
+    "country": "Аргентина",
+    "classification": "Напівсолодке",
+    "classificationGeneral": "Червоне, напівсолодке",
+    "grapes": "Шираз, Мальбек",
+    "priceHint": "Від 140 ₴ (розпродано)",
+    "volume": "12.5%",
+    "tastingNotes": "Сан-Хуан. Створено для поціновувачів солодкуватого смаку. Соковиті солодкі стиглі чорні ягоди, шоколадні відтінки та м'які таніни.",
+    "distractors": [
+      "Каберне, Мерло",
+      "Карменер, Сіра",
+      "Бонарда, Мальбек"
+    ],
+    "region": "Сан-Хуан",
+    "image": "../wine/Callia%20Shiraz%20Malbec%20Esperado.webp"
+  },
+  {
+    "id": "tarapaca-cabernet-gentle",
+    "name": "Cabernet Sauvignon Reserva Gentle, Tarapaca",
+    "category": "Червоне",
+    "country": "Чилі",
+    "classification": "Напівсолодке",
+    "classificationGeneral": "Червоне, напівсолодке",
+    "grapes": "Каберне Совіньйон",
+    "priceHint": "Від 130 ₴",
+    "volume": "12.5%",
+    "tastingNotes": "Центральна долина Чилі. М'який стиль танінів 'Gentle'. Ноти стиглої сливи, чорниці, ожини та приємна ніжна ваніль.",
+    "distractors": [
+      "Карменер",
+      "Мерло",
+      "Шираз"
+    ],
+    "region": "Центральна долина",
+    "image": "../wine/Cabernet%20Sauvignon%20Reserva%20Gentle%2C%20Tarapaca.webp"
+  },
+  {
+    "id": "pinot-noir-petes-pure",
+    "name": "Pinot Noir, Pete's Pure",
+    "category": "Червоне",
+    "country": "Австралія",
+    "classification": "Сухе",
+    "classificationGeneral": "Червоне, сухе",
+    "grapes": "Піно Нуар",
+    "priceHint": "Від 145 ₴",
+    "volume": "Келих",
+    "tastingNotes": "Австралія. Дуже легкотіле свіже червоне вино. Аромат свіжої стиглої полуниці, лісової суниці, червоної вишні та легких прянощів.",
+    "distractors": [
+      "Шираз",
+      "Гренаш",
+      "Каберне Фран"
+    ],
+    "region": "",
+    "image": "../wine/Pinot%20Noir%2C%20Pete's%20Pure.webp"
+  },
+  {
+    "id": "vino-rosso-le-nature",
+    "name": "Vino Rosso Le Nature, Pelissero",
+    "category": "Червоне",
+    "country": "Італія",
+    "classification": "Сухе",
+    "classificationGeneral": "Червоне, сухе",
+    "grapes": "Неббіоло, Барбера, Дольчетто",
+    "priceHint": "Від 130 ₴",
+    "volume": "13%",
+    "tastingNotes": "П'ємонт. Натуральне крафтове вино для поціновувачів. Рубіновий колір, смак соковитої стиглої вишні, гранату та бадьора кислотність.",
+    "distractors": [
+      "Корвіна, Рондінелла",
+      "Санджовезе",
+      "Примітіво"
+    ],
+    "region": "П'ємонт",
+    "image": "../wine/Vino%20Rosso%20Le%20Nature%2C%20Pelissero.webp"
+  },
+  {
+    "id": "no-limite-red",
+    "name": "No Limite б/а (червоне)",
+    "category": "Червоне",
+    "country": "Португалія",
+    "classification": "Безалкогольне",
+    "classificationGeneral": "Червоне, безалкогольне (сухий смаковий профіль)",
+    "grapes": "Купаж червоних португальських сортів",
+    "priceHint": "Від 125 ₴",
+    "volume": "Келих",
+    "tastingNotes": "Безалкогольне червоне вино. У букеті домінують стиглі темні лісові ягоди та легкі пряні нюанси без відчуття спирту.",
+    "distractors": [
+      "Темпранільйо",
+      "Каберне Совіньйон",
+      "Мерло"
+    ],
+    "region": "Casa Santos Lima",
+    "image": "../wine/No%20Limite%20%D1%87%D0%B5%D1%80%D0%B2.webp"
+  },
+  {
+    "id": "porto-fine-ruby-maynards",
+    "name": "Porto Fine Ruby, Maynard's",
+    "category": "Десертне & кріплене",
+    "country": "Португалія",
+    "classification": "Кріплене",
+    "classificationGeneral": "Кріплене червоне, солодке (портвейн Ruby)",
+    "grapes": "Турига Насьйональ, Турига Франка, Тінта Роріз",
+    "priceHint": "60 ₴",
+    "volume": "Порція / келих",
+    "tastingNotes": "Долина Дору. Округлий солодкий смак із нотами стиглих чорних ягід, сухофруктів, зацукрованої вишні та шоколадних цукерок.",
+    "distractors": [
+      "Мускат",
+      "Паломіно Фіно, Педро Хіменес",
+      "Тінта Барокка, Каштелау"
+    ],
+    "region": "Долина Дору",
+    "image": "../wine/Porto%20Fine%20Ruby%2C%20Maynard's.webp"
+  }
+]
