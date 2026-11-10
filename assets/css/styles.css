@@ -61,6 +61,27 @@
       transform: rotateY(180deg);
     }
 
+    /* Phones open cards full screen instead of flipping them (assets/js/flashcards.js), so the 3D context
+       is dropped: mobile browsers rasterize 3D layers at reduced resolution, which blurs the card face.
+       Keep the breakpoint in sync with PHONE_QUERY in flashcards.js. */
+    @media (max-width: 767px) {
+      .flip-card-container {
+        perspective: none;
+      }
+      .flip-card-inner {
+        transform-style: flat;
+        transition: none;
+      }
+      .flip-card-front {
+        position: relative;
+        -webkit-backface-visibility: visible;
+        backface-visibility: visible;
+      }
+      .flip-card-back {
+        display: none !important; /* beats Tailwind's `flex` class, which is injected after this file */
+      }
+    }
+
     /* Print: light, ink-friendly cheat sheet.
        !important is needed to beat Tailwind CDN utilities injected after this file. */
     @media print {

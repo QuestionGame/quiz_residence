@@ -5,10 +5,32 @@ import { sound } from './sound.js';
 import { updateStatsUI } from './stats.js';
 
 const formatOption = (question, value) => (question.format ? question.format(value) : value);
+const asArray = value => (Array.isArray(value) ? value : value ? [value] : []);
 
 /* Questions that have an answer for this item (others are skipped). */
 export function questionsFor(item) {
-  return CONFIG.questions.filter(q => q.answer(item));
+  return CONFIG.questions.filter(q => asArray(q.answer(item)).length > 0);
+}
+
+/* First 5 letters of every word of 4+ letters — used to keep near-synonyms out of wrong options
+   ("Пармезан" must not be a wrong option for a dish with "Сир пармезан"). */
+function wordStems(text) {
+  return new Set(String(text).toLowerCase().split(/[^a-zа-яіїєґ0-9]+/i).filter(w => w.length >= 4).map(w => w.slice(0, 5)));
+}
+
+/* Multi-answer (checklist) question: a sample of correct answers + wrong ones from other items.
+   Returns { options, correct } where `correct` is the subset of options that is right. */
+export function buildChecklist(question, item) {
+  const allCorrect = asArray(question.answer(item));
+  const spec = question.options;
+  if (spec.all) return { options: unique([...spec.all, ...allCorrect]), correct: allCorrect };
+
+  const correct = spec.correct === 'all' ? allCorrect : shuffle([...allCorrect]).slice(0, spec.correct || 4);
+  const ownStems = wordStems(spec.similarText ? spec.similarText(item) : allCorrect.join(' '));
+  const wrong = shuffle(unique(store.items.filter(other => other !== item).flatMap(other => asArray(question.answer(other)))))
+    .filter(value => ![...wordStems(value)].some(stem => ownStems.has(stem)))
+    .slice(0, spec.wrong || 4);
+  return { options: shuffle([...correct, ...wrong]), correct };
 }
 
 /* Correct answer + wrong ones, using the strategy from question.options (see pages.js). */
@@ -95,6 +117,7 @@ function loadQuizQuestion() {
   state.answerChecked = false;
   state.activeQuestions = questionsFor(item);
   state.userAnswers = {};
+  state.shownCorrect = {};
 
   document.getElementById('quizCurrentIndex').textContent = state.currentIndex + 1;
   document.getElementById('quizTotalCount').textContent = state.quizPool.length;
@@ -138,15 +161,47 @@ function resetBadge(id) {
 
 const OPTION_BASE_CLASS = "option-btn p-2 text-xs font-medium rounded-xl border border-white/10 bg-slate-800/80 hover:bg-slate-700/80 hover:border-amber-500/40 text-slate-300 transition active:scale-95 disabled:cursor-default disabled:active:scale-100";
 
+const SELECTED = ['bg-amber-500', 'text-slate-950', 'border-amber-400', 'font-bold'];
+const UNSELECTED = ['bg-slate-800/80', 'text-slate-300'];
+
+function setSelected(btn, selected) {
+  btn.classList.remove(...(selected ? UNSELECTED : SELECTED));
+  btn.classList.add(...(selected ? SELECTED : UNSELECTED));
+  btn.setAttribute(btn.getAttribute('role') === 'checkbox' ? 'aria-checked' : 'aria-pressed', String(selected));
+  const mark = btn.querySelector('[data-check-mark]');
+  if (mark) mark.textContent = selected ? '✓' : '';
+}
+
 function renderOptions(question, item) {
   const container = document.getElementById(`grid-${question.key}`);
   container.innerHTML = "";
-  buildOptions(question, item).forEach(value => {
+  let values;
+  if (question.multi) {
+    const { options, correct } = buildChecklist(question, item);
+    state.shownCorrect[question.key] = correct;
+    state.userAnswers[question.key] = new Set();
+    values = options;
+  } else {
+    values = buildOptions(question, item);
+  }
+
+  values.forEach(value => {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.dataset.value = value;
     btn.className = `${OPTION_BASE_CLASS} ${question.wide ? 'p-2.5 text-left' : 'text-center'}`;
-    btn.textContent = formatOption(question, value);
+    if (question.multi) {
+      btn.setAttribute('role', 'checkbox');
+      btn.setAttribute('aria-checked', 'false');
+      btn.classList.add('flex', 'items-center', 'gap-2', 'min-h-[44px]');
+      btn.innerHTML = `
+        <span data-check-mark class="w-4 h-4 shrink-0 rounded border border-current flex items-center justify-center text-[11px] leading-none" aria-hidden="true"></span>
+        <span class="flex-1">${escapeHtml(formatOption(question, value))}</span>
+        <span data-result-note class="hidden text-[10px] font-semibold uppercase tracking-wide"></span>`;
+    } else {
+      btn.setAttribute('aria-pressed', 'false');
+      btn.textContent = formatOption(question, value);
+    }
     btn.onclick = () => selectOption(question, value, btn);
     container.appendChild(btn);
   });
@@ -155,17 +210,21 @@ function renderOptions(question, item) {
 function selectOption(question, value, btn) {
   if (state.answerChecked) return;
   sound.playClick();
-  state.userAnswers[question.key] = value;
-  document.querySelectorAll(`#grid-${question.key} .option-btn`).forEach(b => {
-    b.classList.remove('bg-amber-500', 'text-slate-950', 'border-amber-400', 'font-bold');
-    b.classList.add('bg-slate-800/80', 'text-slate-300');
-  });
-  btn.classList.remove('bg-slate-800/80', 'text-slate-300');
-  btn.classList.add('bg-amber-500', 'text-slate-950', 'border-amber-400', 'font-bold');
+  if (question.multi) {
+    const chosen = state.userAnswers[question.key];
+    if (chosen.has(value)) chosen.delete(value); else chosen.add(value);
+    setSelected(btn, chosen.has(value));
+  } else {
+    state.userAnswers[question.key] = value;
+    document.querySelectorAll(`#grid-${question.key} .option-btn`).forEach(b => setSelected(b, false));
+    setSelected(btn, true);
+  }
   validateCanCheck();
 }
 
-const allAnswered = () => state.activeQuestions.every(q => state.userAnswers[q.key]);
+const isAnswered = q => (q.multi ? state.userAnswers[q.key]?.size > 0 : Boolean(state.userAnswers[q.key]));
+/* Optional questions (e.g. allergens) never block checking and never count towards the score. */
+const allAnswered = () => state.activeQuestions.filter(q => !q.optional).every(isAnswered);
 
 const CHECK_BTN_BASE = "px-6 py-2.5 rounded-xl font-semibold text-sm transition shadow-lg flex items-center gap-2";
 const CHECK_BTN_ENABLED = "bg-gradient-to-r from-wine-600 to-amber-600 hover:from-wine-500 hover:to-amber-500 text-white cursor-pointer transform hover:-translate-y-0.5";
@@ -180,21 +239,49 @@ function validateCanCheck() {
   btn.classList.toggle('hidden', hidden);
 }
 
-function markOptions(question, correctValue, chosenValue) {
+/* Colours options after checking. Works for single answers and checklists:
+   picked & right → green, picked & wrong → red, missed right answer → dashed green "пропущено". */
+function markOptions(question, correctValues, chosenValues) {
+  const correct = new Set(correctValues);
+  const chosen = new Set(chosenValues);
   document.querySelectorAll(`#grid-${question.key} .option-btn`).forEach(b => {
     b.disabled = true;
-    if (b.dataset.value === correctValue) {
+    const value = b.dataset.value;
+    const note = b.querySelector('[data-result-note]');
+    const setNote = text => { if (note) { note.textContent = text; note.classList.remove('hidden'); } };
+    if (correct.has(value) && (chosen.has(value) || !question.multi)) {
       b.classList.add('!bg-emerald-600', '!text-white', '!border-emerald-400');
-    } else if (b.dataset.value === chosenValue) {
+    } else if (correct.has(value)) {
+      b.classList.add('!border-emerald-400', '!border-dashed', '!text-emerald-300');
+      setNote('пропущено');
+    } else if (chosen.has(value)) {
       b.classList.add('!bg-rose-600', '!text-white', '!border-rose-400');
+      setNote('зайве');
+    } else {
+      b.classList.add('opacity-50');
     }
   });
 }
 
-function setBadgeStatus(elementId, isCorrect) {
+/* Result for one question: { correct, chosen, isCorrect } */
+function evaluate(question, item) {
+  if (question.multi) {
+    const correct = state.shownCorrect[question.key];
+    const chosen = [...state.userAnswers[question.key]];
+    const isCorrect = chosen.length === correct.length && chosen.every(v => correct.includes(v));
+    return { correct, chosen, isCorrect };
+  }
+  const correct = question.answer(item);
+  const chosen = state.userAnswers[question.key];
+  return { correct: [correct], chosen: [chosen], isCorrect: chosen === correct };
+}
+
+function setBadgeStatus(elementId, isCorrect, optional = false) {
   const el = document.getElementById(elementId);
-  el.className = `text-xs font-semibold flex items-center gap-1 ${isCorrect ? 'text-emerald-400' : 'text-rose-400'}`;
-  el.innerHTML = isCorrect ? "<span>✓ Вірно</span>" : "<span>✕ Помилка</span>";
+  const color = isCorrect ? 'text-emerald-400' : optional ? 'text-amber-400' : 'text-rose-400';
+  const text = isCorrect ? '✓ Вірно' : optional ? '△ Не все — на результат не впливає' : '✕ Помилка';
+  el.className = `text-xs font-semibold flex items-center gap-1 text-right ${color}`;
+  el.innerHTML = `<span>${text}</span>`;
 }
 
 export function checkQuizAnswer() {
@@ -204,12 +291,10 @@ export function checkQuizAnswer() {
 
   let isAllCorrect = true;
   state.activeQuestions.forEach(question => {
-    const correct = question.answer(item);
-    const chosen = state.userAnswers[question.key];
-    const isCorrect = chosen === correct;
-    if (!isCorrect) isAllCorrect = false;
+    const { correct, chosen, isCorrect } = evaluate(question, item);
+    if (!isCorrect && !question.optional) isAllCorrect = false;
     markOptions(question, correct, chosen);
-    setBadgeStatus(`badge-${question.key}`, isCorrect);
+    setBadgeStatus(`badge-${question.key}`, isCorrect, question.optional);
   });
 
   state.stats.answeredTotal++;
@@ -236,7 +321,9 @@ export function checkQuizAnswer() {
   }
 
   document.getElementById('resultDetails').innerHTML = state.activeQuestions.map(question => {
-    const value = question.result ? question.result(item) : formatOption(question, question.answer(item));
+    const value = question.result
+      ? question.result(item)
+      : asArray(question.answer(item)).map(v => formatOption(question, v)).join(', ');
     return `<p>${question.resultIcon} <strong class="text-white">${escapeHtml(question.resultLabel)}:</strong> <span class="text-amber-300">${escapeHtml(value)}</span></p>`;
   }).join('');
 

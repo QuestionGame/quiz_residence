@@ -14,7 +14,8 @@ export const state = {
   currentIndex: 0,
   answerChecked: false,
   activeQuestions: [],
-  userAnswers: {},
+  userAnswers: {},   // question key → value, or Set of values for checklist questions
+  shownCorrect: {},  // checklist question key → correct values among the shown options
   stats: {
     answeredTotal: 0,
     correctTotal: 0,

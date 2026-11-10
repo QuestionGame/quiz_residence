@@ -7,7 +7,7 @@ import { renderLayout } from './layout.js';
 import { TAB_ACTIVE, TAB_IDLE, bindPageMenu } from './header.js';
 import { checkQuizAnswer, initQuiz, nextQuizItem, onQuizFilterChange, renderCategoryFilters, setMistakeMode } from './quiz.js';
 import { updateStatsUI } from './stats.js';
-import { renderFlashcards, toggleCardFlip } from './flashcards.js';
+import { bindCardModal, openCard, renderFlashcards } from './flashcards.js';
 import { renderMistakesList } from './mistakes.js';
 import { renderCheatSheet } from './cheatsheet.js';
 
@@ -58,6 +58,7 @@ const ACTIONS = {
 
 function bindEvents() {
   bindPageMenu();
+  bindCardModal();
 
   document.addEventListener('click', event => {
     const target = event.target instanceof Element ? event.target : null;
@@ -67,7 +68,7 @@ function bindEvents() {
     const actionButton = target.closest('[data-action]');
     if (actionButton) ACTIONS[actionButton.dataset.action]?.();
     const card = target.closest('[data-card-flip]');
-    if (card) toggleCardFlip(card);
+    if (card) openCard(card);
   });
 
   document.addEventListener('keydown', event => {
@@ -75,7 +76,7 @@ function bindEvents() {
     const card = event.target instanceof Element ? event.target.closest('[data-card-flip]') : null;
     if (!card) return;
     event.preventDefault();
-    toggleCardFlip(card);
+    openCard(card);
   });
 
   document.addEventListener('change', event => {

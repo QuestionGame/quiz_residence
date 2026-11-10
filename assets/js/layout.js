@@ -12,6 +12,7 @@ function renderQuestionBlocks() {
         <span class="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
           <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-[10px] font-bold" data-step-number>${index + 1}</span>
           <span>${escapeHtml(q.label)}:</span>
+          ${q.hint ? `<span class="normal-case tracking-normal font-normal text-slate-500">${escapeHtml(q.hint)}</span>` : ''}
         </span>
         <span id="badge-${q.key}" class="text-xs font-medium hidden"></span>
       </div>
@@ -163,5 +164,8 @@ export function renderLayout() {
   </main>
   <footer class="border-t border-white/5 bg-[#0a0c11] py-4 px-4 text-center text-xs text-slate-500">
     <p>${escapeHtml(TEXT.footer)}</p>
-  </footer>`;
+  </footer>
+  <!-- Full-screen flashcard on phones (outside the header: its backdrop-blur would capture position: fixed) -->
+  <div id="cardModal" class="hidden fixed inset-0 z-50 bg-[#0b0d13] overflow-y-auto overscroll-contain"
+       role="dialog" aria-modal="true" aria-labelledby="cardModalTitle"></div>`;
 }

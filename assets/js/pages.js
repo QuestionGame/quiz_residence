@@ -11,6 +11,13 @@
                                – correct + other items' answers, preferring items
                                  that share `field` (e.g. same category), then any
                                  item, then the optional fallback list
+   Checklist questions (multi: true) — answer(item) returns an array, the user ticks every right option:
+     { all: [...] }                     – show the full list; every item answer in it must be ticked
+     { correct, wrong, similarText }    – `correct` random right answers ('all' = every one) + `wrong` answers from other
+                                          items; values sharing a word with similarText(item) are never
+                                          offered as wrong (avoids near-synonyms)
+   optional: true — the question is shown and checked, but never blocks "Перевірити" and never counts
+   towards the score or the mistakes bank (kitchen allergens).
    A question whose answer is empty for an item is skipped for that item.
    ========================================================= */
 
@@ -23,6 +30,10 @@ const COUNTRY_FLAGS = {
   "Панама": "🇵🇦", "Куба": "🇨🇺", "Філіппіни": "🇵🇭", "Чехія": "🇨🇿", "Бельгія": "🇧🇪"
 };
 const withFlag = country => `${COUNTRY_FLAGS[country] || "🌍"} ${country}`;
+
+/* 14 major food allergens (EU Regulation 1169/2011). Keep in sync with ALLERGENS in scripts/kitchen.mjs. */
+const MENU_ALLERGENS = ['Глютен', 'Ракоподібні', 'Молюски', 'Риба', 'Яйця', 'Молоко', 'Горіхи', 'Арахіс',
+  'Соя', 'Кунжут', 'Гірчиця', 'Селера', 'Сульфіти', 'Люпин'];
 
 export const PAGE_LINKS = [
   { id: 'wine', href: './index.html', icon: '🍷', label: 'Вино' },
@@ -253,66 +264,73 @@ export const PAGES = {
   /* ---------------------------------------------------------- KITCHEN */
   menu: {
     dataUrl: './data/menu.json',
-    storageKey: 'residenceTrainer.menu.v1',
+    storageKey: 'residenceTrainer.menu.v2',
     groupField: 'group',
     placeholderIcon: '🍽️',
     text: {
       title: 'Menu Trainer',
       subtitle: 'Меню кухні ресторану',
-      quizHeading: 'Визначте страву',
-      quizHint: 'Згадайте, у якому розділі меню страва, що в неї входить і який вихід',
+      quizHeading: 'Склад і алергени страви',
+      quizHint: 'Позначте всі інгредієнти, що входять до страви, і всі алергени, які вона містить',
       allItems: 'Усі страви',
       skip: 'Пропустити →',
       next: 'Наступна страва',
-      noteLabel: 'Опис з меню',
+      noteLabel: 'Опис',
       cheatTab: 'Шпаргалка меню',
       cheatHeading: 'Зведена шпаргалка кухні',
-      cheatSubheading: 'Усі страви меню: категорія, склад, вихід і ціна',
+      cheatSubheading: 'Усі страви меню: склад, алергени, вихід і ціна',
       mistakesHeading: 'Страви, що потребують повторення',
       mistakesHint: 'Сюди автоматично потрапляють страви, у яких ви припустилися хоча б однієї помилки.',
-      searchPlaceholder: '🔍 Пошук за назвою або інгредієнтом...',
+      searchPlaceholder: '🔍 Пошук за назвою, інгредієнтом або алергеном...',
       footer: 'Menu Trainer • Ресторанний тренажер для офіціантів'
     },
-    quizBadge: () => '',
-    quizMeta: i => i.price,
-    cardBadge: i => i.category,
+    quizBadge: i => (i.isNew ? 'Новинка' : ''),
+    quizMeta: i => [i.weight, i.price].filter(Boolean).join(' • '),
+    cardBadge: i => i.group,
     cardCorner: i => i.price,
-    searchFields: ['name', 'category', 'composition'],
+    searchFields: ['name', 'group', 'ingredients', 'allergens'],
     questions: [
       {
-        key: 'category', label: 'Категорія меню', resultLabel: 'Категорія', resultIcon: '📂',
-        cols: 'grid-cols-2 sm:grid-cols-4',
-        answer: i => i.category,
-        options: { pool: ['group'], count: 4 }
+        key: 'ingredients', label: 'Склад', hint: '(оберіть усі, що входять до страви)',
+        resultLabel: 'Повний склад', resultIcon: '🥗',
+        cols: 'grid-cols-1 sm:grid-cols-2', wide: true, multi: true,
+        answer: i => i.quizIngredients,
+        result: i => i.ingredients.join(', '),
+        options: {
+          correct: 'all', wrong: 4,
+          // words of the dish itself — keeps near-synonyms ("Пармезан" vs "Сир пармезан") out of wrong options
+          similarText: i => [i.name, ...i.ingredients, ...i.components.flatMap(c => c.values)].join(' ')
+        }
       },
       {
-        key: 'composition', label: 'Склад', resultLabel: 'Склад', resultIcon: '🥗',
-        cols: 'grid-cols-1 sm:grid-cols-2', wide: true,
-        answer: i => i.composition,
-        options: { pool: ['category', 'group'], count: 4 }
-      },
-      {
-        key: 'weight', label: 'Вихід страви', resultLabel: 'Вихід', resultIcon: '⚖️',
-        cols: 'grid-cols-2 sm:grid-cols-4',
-        answer: i => i.weight,
-        options: { pool: ['category', 'group'], count: 4 }
+        key: 'allergens', label: 'Алергени', hint: '(необов’язково — на результат не впливає)',
+        resultLabel: 'Алергени', resultIcon: '⚠️',
+        cols: 'grid-cols-2 sm:grid-cols-3', multi: true, optional: true,
+        answer: i => i.allergens,
+        result: i => i.allergens.map(a => `${a} (${i.allergenSources[a].join(', ')})`).join('; '),
+        options: { all: MENU_ALLERGENS }
       }
     ],
     notes: i => i.notes,
     details: [
-      { label: 'Категорія', value: i => `${i.group} · ${i.category}` },
-      { label: 'Склад', value: i => i.composition || '—' },
-      { label: 'Вихід', value: i => i.weight || '—', accent: true },
+      { label: 'Розділ', value: i => i.group },
+      { label: 'Вихід', value: i => i.weight || '—', mono: true },
       { label: 'Ціна', value: i => i.price || '—', mono: true }
     ],
-    summary: i => [`📂 ${i.category}${i.weight ? ` • ⚖️ ${i.weight}` : ''}`, `🥗 ${i.composition || '—'}`],
+    cardSections: i => [
+      ...i.components,
+      { label: 'Алергени', values: i.allergens.length ? i.allergens : ['Основних алергенів немає'], tone: 'warn' }
+    ],
+    summary: i => [
+      `⚠️ ${i.allergens.join(', ') || 'без основних алергенів'}`,
+      `🥗 ${i.ingredients.slice(0, 5).join(', ')}${i.ingredients.length > 5 ? '…' : ''}`
+    ],
     columns: [
-      { header: 'Страва', width: '20%', value: i => i.name, name: true },
-      { header: 'Категорія', width: '12%', value: i => i.category, mono: true },
-      { header: 'Склад', width: '30%', value: i => i.composition || '—' },
-      { header: 'Вихід', width: '9%', value: i => i.weight || '—', accent: true },
-      { header: 'Ціна', width: '9%', value: i => i.price || '—' },
-      { header: 'Опис', width: '20%', value: i => i.notes, notes: true }
+      { header: 'Страва', width: '18%', value: i => i.name, name: true },
+      { header: 'Розділ', width: '11%', value: i => i.group, mono: true },
+      { header: 'Склад', width: '41%', value: i => i.ingredients.join(', ') },
+      { header: 'Алергени', width: '18%', value: i => i.allergens.join(', ') || '—', accent: true },
+      { header: 'Вихід / ціна', width: '12%', value: i => [i.weight, i.price].filter(Boolean).join(' • ') || '—' }
     ]
   }
 };
