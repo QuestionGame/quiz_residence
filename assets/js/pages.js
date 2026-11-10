@@ -65,12 +65,19 @@ export const PAGES = {
       mistakesHeading: 'Вина, що потребують повторення',
       mistakesHint: 'Сюди автоматично потрапляють вина, у яких ви припустилися хоча б однієї помилки (у країні, сорті чи класифікації).',
       searchPlaceholder: '🔍 Пошук за назвою або сортом...',
+      compositionTitle: 'Профіль смаку',
       footer: 'Sommelier Wine Card Trainer • Ресторанний тренажер для офіціантів та сомельє'
     },
     quizBadge: w => w.category,
     quizMeta: w => w.volume,
     cardBadge: w => w.category,
     cardCorner: w => w.priceHint,
+    cardTags: w => [w.country, w.grapes, w.classificationGeneral],
+    cardSections: w => [
+      { label: 'Походження', values: [w.country, w.region] },
+      { label: 'Сорт винограду', values: String(w.grapes).split(/[,;]+/).map(v => v.trim()).filter(Boolean) },
+      { label: 'Стиль', values: [w.classificationGeneral] }
+    ],
     highlight: w => w.category === 'CORAVIN SELECTION',
     searchFields: ['name', 'grapes', 'country'],
     questions: [
@@ -143,12 +150,19 @@ export const PAGES = {
       mistakesHeading: 'Позиції, що потребують повторення',
       mistakesHint: 'Сюди автоматично потрапляють напої, у яких ви припустилися хоча б однієї помилки.',
       searchPlaceholder: '🔍 Пошук за назвою, країною або стилем...',
+      compositionTitle: 'Смакові ноти',
       footer: 'Bar Trainer • Ресторанний тренажер для офіціантів та барменів'
     },
     quizBadge: () => '',
     quizMeta: i => [i.volume, i.price].filter(Boolean).join(' • '),
     cardBadge: i => i.group,
     cardCorner: i => [i.volume, i.price].filter(Boolean).join(' • '),
+    cardTags: i => [i.type, i.country, i.style],
+    cardSections: i => [
+      { label: 'Вид напою', values: [i.type] },
+      { label: 'Походження', values: [i.country] },
+      { label: 'Стиль', values: [i.style] }
+    ],
     searchFields: ['name', 'type', 'country', 'style'],
     questions: [
       {
@@ -213,12 +227,18 @@ export const PAGES = {
       mistakesHeading: 'Коктейлі, що потребують повторення',
       mistakesHint: 'Сюди автоматично потрапляють коктейлі, у яких ви припустилися хоча б однієї помилки.',
       searchPlaceholder: '🔍 Пошук за назвою або інгредієнтом...',
+      compositionTitle: 'Склад коктейлю',
       footer: 'Cocktail Trainer • Ресторанний тренажер для офіціантів та барменів'
     },
     quizBadge: () => '',
     quizMeta: i => [i.volume, i.price].filter(Boolean).join(' • '),
     cardBadge: i => i.group,
     cardCorner: i => i.price,
+    cardTags: i => [i.base, i.group, ...String(i.ingredients).split(/[,;]+/).map(v => v.trim()).filter(Boolean).slice(0, 2)],
+    cardSections: i => [
+      { label: 'Основа', values: [i.base] },
+      { label: 'Склад коктейлю', values: String(i.ingredients).split(/[,;]+/).map(v => v.trim()).filter(Boolean) }
+    ],
     searchFields: ['name', 'base', 'ingredients'],
     questions: [
       {
@@ -282,12 +302,14 @@ export const PAGES = {
       mistakesHeading: 'Страви, що потребують повторення',
       mistakesHint: 'Сюди автоматично потрапляють страви, у яких ви припустилися хоча б однієї помилки.',
       searchPlaceholder: '🔍 Пошук за назвою, інгредієнтом або алергеном...',
+      compositionTitle: 'Склад страви',
       footer: 'Menu Trainer • Ресторанний тренажер для офіціантів'
     },
     quizBadge: i => (i.isNew ? 'Новинка' : ''),
     quizMeta: i => [i.weight, i.price].filter(Boolean).join(' • '),
     cardBadge: i => i.group,
     cardCorner: i => i.price,
+    cardTags: i => i.ingredients.slice(0, 3),
     searchFields: ['name', 'group', 'ingredients', 'allergens'],
     questions: [
       {
@@ -317,10 +339,7 @@ export const PAGES = {
       { label: 'Вихід', value: i => i.weight || '—', mono: true },
       { label: 'Ціна', value: i => i.price || '—', mono: true }
     ],
-    cardSections: i => [
-      ...i.components,
-      { label: 'Алергени', values: i.allergens.length ? i.allergens : ['Основних алергенів немає'], tone: 'warn' }
-    ],
+    cardSections: i => i.components, // allergens are shown in their own warning block (item-sheet.js)
     summary: i => [
       `⚠️ ${i.allergens.join(', ') || 'без основних алергенів'}`,
       `🥗 ${i.ingredients.slice(0, 5).join(', ')}${i.ingredients.length > 5 ? '…' : ''}`

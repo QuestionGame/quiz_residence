@@ -1,7 +1,7 @@
 /* Static page shell: header + the four mode sections + footer, rendered from the page config. */
 import { CONFIG, TEXT } from './context.js';
 import { escapeHtml } from './utils.js';
-import { renderHeader } from './header.js';
+import { renderBottomNavigation, renderHeader } from './header.js';
 
 const SELECT_CLASS = "bg-[#1b2030] text-slate-200 border border-white/10 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-amber-500 outline-none";
 
@@ -86,18 +86,13 @@ function renderQuizSection() {
 
 function renderFlashcardsSection() {
   return `
-    <section id="flashcardsSection" class="hidden space-y-6">
-      <div class="bg-[#131722]/80 border border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h2 class="text-xl font-bold font-serif text-white">Каталог флеш-карток</h2>
-          <p class="text-xs text-slate-400">Натисніть на будь-яку картку, щоб побачити її паспорт і підказки</p>
-        </div>
-        <div class="flex flex-wrap items-center gap-2">
-          <input type="text" id="flashcardSearch" data-input-action="renderFlashcards" placeholder="${escapeHtml(TEXT.searchPlaceholder)}" aria-label="Пошук" class="bg-[#1b2030] text-slate-200 border border-white/10 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-amber-500 outline-none w-full sm:w-64">
-          <select id="flashcardCategoryFilter" data-change-action="renderFlashcards" aria-label="Категорія" class="${SELECT_CLASS} py-2"></select>
-        </div>
+    <section id="flashcardsSection" class="space-y-5">
+      <div class="catalog-heading">
+        <div><p class="section-kicker">${escapeHtml(TEXT.subtitle)}</p><h2 class="section-title">Меню для зміни</h2></div>
+        <span class="catalog-total" id="flashcardResultCount">0 позицій</span>
       </div>
-      <div id="flashcardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <div id="flashcardsGrid" class="catalog-grid"></div>
+      <select id="flashcardCategoryFilter" class="hidden" aria-hidden="true" tabindex="-1"></select>
     </section>`;
 }
 
@@ -155,17 +150,24 @@ export function renderLayout() {
   document.title = `${TEXT.title} | ${TEXT.subtitle}`;
   document.getElementById('app').innerHTML = `
   ${renderHeader()}
-  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
+  <main class="residence-main flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
     <div id="appStatus" class="hidden mb-6 rounded-xl border border-rose-500/40 bg-rose-950/40 p-4 text-sm text-rose-200" role="alert"></div>
-    ${renderQuizSection()}
     ${renderFlashcardsSection()}
+    ${renderQuizSection()}
     ${renderMistakesSection()}
     ${renderCatalogSection()}
   </main>
-  <footer class="border-t border-white/5 bg-[#0a0c11] py-4 px-4 text-center text-xs text-slate-500">
+  <footer class="residence-footer border-t border-white/5 bg-[#0a0c11] py-4 px-4 text-center text-xs text-slate-500">
     <p>${escapeHtml(TEXT.footer)}</p>
   </footer>
-  <!-- Full-screen flashcard on phones (outside the header: its backdrop-blur would capture position: fixed) -->
-  <div id="cardModal" class="hidden fixed inset-0 z-50 bg-[#0b0d13] overflow-y-auto overscroll-contain"
-       role="dialog" aria-modal="true" aria-labelledby="cardModalTitle"></div>`;
+  ${renderBottomNavigation()}
+  <div id="itemSheet" class="item-sheet-root" aria-hidden="true">
+    <button class="item-sheet-backdrop" data-action="closeItemSheet" aria-label="Закрити картку"></button>
+    <section id="itemSheetDialog" class="item-sheet" role="dialog" aria-modal="true" aria-labelledby="sheetItemName" tabindex="-1">
+      <div class="sheet-handle-wrap"><span class="sheet-handle"></span></div>
+      <div class="sheet-toolbar"><span id="sheetItemGroup" class="sheet-group"></span><button type="button" data-action="closeItemSheet" class="sheet-close" aria-label="Закрити">×</button></div>
+      <div id="sheetContent" class="item-sheet-content"></div>
+      <div class="sheet-actions"><button type="button" data-action="trainCurrentItem" class="sheet-train-button">Тренувати цю позицію <span aria-hidden="true">↗</span></button></div>
+    </section>
+  </div>`;
 }

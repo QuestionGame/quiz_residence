@@ -1,6 +1,6 @@
 /* Quiz mode: category filters, building answer options, checking answers. */
 import { CONFIG, TEXT, groupLabel, groupOf, state, store } from './context.js';
-import { escapeHtml, itemImage, shuffle, unique } from './utils.js';
+import { escapeHtml, formatItemCount, itemImage, shuffle, unique } from './utils.js';
 import { sound } from './sound.js';
 import { updateStatsUI } from './stats.js';
 
@@ -15,7 +15,7 @@ export function questionsFor(item) {
 /* First 5 letters of every word of 4+ letters — used to keep near-synonyms out of wrong options
    ("Пармезан" must not be a wrong option for a dish with "Сир пармезан"). */
 function wordStems(text) {
-  return new Set(String(text).toLowerCase().split(/[^a-zа-яіїєґ0-9]+/i).filter(w => w.length >= 4).map(w => w.slice(0, 5)));
+  return new Set(String(text).toLowerCase().replace(/['’ʼ]/g, '').split(/[^a-zа-яіїєґ0-9]+/i).filter(w => w.length >= 4).map(w => w.slice(0, 5)));
 }
 
 /* Multi-answer (checklist) question: a sample of correct answers + wrong ones from other items.
@@ -27,8 +27,9 @@ export function buildChecklist(question, item) {
 
   const correct = spec.correct === 'all' ? allCorrect : shuffle([...allCorrect]).slice(0, spec.correct || 4);
   const ownStems = wordStems(spec.similarText ? spec.similarText(item) : allCorrect.join(' '));
+  const ownValues = new Set(allCorrect.map(value => value.toLowerCase()));
   const wrong = shuffle(unique(store.items.filter(other => other !== item).flatMap(other => asArray(question.answer(other)))))
-    .filter(value => ![...wordStems(value)].some(stem => ownStems.has(stem)))
+    .filter(value => !ownValues.has(value.toLowerCase()) && ![...wordStems(value)].some(stem => ownStems.has(stem)))
     .slice(0, spec.wrong || 4);
   return { options: shuffle([...correct, ...wrong]), correct };
 }
@@ -71,6 +72,12 @@ export function renderCategoryFilters() {
   });
 
   document.getElementById('flashcardCountBadge').textContent = store.items.length;
+  document.getElementById('flashcardResultCount').textContent = formatItemCount(store.items.length);
+  const chips = document.getElementById('categoryChips');
+  chips.innerHTML = [
+    `<button type="button" class="category-chip is-selected" data-category-filter="ALL" aria-pressed="true">Усе <span>${store.items.length}</span></button>`,
+    ...[...counts].map(([group, count]) => `<button type="button" class="category-chip" data-category-filter="${escapeHtml(group)}" aria-pressed="false">${escapeHtml(groupLabel(group))} <span>${count}</span></button>`)
+  ].join('');
 }
 
 /* ---------------------------------------------------------- quiz flow */
@@ -79,6 +86,20 @@ export function initQuiz() {
   applyFilterToPool();
   state.currentIndex = 0;
   loadQuizQuestion();
+}
+
+/* "Тренувати цю позицію": the chosen item comes first, then the quiz continues over the whole menu
+   (a one-item pool would repeat the same item forever on "Наступна"). */
+export function startQuizForItem(itemId) {
+  const item = store.items.find(entry => entry.id === itemId);
+  if (!item) return false;
+  setMistakeMode(false);
+  state.quizFilter = 'ALL';
+  document.getElementById('quizCategoryFilter').value = 'ALL';
+  state.quizPool = [item, ...shuffle(store.items.filter(entry => entry !== item))];
+  state.currentIndex = 0;
+  loadQuizQuestion();
+  return true;
 }
 
 export function setMistakeMode(active) {

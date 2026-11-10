@@ -1,15 +1,16 @@
 /* Entry point: renders the page, wires up events and loads the page's data.
    Loaded from every HTML page as <script type="module" src="./assets/js/main.js">. */
-import { CONFIG, state, store } from './context.js';
+import { CONFIG, PAGE_ID, state, store } from './context.js';
 import { sound } from './sound.js';
 import { loadStats } from './storage.js';
 import { renderLayout } from './layout.js';
-import { TAB_ACTIVE, TAB_IDLE, bindPageMenu } from './header.js';
-import { checkQuizAnswer, initQuiz, nextQuizItem, onQuizFilterChange, renderCategoryFilters, setMistakeMode } from './quiz.js';
+import { TAB_ACTIVE, TAB_IDLE } from './header.js';
+import { checkQuizAnswer, initQuiz, nextQuizItem, onQuizFilterChange, renderCategoryFilters, setMistakeMode, startQuizForItem } from './quiz.js';
 import { updateStatsUI } from './stats.js';
-import { bindCardModal, openCard, renderFlashcards } from './flashcards.js';
+import { renderFlashcards } from './flashcards.js';
 import { renderMistakesList } from './mistakes.js';
 import { renderCheatSheet } from './cheatsheet.js';
+import { bindItemSheet, closeItemSheet, openItemSheet } from './item-sheet.js';
 
 /* ------------------------------------------------------- mode switching */
 
@@ -20,13 +21,17 @@ const TABS = [
   { id: 'tabCatalog', section: 'catalogSection', mode: 'catalog' }
 ];
 
-export function switchMode(newMode) {
-  sound.playClick();
+let currentMode = 'flashcards';
+
+export function switchMode(newMode, playSound = true) {
+  if (playSound) sound.playClick();
+  currentMode = newMode;
   TABS.forEach(t => {
     const isActive = t.mode === newMode;
     document.getElementById(t.section).classList.toggle('hidden', !isActive);
     document.getElementById(t.id).className = isActive ? TAB_ACTIVE : TAB_IDLE;
   });
+  document.querySelector('[data-trainer-tab]')?.classList.toggle('is-mode-active', newMode === 'quiz');
 
   if (newMode === 'flashcards') renderFlashcards();
   else if (newMode === 'mistakes') renderMistakesList();
@@ -45,6 +50,22 @@ function clearMistakes() {
   updateStatsUI();
 }
 
+function trainCurrentItem() {
+  const itemId = document.getElementById('itemSheet').dataset.itemId;
+  closeItemSheet();
+  if (startQuizForItem(itemId)) switchMode('quiz');
+}
+
+function selectCategoryChip(chip) {
+  document.getElementById('flashcardCategoryFilter').value = chip.dataset.categoryFilter;
+  document.querySelectorAll('[data-category-filter]').forEach(other => {
+    other.classList.toggle('is-selected', other === chip);
+    other.setAttribute('aria-pressed', String(other === chip));
+  });
+  if (currentMode !== 'flashcards') switchMode('flashcards', false);
+  else renderFlashcards();
+}
+
 /* ------------------------------------------------------------- events */
 
 const ACTIONS = {
@@ -53,45 +74,41 @@ const ACTIONS = {
   nextQuizItem,
   startMistakesQuiz,
   clearMistakes,
-  print: () => window.print()
+  print: () => window.print(),
+  closeItemSheet,
+  trainCurrentItem
 };
 
 function bindEvents() {
-  bindPageMenu();
-  bindCardModal();
+  bindItemSheet();
 
   document.addEventListener('click', event => {
     const target = event.target instanceof Element ? event.target : null;
     if (!target) return;
+    const categoryChip = target.closest('[data-category-filter]');
+    if (categoryChip) return selectCategoryChip(categoryChip);
+    const itemCard = target.closest('[data-item-open]');
+    if (itemCard) return openItemSheet(itemCard.dataset.itemOpen, itemCard);
     const modeButton = target.closest('[data-mode]');
     if (modeButton) switchMode(modeButton.dataset.mode);
     const actionButton = target.closest('[data-action]');
     if (actionButton) ACTIONS[actionButton.dataset.action]?.();
-    const card = target.closest('[data-card-flip]');
-    if (card) openCard(card);
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-    const card = event.target instanceof Element ? event.target.closest('[data-card-flip]') : null;
-    if (!card) return;
-    event.preventDefault();
-    openCard(card);
   });
 
   document.addEventListener('change', event => {
-    const action = event.target.dataset.changeAction;
-    if (action === 'onQuizFilterChange') onQuizFilterChange();
-    if (action === 'renderFlashcards') renderFlashcards();
+    if (event.target.dataset.changeAction === 'onQuizFilterChange') onQuizFilterChange();
   });
 
+  // The search field lives in the header on every mode, but it filters the catalog — show the catalog while typing.
   document.addEventListener('input', event => {
-    if (event.target.dataset.inputAction === 'renderFlashcards') renderFlashcards();
+    if (event.target.dataset.inputAction !== 'renderFlashcards') return;
+    if (currentMode !== 'flashcards') switchMode('flashcards', false);
+    else renderFlashcards();
   });
 
   document.getElementById('soundToggleBtn').addEventListener('click', () => {
     sound.muted = !sound.muted;
-    document.getElementById('soundIcon').textContent = sound.muted ? '🔇' : '🔊';
+    document.getElementById('soundIcon').textContent = sound.muted ? '🔇' : '♪';
   });
 }
 
@@ -110,12 +127,18 @@ async function initializeApp() {
     }
 
     store.items = items;
+    if (PAGE_ID === 'menu') {
+      // Wine list for the pairing hint in the dish sheet; the page works without it.
+      store.wineItems = await fetch('./data/wines.json')
+        .then(result => (result.ok ? result.json() : []))
+        .catch(() => []);
+    }
     loadStats();
     renderCategoryFilters();
     initQuiz();
     updateStatsUI();
-    renderFlashcards();
     renderCheatSheet();
+    switchMode('flashcards', false);
   } catch (error) {
     console.error(`Unable to load ${CONFIG.dataUrl}:`, error);
     const status = document.getElementById('appStatus');
