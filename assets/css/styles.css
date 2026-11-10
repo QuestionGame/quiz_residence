@@ -14,6 +14,14 @@
       background: #731932;
     }
 
+    /* Horizontal scrollers (tabs, page switcher) without a visible scrollbar */
+    .no-scrollbar {
+      scrollbar-width: none;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
     /* 3D Flip Card Effect */
     .flip-card-container {
       perspective: 1200px;

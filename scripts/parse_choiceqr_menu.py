@@ -12,7 +12,7 @@ from urllib.parse import urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 
 TARGET_URL = "https://residence1.choiceqr.com"
-OUTPUT_DIR = Path(__file__).resolve().parent
+OUTPUT_DIR = Path(__file__).resolve().parent.parent / "data" / "source"
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
@@ -198,6 +198,7 @@ def parse_choiceqr_menu() -> None:
     if not parsed_items:
         raise RuntimeError("Меню не містить позицій для експорту")
 
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     raw_path = OUTPUT_DIR / "raw_menu.json"
     clean_path = OUTPUT_DIR / "menu_clean.json"
     csv_path = OUTPUT_DIR / "menu.csv"
