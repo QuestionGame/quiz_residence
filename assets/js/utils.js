@@ -18,6 +18,19 @@ export function shuffle(array) {
 
 export const unique = values => [...new Set(values.filter(Boolean))];
 
+export function formatItemCount(count) {
+  const mod100 = count % 100;
+  const mod10 = count % 10;
+  const noun = mod100 >= 11 && mod100 <= 14
+    ? 'позицій'
+    : mod10 === 1
+      ? 'позиція'
+      : mod10 >= 2 && mod10 <= 4
+        ? 'позиції'
+        : 'позицій';
+  return `${count} ${noun}`;
+}
+
 /* Item photo, or the page's emoji placeholder when there is no photo. */
 export function itemImage(item, className, placeholderClass) {
   if (item.image) {

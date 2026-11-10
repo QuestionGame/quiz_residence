@@ -6,7 +6,7 @@ export const CONFIG = PAGES[PAGE_ID];
 export const TEXT = CONFIG.text;
 
 /* Loaded menu items (filled once in main.js). Kept in an object so modules share one array. */
-export const store = { items: [] };
+export const store = { items: [], wineItems: [] };
 
 export const state = {
   quizPool: [],

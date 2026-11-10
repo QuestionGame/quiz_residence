@@ -1,6 +1,6 @@
 /* Quiz mode: category filters, building answer options, checking answers. */
 import { CONFIG, TEXT, groupLabel, groupOf, state, store } from './context.js';
-import { escapeHtml, itemImage, shuffle, unique } from './utils.js';
+import { escapeHtml, formatItemCount, itemImage, shuffle, unique } from './utils.js';
 import { sound } from './sound.js';
 import { updateStatsUI } from './stats.js';
 
@@ -49,6 +49,12 @@ export function renderCategoryFilters() {
   });
 
   document.getElementById('flashcardCountBadge').textContent = store.items.length;
+  document.getElementById('flashcardResultCount').textContent = formatItemCount(store.items.length);
+  const chips = document.getElementById('categoryChips');
+  chips.innerHTML = [
+    `<button type="button" class="category-chip is-selected" data-category-filter="ALL" aria-pressed="true">Усе <span>${store.items.length}</span></button>`,
+    ...[...counts].map(([group, count]) => `<button type="button" class="category-chip" data-category-filter="${escapeHtml(group)}" aria-pressed="false">${escapeHtml(groupLabel(group))} <span>${count}</span></button>`)
+  ].join('');
 }
 
 /* ---------------------------------------------------------- quiz flow */
@@ -57,6 +63,17 @@ export function initQuiz() {
   applyFilterToPool();
   state.currentIndex = 0;
   loadQuizQuestion();
+}
+
+export function startQuizForItem(itemId) {
+  const item = store.items.find(entry => entry.id === itemId);
+  if (!item) return false;
+  state.mistakesModeActive = false;
+  state.quizPool = [item];
+  state.currentIndex = 0;
+  setMistakeMode(false);
+  loadQuizQuestion();
+  return true;
 }
 
 export function setMistakeMode(active) {

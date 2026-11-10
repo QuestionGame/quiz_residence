@@ -1,49 +1,29 @@
 /* Flashcards mode: searchable grid of flip cards. */
-import { CONFIG, TEXT, groupOf, store } from './context.js';
-import { escapeHtml, itemImage } from './utils.js';
+import { CONFIG, PAGE_ID, groupOf, store } from './context.js';
+import { escapeHtml, formatItemCount, itemImage } from './utils.js';
 import { sound } from './sound.js';
 
 function renderCard(item) {
-  const notes = CONFIG.notes(item);
+  const tags = PAGE_ID === 'wine'
+    ? [item.country, item.grapes, item.classificationGeneral || item.classification]
+    : PAGE_ID === 'menu'
+      ? String(item.composition || '').split(/[,;]+/).map(value => value.trim()).filter(Boolean).slice(0, 3)
+      : PAGE_ID === 'cocktails'
+        ? [item.base, item.group, ...String(item.ingredients || '').split(/[,;]+/).map(value => value.trim()).filter(Boolean).slice(0, 2)]
+        : [item.type, item.country, item.style];
+  const image = item.image
+    ? `<span class="menu-card-media">${itemImage(item, 'menu-card-image', 'menu-card-image')}<span class="menu-card-open" aria-hidden="true">↗</span></span>`
+    : '';
   return `
-    <div class="flip-card-container h-[440px] cursor-pointer group rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0d13]"
-         data-card-flip tabindex="0" role="button" aria-pressed="false"
-         aria-label="${escapeHtml(item.name)} — перевернути картку">
-      <div class="flip-card-inner">
-        <div class="flip-card-front bg-[#131722] border border-white/10 p-5 flex flex-col justify-between shadow-xl hover:border-amber-500/40 transition">
-          <div class="flex items-center justify-between gap-2">
-            <span class="px-2.5 py-1 rounded-full text-[10px] font-mono uppercase bg-white/5 text-amber-300 border border-white/5 truncate">${escapeHtml(CONFIG.cardBadge(item))}</span>
-            <span class="text-xs text-slate-400 font-mono whitespace-nowrap">${escapeHtml(CONFIG.cardCorner(item))}</span>
-          </div>
-          <div class="h-56 flex items-center justify-center my-2 transform group-hover:scale-105 transition-transform">
-            ${itemImage(item, 'h-full w-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] rounded-xl', 'h-full w-full')}
-          </div>
-          <div class="text-center">
-            <h4 class="font-serif font-bold text-base text-white line-clamp-2">${escapeHtml(item.name)}</h4>
-            <p class="text-[11px] text-amber-400 mt-1">Торкніться або натисніть Enter, щоб розкрити паспорт ↺</p>
-          </div>
-        </div>
-
-        <div class="flip-card-back bg-gradient-to-br from-[#1b2030] to-[#0f121a] border border-amber-500/30 p-5 flex flex-col shadow-2xl overflow-y-auto">
-          <div class="flex justify-between items-start gap-2 mb-3">
-            <h4 class="font-serif font-bold text-amber-300 text-sm leading-tight">${escapeHtml(item.name)}</h4>
-            <span class="text-xs text-slate-400">↺</span>
-          </div>
-          <div class="space-y-2 text-xs border-y border-white/10 py-3 text-slate-300">
-            ${CONFIG.details.map(row => `
-              <div class="flex items-start justify-between gap-3">
-                <span class="text-slate-400 shrink-0">${escapeHtml(row.label)}:</span>
-                <span class="text-right ${row.accent ? 'font-semibold text-amber-300' : row.mono ? 'font-mono text-slate-300' : 'font-semibold text-white'}">${escapeHtml(row.value(item))}</span>
-              </div>`).join('')}
-          </div>
-          ${notes ? `
-          <div class="mt-3">
-            <span class="text-[10px] font-mono uppercase tracking-wider text-amber-400 block mb-1">${escapeHtml(TEXT.noteLabel)}:</span>
-            <p class="text-xs text-slate-300 leading-relaxed italic bg-white/5 p-2.5 rounded-lg border border-white/5">${escapeHtml(notes)}</p>
-          </div>` : ''}
-        </div>
-      </div>
-    </div>`;
+    <button type="button" class="menu-card ${item.image ? 'has-image' : 'no-image'}" data-item-open="${escapeHtml(item.id)}" aria-haspopup="dialog" aria-label="Відкрити картку: ${escapeHtml(item.name)}">
+      ${image}
+      <span class="menu-card-content">
+        <span class="menu-card-overline"><span>${escapeHtml(CONFIG.cardBadge(item) || CONFIG.text.subtitle)}</span><strong>${escapeHtml(CONFIG.cardCorner(item) || '')}</strong></span>
+        <span class="menu-card-name">${escapeHtml(item.name)}</span>
+        ${PAGE_ID === 'menu' && item.weight ? `<span class="menu-card-weight">${escapeHtml(item.weight)}</span>` : ''}
+        <span class="menu-card-tags">${[...new Set(tags.filter(Boolean))].slice(0, 3).map(tag => `<span>${escapeHtml(tag)}</span>`).join('')}</span>
+      </span>
+    </button>`;
 }
 
 export function renderFlashcards() {
@@ -57,6 +37,8 @@ export function renderFlashcards() {
       CONFIG.searchFields.some(field => String(item[field] || '').toLowerCase().includes(search));
     return matchesCategory && matchesSearch;
   });
+  document.getElementById('flashcardCountBadge').textContent = filtered.length;
+  document.getElementById('flashcardResultCount').textContent = formatItemCount(filtered.length);
 
   container.innerHTML = filtered.length
     ? filtered.map(renderCard).join('')
