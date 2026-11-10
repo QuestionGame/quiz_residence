@@ -22,6 +22,19 @@
       display: none;
     }
 
+    /* Section dropdown in the header */
+    @keyframes menuPop {
+      from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+      to { opacity: 1; transform: none; }
+    }
+    .menu-pop:not(.hidden) {
+      animation: menuPop 0.14s ease-out;
+      transform-origin: top left;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .menu-pop:not(.hidden) { animation: none; }
+    }
+
     /* 3D Flip Card Effect */
     .flip-card-container {
       perspective: 1200px;

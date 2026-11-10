@@ -14,11 +14,10 @@
 
   <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
-<!-- The whole page is rendered by app.js from the "cocktails" config in assets/js/pages.js -->
+<!-- The whole page is rendered by assets/js/main.js from the "cocktails" config in assets/js/pages.js -->
 <body data-page="cocktails" class="bg-[#0b0d13] text-slate-100 min-h-screen font-sans antialiased selection:bg-wine-600 selection:text-white flex flex-col">
   <div id="app" class="flex flex-col flex-1"></div>
 
-  <script src="./assets/js/pages.js" defer></script>
-  <script src="./assets/js/app.js" defer></script>
+  <script type="module" src="./assets/js/main.js"></script>
 </body>
 </html>

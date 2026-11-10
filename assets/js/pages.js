@@ -1,6 +1,6 @@
 /* =========================================================
    PAGE CONFIGS
-   One engine (app.js) renders every trainer page. Each page picks its
+   One engine (main.js + modules) renders every trainer page. Each page picks its
    config via <body data-page="...">.
 
    Question option strategies (question.options):
@@ -24,14 +24,14 @@ const COUNTRY_FLAGS = {
 };
 const withFlag = country => `${COUNTRY_FLAGS[country] || "🌍"} ${country}`;
 
-const PAGE_LINKS = [
+export const PAGE_LINKS = [
   { id: 'wine', href: './index.html', icon: '🍷', label: 'Вино' },
   { id: 'bar', href: './bar.html', icon: '🥃', label: 'Бар' },
   { id: 'cocktails', href: './cocktails.html', icon: '🍸', label: 'Коктейлі' },
   { id: 'menu', href: './menu.html', icon: '🍽️', label: 'Кухня' }
 ];
 
-const PAGES = {
+export const PAGES = {
   /* ------------------------------------------------------------- WINE */
   wine: {
     dataUrl: './data/wines.json',
