@@ -1,21 +1,45 @@
 /* =========================================================
-       1. COMPLETE RESTAURANT WINE DATABASE (31 ITEMS)
+       1. WINE DATA & REFERENCE LISTS
        ========================================================= */
     let WINE_DATABASE = [];
 
     /* Countries list for options */
     const ALL_COUNTRIES = [
-      "Італія", "Франція", "Іспанія", "Німеччина", 
-      "Австралія", "Нова Зеландія", "США", "Аргентина", 
-      "Чилі", "Грузія", "Ізраїль", "Португалія", "Німеччина / Іспанія"
+      "Італія", "Франція", "Іспанія", "Німеччина",
+      "Австралія", "Нова Зеландія", "США", "Аргентина",
+      "Чилі", "Грузія", "Ізраїль", "Португалія"
     ];
+
+    const COUNTRY_FLAGS = {
+      "Італія": "🇮🇹", "Франція": "🇫🇷", "Іспанія": "🇪🇸", "Німеччина": "🇩🇪",
+      "Австралія": "🇦🇺", "Нова Зеландія": "🇳🇿", "США": "🇺🇸", "Аргентина": "🇦🇷",
+      "Чилі": "🇨🇱", "Грузія": "🇬🇪", "Ізраїль": "🇮🇱", "Португалія": "🇵🇹"
+    };
 
     /* Classification options */
     const ALL_CLASSIFICATIONS = [
-      "Сухе", "Напівсухе", "Брют / Брют Натюр", 
-      "Напівсолодке", "Солодке", "Кріплене", 
+      "Сухе", "Напівсухе", "Брют / Брют Натюр",
+      "Напівсолодке", "Солодке", "Кріплене",
       "Помаранчеве, сухе", "Помаранчеве, напівсухе", "Безалкогольне"
     ];
+
+    /* Display labels for menu categories (category value -> label) */
+    const CATEGORY_LABELS = {
+      "CORAVIN SELECTION": "Coravin Selection",
+      "Біле": "Біле вино",
+      "Червоне": "Червоне вино"
+    };
+
+    const STORAGE_KEY = 'sommelierTrainer.stats.v1';
+
+    /* Unbiased Fisher–Yates shuffle (in place) */
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
 
     /* =========================================================
        2. WEB AUDIO API SYNTHESIZER (No external audio files)
@@ -105,13 +129,13 @@
     }
 
     /* =========================================================
-       4. STATE MANAGEMENT
+       3. STATE MANAGEMENT & PERSISTENCE
        ========================================================= */
     const state = {
-      mode: 'quiz', // 'quiz' | 'flashcards' | 'mistakes' | 'catalog'
-      quizPool: [...WINE_DATABASE],
+      quizPool: [],
       quizFilter: 'ALL',
       currentIndex: 0,
+      answerChecked: false,
       userAnswers: {
         country: null,
         classification: null,
@@ -125,6 +149,55 @@
       },
       mistakesModeActive: false
     };
+
+    function saveStats() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          answeredTotal: state.stats.answeredTotal,
+          correctTotal: state.stats.correctTotal,
+          streak: state.stats.streak,
+          mistakes: [...state.stats.mistakesSet]
+        }));
+      } catch (error) {
+        // Storage unavailable (private mode, blocked cookies) — progress just won't persist
+      }
+    }
+
+    function loadStats() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (!saved) return;
+        const knownIds = new Set(WINE_DATABASE.map(w => w.id));
+        state.stats.answeredTotal = Number(saved.answeredTotal) || 0;
+        state.stats.correctTotal = Number(saved.correctTotal) || 0;
+        state.stats.streak = Number(saved.streak) || 0;
+        state.stats.mistakesSet = new Set((saved.mistakes || []).filter(id => knownIds.has(id)));
+      } catch (error) {
+        // Corrupted or unavailable storage — start fresh
+      }
+    }
+
+    /* =========================================================
+       4. CATEGORY FILTERS (built from data)
+       ========================================================= */
+    function renderCategoryFilters() {
+      const counts = new Map();
+      WINE_DATABASE.forEach(w => counts.set(w.category, (counts.get(w.category) || 0) + 1));
+
+      const quizSelect = document.getElementById('quizCategoryFilter');
+      const flashSelect = document.getElementById('flashcardCategoryFilter');
+
+      quizSelect.innerHTML = `<option value="ALL">Усі вина (${WINE_DATABASE.length})</option>`;
+      flashSelect.innerHTML = `<option value="ALL">Всі категорії</option>`;
+
+      counts.forEach((count, category) => {
+        const label = CATEGORY_LABELS[category] || category;
+        quizSelect.add(new Option(`${label} (${count})`, category));
+        flashSelect.add(new Option(label, category));
+      });
+
+      document.getElementById('flashcardCountBadge').textContent = WINE_DATABASE.length;
+    }
 
     /* =========================================================
        5. QUIZ LOGIC
@@ -140,17 +213,15 @@
         state.quizPool = WINE_DATABASE.filter(w => state.stats.mistakesSet.has(w.id));
         if (state.quizPool.length === 0) {
           state.mistakesModeActive = false;
+          document.getElementById('mistakeModeIndicator').classList.add('hidden');
           state.quizPool = [...WINE_DATABASE];
         }
+      } else if (state.quizFilter === 'ALL') {
+        state.quizPool = [...WINE_DATABASE];
       } else {
-        if (state.quizFilter === 'ALL') {
-          state.quizPool = [...WINE_DATABASE];
-        } else {
-          state.quizPool = WINE_DATABASE.filter(w => w.category === state.quizFilter);
-        }
+        state.quizPool = WINE_DATABASE.filter(w => w.category === state.quizFilter);
       }
-      // Shuffle pool slightly for natural learning
-      state.quizPool.sort(() => Math.random() - 0.5);
+      shuffle(state.quizPool);
     }
 
     function onQuizFilterChange() {
@@ -170,12 +241,13 @@
       }
 
       // Reset answers
+      state.answerChecked = false;
       state.userAnswers = { country: null, classification: null, grapes: null };
 
       // Update counters
       document.getElementById('quizCurrentIndex').textContent = state.currentIndex + 1;
       document.getElementById('quizTotalCount').textContent = state.quizPool.length;
-      
+
       const progressPercent = ((state.currentIndex + 1) / state.quizPool.length) * 100;
       document.getElementById('quizProgressBar').style.width = `${progressPercent}%`;
 
@@ -189,22 +261,16 @@
       // Hide results & reset buttons
       document.getElementById('quizResultPanel').classList.add('hidden');
       document.getElementById('btnCheckAnswer').classList.remove('hidden');
-      document.getElementById('btnCheckAnswer').disabled = true;
-      document.getElementById('btnCheckAnswer').className = "px-6 py-2.5 rounded-xl font-semibold text-sm bg-slate-800 text-slate-500 cursor-not-allowed transition shadow-lg flex items-center gap-2";
       document.getElementById('btnNextWine').classList.add('hidden');
+      validateCanCheck();
 
       // Clear badges
       resetBadge('badgeCountryStatus');
       resetBadge('badgeClassStatus');
       resetBadge('badgeGrapesStatus');
 
-      // Render Step 1: Countries
       renderCountryOptions(currentWine);
-
-      // Render Step 2: Classifications
       renderClassificationOptions(currentWine);
-
-      // Render Step 3: Grapes (1 correct + 3 distractors)
       renderGrapesOptions(currentWine);
     }
 
@@ -214,41 +280,32 @@
       el.innerHTML = "";
     }
 
-    /* STEP 1: Country Options */
-    function renderCountryOptions(currentWine) {
-      const container = document.getElementById('countryOptionsGrid');
-      container.innerHTML = "";
-
-      // Pick 3 random distractors + correct country
-      const poolWithoutCorrect = ALL_COUNTRIES.filter(c => c !== currentWine.country);
-      const shuffledDistractors = [...poolWithoutCorrect].sort(() => Math.random() - 0.5).slice(0, 3);
-      const options = [currentWine.country, ...shuffledDistractors].sort(() => Math.random() - 0.5);
-
-      options.forEach(c => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.dataset.country = c;
-        btn.className = "option-country p-2 text-xs font-medium rounded-xl border border-white/10 bg-slate-800/80 hover:bg-slate-700/80 hover:border-amber-500/40 text-slate-300 transition text-center active:scale-95";
-        btn.textContent = getCountryFlag(c) + " " + c;
-        btn.onclick = () => selectCountry(c, btn);
-        container.appendChild(btn);
-      });
-    }
-
     function getCountryFlag(country) {
-      const flags = {
-        "Італія": "🇮🇹", "Франція": "🇫🇷", "Іспанія": "🇪🇸", "Німеччина": "🇩🇪",
-        "Австралія": "🇦🇺", "Нова Зеландія": "🇳🇿", "США": "🇺🇸", "Аргентина": "🇦🇷",
-        "Чилі": "🇨🇱", "Грузія": "🇬🇪", "Ізраїль": "🇮🇱", "Португалія": "🇵🇹",
-        "Німеччина / Іспанія": "🇩🇪/🇪🇸"
-      };
-      return flags[country] || "🍷";
+      return COUNTRY_FLAGS[country] || "🍷";
     }
 
-    function selectCountry(country, btn) {
+    /* Shared option button rendering & selection */
+    const OPTION_BASE_CLASS = "p-2 text-xs font-medium rounded-xl border border-white/10 bg-slate-800/80 hover:bg-slate-700/80 hover:border-amber-500/40 text-slate-300 transition active:scale-95 disabled:cursor-default disabled:active:scale-100";
+
+    function renderOptions(containerId, groupClass, answerKey, options, extraClass, renderLabel) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+      options.forEach(value => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.dataset.value = value;
+        btn.className = `${groupClass} ${OPTION_BASE_CLASS} ${extraClass}`;
+        btn.innerHTML = renderLabel(value);
+        btn.onclick = () => selectOption(groupClass, answerKey, value, btn);
+        container.appendChild(btn);
+      });
+    }
+
+    function selectOption(groupClass, answerKey, value, btn) {
+      if (state.answerChecked) return;
       sound.playClick();
-      state.userAnswers.country = country;
-      document.querySelectorAll('.option-country').forEach(b => {
+      state.userAnswers[answerKey] = value;
+      document.querySelectorAll(`.${groupClass}`).forEach(b => {
         b.classList.remove('bg-amber-500', 'text-slate-950', 'border-amber-400', 'font-bold');
         b.classList.add('bg-slate-800/80', 'text-slate-300');
       });
@@ -257,111 +314,69 @@
       validateCanCheck();
     }
 
-    /* STEP 2: Classification Options */
+    /* STEP 1: Country Options (correct + 3 random distractors) */
+    function renderCountryOptions(currentWine) {
+      const distractors = shuffle(ALL_COUNTRIES.filter(c => c !== currentWine.country)).slice(0, 3);
+      const options = shuffle([currentWine.country, ...distractors]);
+      renderOptions('countryOptionsGrid', 'option-country', 'country', options, 'text-center',
+        c => `${getCountryFlag(c)} ${c}`);
+    }
+
+    /* STEP 2: Classification Options (full list) */
     function renderClassificationOptions(currentWine) {
-      const container = document.getElementById('classOptionsGrid');
-      container.innerHTML = "";
-
-      // Pick relevant subset for wine
-      const pool = [...new Set([...ALL_CLASSIFICATIONS, currentWine.classification])];
-      
-      pool.forEach(cls => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.dataset.cls = cls;
-        btn.className = "option-class p-2 text-xs font-medium rounded-xl border border-white/10 bg-slate-800/80 hover:bg-slate-700/80 hover:border-amber-500/40 text-slate-300 transition text-center active:scale-95";
-        btn.textContent = cls;
-        btn.onclick = () => selectClassification(cls, btn);
-        container.appendChild(btn);
-      });
+      const options = [...new Set([...ALL_CLASSIFICATIONS, currentWine.classification])];
+      renderOptions('classOptionsGrid', 'option-class', 'classification', options, 'text-center',
+        cls => cls);
     }
 
-    function selectClassification(cls, btn) {
-      sound.playClick();
-      state.userAnswers.classification = cls;
-      document.querySelectorAll('.option-class').forEach(b => {
-        b.classList.remove('bg-amber-500', 'text-slate-950', 'border-amber-400', 'font-bold');
-        b.classList.add('bg-slate-800/80', 'text-slate-300');
-      });
-      btn.classList.remove('bg-slate-800/80', 'text-slate-300');
-      btn.classList.add('bg-amber-500', 'text-slate-950', 'border-amber-400', 'font-bold');
-      validateCanCheck();
-    }
-
-    /* STEP 3: Grape Varieties Options */
+    /* STEP 3: Grape Varieties Options (1 correct + 3 distractors) */
     function renderGrapesOptions(currentWine) {
-      const container = document.getElementById('grapesOptionsGrid');
-      container.innerHTML = "";
-
-      const options = [currentWine.grapes, ...currentWine.distractors].sort(() => Math.random() - 0.5);
-
-      options.forEach(g => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.dataset.grape = g;
-        btn.className = "option-grape p-2.5 text-xs font-medium rounded-xl border border-white/10 bg-slate-800/80 hover:bg-slate-700/80 hover:border-amber-500/40 text-slate-300 transition text-left active:scale-95 flex items-center justify-between";
-        btn.innerHTML = `<span>🍇 ${g}</span>`;
-        btn.onclick = () => selectGrape(g, btn);
-        container.appendChild(btn);
-      });
+      const options = shuffle([currentWine.grapes, ...currentWine.distractors]);
+      renderOptions('grapesOptionsGrid', 'option-grape', 'grapes', options, 'p-2.5 text-left flex items-center justify-between',
+        g => `<span>🍇 ${g}</span>`);
     }
 
-    function selectGrape(grape, btn) {
-      sound.playClick();
-      state.userAnswers.grapes = grape;
-      document.querySelectorAll('.option-grape').forEach(b => {
-        b.classList.remove('bg-amber-500', 'text-slate-950', 'border-amber-400', 'font-bold');
-        b.classList.add('bg-slate-800/80', 'text-slate-300');
-      });
-      btn.classList.remove('bg-slate-800/80', 'text-slate-300');
-      btn.classList.add('bg-amber-500', 'text-slate-950', 'border-amber-400', 'font-bold');
-      validateCanCheck();
-    }
+    const CHECK_BTN_BASE = "px-6 py-2.5 rounded-xl font-semibold text-sm transition shadow-lg flex items-center gap-2";
+    const CHECK_BTN_ENABLED = "bg-gradient-to-r from-wine-600 to-amber-600 hover:from-wine-500 hover:to-amber-500 text-white cursor-pointer transform hover:-translate-y-0.5";
+    const CHECK_BTN_DISABLED = "bg-slate-800 text-slate-500 cursor-not-allowed";
 
     function validateCanCheck() {
       const btn = document.getElementById('btnCheckAnswer');
-      if (state.userAnswers.country && state.userAnswers.classification && state.userAnswers.grapes) {
-        btn.disabled = false;
-        btn.className = "px-6 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-wine-600 to-amber-600 hover:from-wine-500 hover:to-amber-500 text-white cursor-pointer transition shadow-lg flex items-center gap-2 transform hover:-translate-y-0.5";
-      } else {
-        btn.disabled = true;
-        btn.className = "px-6 py-2.5 rounded-xl font-semibold text-sm bg-slate-800 text-slate-500 cursor-not-allowed transition shadow-lg flex items-center gap-2";
-      }
+      const { country, classification, grapes } = state.userAnswers;
+      const canCheck = !state.answerChecked && Boolean(country && classification && grapes);
+      const hidden = btn.classList.contains('hidden');
+      btn.disabled = !canCheck;
+      btn.className = `${CHECK_BTN_BASE} ${canCheck ? CHECK_BTN_ENABLED : CHECK_BTN_DISABLED}`;
+      btn.classList.toggle('hidden', hidden);
+    }
+
+    function markOptions(groupClass, correctValue, chosenValue) {
+      document.querySelectorAll(`.${groupClass}`).forEach(b => {
+        b.disabled = true;
+        if (b.dataset.value === correctValue) {
+          b.classList.add('!bg-emerald-600', '!text-white', '!border-emerald-400');
+        } else if (b.dataset.value === chosenValue) {
+          b.classList.add('!bg-rose-600', '!text-white', '!border-rose-400');
+        }
+      });
     }
 
     /* Check Answer & Show Detailed Breakdown */
     function checkQuizAnswer() {
       const currentWine = state.quizPool[state.currentIndex];
-      const isCountryCorrect = state.userAnswers.country === currentWine.country;
-      const isClassCorrect = state.userAnswers.classification === currentWine.classification;
-      const isGrapesCorrect = state.userAnswers.grapes === currentWine.grapes;
+      const { country, classification, grapes } = state.userAnswers;
+      if (!currentWine || state.answerChecked || !(country && classification && grapes)) return;
+      state.answerChecked = true;
 
+      const isCountryCorrect = country === currentWine.country;
+      const isClassCorrect = classification === currentWine.classification;
+      const isGrapesCorrect = grapes === currentWine.grapes;
       const isAllCorrect = isCountryCorrect && isClassCorrect && isGrapesCorrect;
 
-      // Colorize options
-      document.querySelectorAll('.option-country').forEach(b => {
-        if (b.dataset.country === currentWine.country) {
-          b.classList.add('!bg-emerald-600', '!text-white', '!border-emerald-400');
-        } else if (b.dataset.country === state.userAnswers.country && !isCountryCorrect) {
-          b.classList.add('!bg-rose-600', '!text-white', '!border-rose-400');
-        }
-      });
-
-      document.querySelectorAll('.option-class').forEach(b => {
-        if (b.dataset.cls === currentWine.classification) {
-          b.classList.add('!bg-emerald-600', '!text-white', '!border-emerald-400');
-        } else if (b.dataset.cls === state.userAnswers.classification && !isClassCorrect) {
-          b.classList.add('!bg-rose-600', '!text-white', '!border-rose-400');
-        }
-      });
-
-      document.querySelectorAll('.option-grape').forEach(b => {
-        if (b.dataset.grape === currentWine.grapes) {
-          b.classList.add('!bg-emerald-600', '!text-white', '!border-emerald-400');
-        } else if (b.dataset.grape === state.userAnswers.grapes && !isGrapesCorrect) {
-          b.classList.add('!bg-rose-600', '!text-white', '!border-rose-400');
-        }
-      });
+      // Colorize & lock options
+      markOptions('option-country', currentWine.country, country);
+      markOptions('option-class', currentWine.classification, classification);
+      markOptions('option-grape', currentWine.grapes, grapes);
 
       // Update Badges
       setBadgeStatus('badgeCountryStatus', isCountryCorrect);
@@ -374,10 +389,7 @@
         sound.playCorrect();
         state.stats.correctTotal++;
         state.stats.streak++;
-        // Remove from mistakes if fixed
-        if (state.stats.mistakesSet.has(currentWine.id)) {
-          state.stats.mistakesSet.delete(currentWine.id);
-        }
+        state.stats.mistakesSet.delete(currentWine.id);
       } else {
         sound.playWrong();
         state.stats.streak = 0;
@@ -387,8 +399,6 @@
 
       // Populate Result Panel
       const panel = document.getElementById('quizResultPanel');
-      panel.classList.remove('hidden');
-
       const headerBadge = document.getElementById('resultHeaderBadge');
       if (isAllCorrect) {
         headerBadge.innerHTML = `<span class="text-emerald-400">✨ Бездоганно! Всі 3 параметри визначено вірно.</span>`;
@@ -410,7 +420,6 @@
 
     function setBadgeStatus(elementId, isCorrect) {
       const el = document.getElementById(elementId);
-      el.classList.remove('hidden');
       if (isCorrect) {
         el.className = "text-xs font-semibold text-emerald-400 flex items-center gap-1";
         el.innerHTML = "<span>✓ Вірно</span>";
@@ -425,20 +434,15 @@
       state.currentIndex++;
       if (state.currentIndex >= state.quizPool.length) {
         state.currentIndex = 0;
-        // Reshuffle for next loop
-        state.quizPool.sort(() => Math.random() - 0.5);
+        shuffle(state.quizPool);
       }
       loadQuizQuestion();
     }
 
-    function skipQuizWine() {
-      nextQuizWine();
-    }
-
     function updateStatsUI() {
       document.getElementById('streakCount').textContent = state.stats.streak;
-      const acc = state.stats.answeredTotal > 0 
-        ? Math.round((state.stats.correctTotal / state.stats.answeredTotal) * 100) 
+      const acc = state.stats.answeredTotal > 0
+        ? Math.round((state.stats.correctTotal / state.stats.answeredTotal) * 100)
         : 100;
       document.getElementById('accuracyPercent').textContent = `${acc}%`;
 
@@ -447,6 +451,7 @@
       document.getElementById('mistakeActionCount').textContent = mistakeCount;
 
       renderMistakesList();
+      saveStats();
     }
 
     /* =========================================================
@@ -459,14 +464,12 @@
 
       const filtered = WINE_DATABASE.filter(wine => {
         const matchesCategory = filter === 'ALL' || wine.category === filter;
-        const matchesSearch = !search || 
-          wine.name.toLowerCase().includes(search) || 
-          wine.grapes.toLowerCase().includes(search) || 
+        const matchesSearch = !search ||
+          wine.name.toLowerCase().includes(search) ||
+          wine.grapes.toLowerCase().includes(search) ||
           wine.country.toLowerCase().includes(search);
         return matchesCategory && matchesSearch;
       });
-
-      document.getElementById('flashcardCountBadge').textContent = filtered.length;
 
       if (filtered.length === 0) {
         container.innerHTML = `
@@ -479,9 +482,11 @@
       }
 
       container.innerHTML = filtered.map(wine => `
-        <div class="flip-card-container h-[420px] cursor-pointer group" data-card-flip>
+        <div class="flip-card-container h-[420px] cursor-pointer group rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0d13]"
+             data-card-flip tabindex="0" role="button" aria-pressed="false"
+             aria-label="${wine.name} — перевернути картку">
           <div class="flip-card-inner">
-            
+
             <!-- FRONT OF CARD -->
             <div class="flip-card-front bg-[#131722] border border-white/10 p-5 flex flex-col justify-between shadow-xl hover:border-amber-500/40 transition">
               <div class="flex items-center justify-between">
@@ -491,7 +496,6 @@
                 <span class="text-xs text-slate-400 font-mono">${wine.priceHint}</span>
               </div>
 
-              <!-- Center Bottle SVG -->
               <div class="h-52 flex items-center justify-center my-2 transform group-hover:scale-105 transition-transform">
                 ${createWineImage(wine, "h-full w-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]")}
               </div>
@@ -499,7 +503,7 @@
               <div class="text-center">
                 <h4 class="font-serif font-bold text-base text-white line-clamp-1">${wine.name}</h4>
                 <p class="text-[11px] text-amber-400 mt-1 flex items-center justify-center gap-1">
-                  <span>Торкніться, щоб розкрити паспорт</span>
+                  <span>Торкніться або натисніть Enter, щоб розкрити паспорт</span>
                   <span>↺</span>
                 </p>
               </div>
@@ -512,7 +516,7 @@
                   <h4 class="font-serif font-bold text-amber-300 text-sm leading-tight">${wine.name}</h4>
                   <span class="text-xs text-slate-400">↺</span>
                 </div>
-                
+
                 <div class="space-y-2 text-xs border-y border-white/10 py-3 text-slate-300">
                   <div class="flex items-center justify-between">
                     <span class="text-slate-400">Країна / регіон:</span>
@@ -552,7 +556,8 @@
 
     function toggleCardFlip(element) {
       sound.playClick();
-      element.classList.toggle('is-flipped');
+      const flipped = element.classList.toggle('is-flipped');
+      element.setAttribute('aria-pressed', String(flipped));
     }
 
     /* =========================================================
@@ -560,6 +565,7 @@
        ========================================================= */
     function renderMistakesList() {
       const container = document.getElementById('mistakesListContainer');
+      const startBtn = document.getElementById('btnStartMistakesQuiz');
       const mistakeWines = WINE_DATABASE.filter(w => state.stats.mistakesSet.has(w.id));
 
       if (mistakeWines.length === 0) {
@@ -570,13 +576,13 @@
             <p class="text-xs text-slate-500 mt-1">Ви бездоганно відповіли на всі вина у квізі або ще не почали тест.</p>
           </div>
         `;
-        document.getElementById('btnStartMistakesQuiz').disabled = true;
-        document.getElementById('btnStartMistakesQuiz').classList.add('opacity-50', 'cursor-not-allowed');
+        startBtn.disabled = true;
+        startBtn.classList.add('opacity-50', 'cursor-not-allowed');
         return;
       }
 
-      document.getElementById('btnStartMistakesQuiz').disabled = false;
-      document.getElementById('btnStartMistakesQuiz').classList.remove('opacity-50', 'cursor-not-allowed');
+      startBtn.disabled = false;
+      startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
 
       container.innerHTML = mistakeWines.map(wine => `
         <div class="bg-[#131722] border border-rose-500/30 rounded-2xl p-5 flex items-center space-x-4">
@@ -598,9 +604,7 @@
       state.mistakesModeActive = true;
       document.getElementById('mistakeModeIndicator').classList.remove('hidden');
       switchMode('quiz');
-      applyFilterToPool();
-      state.currentIndex = 0;
-      loadQuizQuestion();
+      initQuiz();
     }
 
     function clearMistakes() {
@@ -633,31 +637,22 @@
     /* =========================================================
        9. MODE SWITCHING & INITIALIZATION
        ========================================================= */
+    const TABS = [
+      { id: 'tabQuiz', section: 'quizSection', mode: 'quiz' },
+      { id: 'tabFlashcards', section: 'flashcardsSection', mode: 'flashcards' },
+      { id: 'tabMistakes', section: 'mistakesSection', mode: 'mistakes' },
+      { id: 'tabCatalog', section: 'catalogSection', mode: 'catalog' }
+    ];
+
     function switchMode(newMode) {
       sound.playClick();
-      state.mode = newMode;
 
-      // Section visibility
-      document.getElementById('quizSection').classList.toggle('hidden', newMode !== 'quiz');
-      document.getElementById('flashcardsSection').classList.toggle('hidden', newMode !== 'flashcards');
-      document.getElementById('mistakesSection').classList.toggle('hidden', newMode !== 'mistakes');
-      document.getElementById('catalogSection').classList.toggle('hidden', newMode !== 'catalog');
-
-      // Tabs style
-      const tabs = [
-        { id: 'tabQuiz', mode: 'quiz' },
-        { id: 'tabFlashcards', mode: 'flashcards' },
-        { id: 'tabMistakes', mode: 'mistakes' },
-        { id: 'tabCatalog', mode: 'catalog' }
-      ];
-
-      tabs.forEach(t => {
-        const el = document.getElementById(t.id);
-        if (t.mode === newMode) {
-          el.className = "px-3.5 py-1.5 rounded-lg flex items-center space-x-2 whitespace-nowrap transition bg-wine-600/40 text-amber-300 border border-wine-500/50 shadow-sm";
-        } else {
-          el.className = "px-3.5 py-1.5 rounded-lg flex items-center space-x-2 whitespace-nowrap transition text-slate-400 hover:text-white hover:bg-white/5 border border-transparent";
-        }
+      TABS.forEach(t => {
+        const isActive = t.mode === newMode;
+        document.getElementById(t.section).classList.toggle('hidden', !isActive);
+        document.getElementById(t.id).className = isActive
+          ? "px-3.5 py-1.5 rounded-lg flex items-center space-x-2 whitespace-nowrap transition bg-wine-600/40 text-amber-300 border border-wine-500/50 shadow-sm"
+          : "px-3.5 py-1.5 rounded-lg flex items-center space-x-2 whitespace-nowrap transition text-slate-400 hover:text-white hover:bg-white/5 border border-transparent";
       });
 
       if (newMode === 'flashcards') {
@@ -669,18 +664,32 @@
       }
     }
 
+    const ACTIONS = {
+      skipQuizWine: nextQuizWine,
+      checkQuizAnswer,
+      nextQuizWine,
+      startMistakesQuiz,
+      clearMistakes,
+      print: () => window.print()
+    };
+
     document.addEventListener('click', event => {
       const target = event.target instanceof Element ? event.target : null;
       if (!target) return;
       const modeButton = target.closest('[data-mode]');
       if (modeButton) switchMode(modeButton.dataset.mode);
       const actionButton = target.closest('[data-action]');
-      if (actionButton) {
-        const actions = { skipQuizWine, checkQuizAnswer, nextQuizWine, startMistakesQuiz, clearMistakes, print: () => window.print() };
-        actions[actionButton.dataset.action]?.();
-      }
+      if (actionButton) ACTIONS[actionButton.dataset.action]?.();
       const card = target.closest('[data-card-flip]');
       if (card) toggleCardFlip(card);
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      const card = event.target instanceof Element ? event.target.closest('[data-card-flip]') : null;
+      if (!card) return;
+      event.preventDefault();
+      toggleCardFlip(card);
     });
 
     document.addEventListener('change', event => {
@@ -711,9 +720,11 @@
         }
 
         WINE_DATABASE = wines;
+        loadStats();
+        renderCategoryFilters();
         initQuiz();
+        updateStatsUI();
         renderFlashcards();
-        renderMistakesList();
         renderCheatSheet();
       } catch (error) {
         console.error('Unable to load wines.json:', error);

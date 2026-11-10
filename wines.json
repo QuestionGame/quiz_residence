@@ -229,7 +229,7 @@
   },
   {
     "id": "jean-mallet-champagne",
-    "name": "Jean Mallet, Champaigne",
+    "name": "Jean Mallet, Champagne",
     "category": "Ігристе та шампанське",
     "country": "Франція",
     "classification": "Брют / Брют Натюр",
@@ -244,7 +244,7 @@
       "Шардоне"
     ],
     "region": "Шампань, Кот-де-Бар",
-    "image": "./wine/Jean%20Mallet%2C%20Champaigne.webp"
+    "image": "./wine/Jean%20Mallet%2C%20Champagne.webp"
   },
   {
     "id": "caste-prosecco-merotto-2024",
@@ -403,7 +403,7 @@
     "name": "Torres Vina Esmeralda Flor D'orange",
     "category": "Рожеве & помаранчеве",
     "country": "Іспанія",
-    "classification": "Напівсухе",
+    "classification": "Помаранчеве, напівсухе",
     "classificationGeneral": "Помаранчеве, напівсухе",
     "grapes": "Мускат",
     "priceHint": "Від 154 ₴",

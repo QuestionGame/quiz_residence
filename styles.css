@@ -40,11 +40,68 @@
       transform: rotateY(180deg);
     }
 
-    /* Glowing animations */
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 15px rgba(217, 119, 6, 0.2); }
-      50% { box-shadow: 0 0 25px rgba(217, 119, 6, 0.45); }
-    }
-    .amber-glow {
-      animation: pulseGlow 3s infinite ease-in-out;
+    /* Print: light, ink-friendly cheat sheet.
+       !important is needed to beat Tailwind CDN utilities injected after this file. */
+    @media print {
+      @page {
+        margin: 12mm;
+      }
+
+      header,
+      footer,
+      #appStatus,
+      [data-action="print"] {
+        display: none !important;
+      }
+
+      html,
+      body,
+      body * {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        backdrop-filter: none !important;
+      }
+
+      body * {
+        border-color: #bbb !important;
+      }
+
+      main {
+        max-width: none !important;
+        padding: 0 !important;
+      }
+
+      #catalogSection > div {
+        border: none !important;
+        padding: 0 !important;
+        overflow: visible !important;
+      }
+
+      #catalogSection .overflow-x-auto {
+        overflow: visible !important;
+      }
+
+      #catalogSection table {
+        min-width: 0 !important;
+        font-size: 9pt;
+      }
+
+      #catalogSection thead {
+        display: table-header-group;
+      }
+
+      #catalogSection tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      #catalogSection tbody tr {
+        border-bottom: 1px solid #ccc !important;
+      }
+
+      #catalogSection td > span.rounded-full {
+        display: none !important;
+      }
     }

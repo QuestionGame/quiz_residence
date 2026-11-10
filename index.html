@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk" class="dark">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,7 +67,7 @@
         </button>
         <button data-mode="flashcards" id="tabFlashcards" class="px-3.5 py-1.5 rounded-lg flex items-center space-x-2 whitespace-nowrap transition text-slate-400 hover:text-white hover:bg-white/5 border border-transparent">
           <span>🗂️</span>
-          <span>Флеш-картки (<span id="flashcardCountBadge">31</span>)</span>
+          <span>Флеш-картки (<span id="flashcardCountBadge">0</span>)</span>
         </button>
         <button data-mode="mistakes" id="tabMistakes" class="px-3.5 py-1.5 rounded-lg flex items-center space-x-2 whitespace-nowrap transition text-slate-400 hover:text-white hover:bg-white/5 border border-transparent">
           <span>⚠️</span>
@@ -91,7 +91,7 @@
       <div class="bg-[#131722]/80 border border-white/10 rounded-2xl p-4 sm:p-5 backdrop-blur shadow-xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
           <div>
-            <span class="text-xs font-mono uppercase tracking-widest text-amber-400">Питання <span id="quizCurrentIndex">1</span> з <span id="quizTotalCount">31</span></span>
+            <span class="text-xs font-mono uppercase tracking-widest text-amber-400">Питання <span id="quizCurrentIndex">1</span> з <span id="quizTotalCount">0</span></span>
             <h2 class="text-lg font-bold text-white flex items-center gap-2">
               <span>Визначте параметри вина</span>
               <span id="mistakeModeIndicator" class="hidden text-xs bg-rose-500/20 text-rose-300 border border-rose-500/40 px-2 py-0.5 rounded-md">Режим виправлення помилок</span>
@@ -99,15 +99,10 @@
           </div>
           <!-- Category Filter for Quiz -->
           <div class="flex items-center space-x-2">
-            <label class="text-xs text-slate-400 whitespace-nowrap">Фільтр меню:</label>
+            <label for="quizCategoryFilter" class="text-xs text-slate-400 whitespace-nowrap">Фільтр меню:</label>
             <select id="quizCategoryFilter" data-change-action="onQuizFilterChange" class="bg-[#1b2030] text-slate-200 border border-white/10 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-amber-500 outline-none">
-              <option value="ALL">Усі вина (31)</option>
-              <option value="CORAVIN SELECTION">Coravin Selection (10)</option>
-              <option value="Ігристе та шампанське">Ігристе та шампанське (6)</option>
-              <option value="Біле">Біле вино (5)</option>
-              <option value="Рожеве & помаранчеве">Рожеве & помаранчеве (1)</option>
-              <option value="Червоне">Червоне вино (8)</option>
-              <option value="Десертне & кріплене">Десертне & кріплене (1)</option>
+              <option value="ALL">Усі вина</option>
+              <!-- Categories with counts are generated from wines.json -->
             </select>
           </div>
         </div>
@@ -119,34 +114,28 @@
       </div>
 
       <!-- Active Quiz Card -->
-      <div id="quizCardWrapper" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         <!-- Left Column: Visual Bottle & Wine Info (Lg: 5 cols) -->
         <div class="lg:col-span-5 bg-gradient-to-b from-[#161a26] to-[#11141e] border border-white/10 rounded-3xl p-6 flex flex-col items-center justify-between shadow-2xl relative overflow-hidden group">
           <!-- Ambient backlight glow -->
-          <div id="bottleAura" class="absolute -top-24 left-1/2 -translate-x-1/2 w-64 h-64 bg-wine-600/20 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-64 h-64 bg-wine-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
           <!-- Category Badge & Extra Tags -->
           <div class="w-full flex justify-between items-start z-10">
-            <span id="quizWineCategory" class="px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wider bg-white/10 text-amber-300 border border-white/10">
-              CORAVIN SELECTION
-            </span>
-            <span id="quizWineVolume" class="text-xs font-mono text-slate-400 bg-black/40 px-2 py-1 rounded border border-white/5">
-              100 мл / 13%
-            </span>
+            <span id="quizWineCategory" class="px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wider bg-white/10 text-amber-300 border border-white/10"></span>
+            <span id="quizWineVolume" class="text-xs font-mono text-slate-400 bg-black/40 px-2 py-1 rounded border border-white/5"></span>
           </div>
 
-          <!-- Realistic SVG Bottle Visualization -->
+          <!-- Bottle Photo -->
           <div class="my-6 relative flex items-center justify-center h-80 w-full z-10 transition-transform duration-500 group-hover:scale-105">
-            <img id="quizWineImage" class="my-6 h-80 w-full object-contain z-10 transition-transform duration-500 group-hover:scale-105 drop-shadow-[0_15px_25px_rgba(0,0,0,0.6)]" alt="">
+            <img id="quizWineImage" class="h-full w-full object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.6)]" alt="">
           </div>
 
-          <!-- Wine Name & Price hint -->
+          <!-- Wine Name -->
           <div class="text-center z-10 w-full">
-            <h3 id="quizWineName" class="text-xl sm:text-2xl font-bold font-serif text-white tracking-wide">
-              Kisi Rcheuli Qvevri 2020, Tchotiashvili
-            </h3>
-            <p id="quizWineSubtext" class="text-xs text-slate-400 mt-1">
+            <h3 id="quizWineName" class="text-xl sm:text-2xl font-bold font-serif text-white tracking-wide"></h3>
+            <p class="text-xs text-slate-400 mt-1">
               Уважно погляньте на етикетку, форму пляшки та колір капсули
             </p>
           </div>
@@ -155,7 +144,7 @@
         <!-- Right Column: Interactive 3-Step Questionnaire (Lg: 7 cols) -->
         <div class="lg:col-span-7 bg-[#131722]/90 border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-2xl backdrop-blur">
           
-          <div id="quizInputsArea" class="space-y-6">
+          <div class="space-y-6">
 
             <!-- STEP 1: Country -->
             <div>
@@ -203,11 +192,8 @@
 
           <!-- RESULT & EXPLANATION PANEL (Hidden until Checked) -->
           <div id="quizResultPanel" class="hidden mt-6 p-4 sm:p-5 rounded-2xl border border-white/10 bg-slate-900/90 text-sm space-y-3">
-            <div class="flex items-center justify-between">
-              <span id="resultHeaderBadge" class="font-bold text-sm flex items-center gap-1.5">
-                <!-- Result icon and text -->
-              </span>
-              <span id="resultScoreDelta" class="text-xs font-mono text-slate-400"></span>
+            <div id="resultHeaderBadge" class="font-bold text-sm flex items-center gap-1.5">
+              <!-- Result icon and text -->
             </div>
             
             <!-- Accurate Details breakdown -->
@@ -258,12 +244,7 @@
           <input type="text" id="flashcardSearch" data-input-action="renderFlashcards" placeholder="🔍 Пошук за назвою або сортом..." class="bg-[#1b2030] text-slate-200 border border-white/10 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-amber-500 outline-none w-52">
           <select id="flashcardCategoryFilter" data-change-action="renderFlashcards" class="bg-[#1b2030] text-slate-200 border border-white/10 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-amber-500 outline-none">
             <option value="ALL">Всі категорії</option>
-            <option value="CORAVIN SELECTION">Coravin Selection</option>
-            <option value="Ігристе та шампанське">Ігристе та шампанське</option>
-            <option value="Біле">Біле вино</option>
-            <option value="Рожеве & помаранчеве">Рожеве & помаранчеве</option>
-            <option value="Червоне">Червоне вино</option>
-            <option value="Десертне & кріплене">Десертне & кріплене</option>
+            <!-- Categories are generated from wines.json -->
           </select>
         </div>
       </div>
