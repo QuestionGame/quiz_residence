@@ -1,2 +1,9 @@
 # AI context dumps (repomix etc.) — generated, not part of the project
 repomix-output.*
+
+# Node
+node_modules/
+
+# Local secrets (Supabase service-role key etc.)
+.env
+.env.local

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вхід | Residence Trainer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍷</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body class="auth-body">
+  <main class="auth-card">
+    <div class="auth-brand">
+      <span class="residence-monogram" aria-hidden="true">R</span>
+      <span>
+        <span class="residence-eyebrow">STAFF EDITION</span>
+        <span class="auth-brand-title">Residence</span>
+      </span>
+    </div>
+
+    <h1 class="auth-title">Вхід для персоналу</h1>
+    <p class="auth-lead">Логін і пароль видає адміністратор.</p>
+
+    <form id="loginForm" class="auth-form" novalidate>
+      <label class="auth-field">
+        <span>Логін</span>
+        <input id="loginUsername" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+      </label>
+      <label class="auth-field">
+        <span>Пароль</span>
+        <span class="auth-password">
+          <input id="loginPassword" name="password" type="password" autocomplete="current-password" required>
+          <button type="button" id="togglePassword" class="auth-password-toggle" aria-label="Показати пароль" aria-pressed="false">👁</button>
+        </span>
+      </label>
+      <p id="loginError" class="auth-error" role="alert" hidden></p>
+      <button id="loginSubmit" class="auth-submit" type="submit">Увійти</button>
+    </form>
+  </main>
+
+  <script type="module" src="./assets/js/login.js"></script>
+</body>
+</html>

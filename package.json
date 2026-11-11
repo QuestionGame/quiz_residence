@@ -1,0 +1,23 @@
+{
+  "name": "residence-trainer",
+  "private": true,
+  "type": "module",
+  "description": "Staff trainer for the Residence restaurant: catalog, quizzes, mistakes bank, admin panel.",
+  "scripts": {
+    "dev": "node scripts/dev-server.mjs",
+    "db:start": "supabase start -x realtime,imgproxy,mailpit,edge-runtime,logflare,vector,supavisor",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "seed": "node scripts/seed_supabase.mjs",
+    "build:data": "node scripts/build_quiz_data.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.118.0"
+  },
+  "devDependencies": {
+    "supabase": "3.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

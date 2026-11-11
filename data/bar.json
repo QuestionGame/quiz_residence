@@ -1,6 +1,10 @@
 [
   {
     "id": "milk-stout",
+    "choiceqr": {
+      "name": "ПИВО ПЛЯШКОВЕ|MILK STOUT",
+      "photo": ""
+    },
     "name": "MILK STOUT",
     "price": "160 ₴",
     "volume": "330 мл",
@@ -13,6 +17,10 @@
   },
   {
     "id": "ora",
+    "choiceqr": {
+      "name": "ГОРІЛКА|ORA, ФРАНЦІЯ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/bRiOHEH-Kkxoxod-foHwRJy.webp"
+    },
     "name": "ORA",
     "price": "155 ₴",
     "volume": "50 мл",
@@ -25,6 +33,10 @@
   },
   {
     "id": "chivas-regal-18-y-o-gold-signature",
+    "choiceqr": {
+      "name": "ВІСКІ|CHIVAS REGAL 18 Y.O. GOLD SIGNATURE",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/RRnJhHB-wkKOAZK-MYZbaOM.webp"
+    },
     "name": "CHIVAS REGAL 18 Y.O. Gold Signature",
     "price": "480 ₴",
     "volume": "50 мл",
@@ -37,6 +49,10 @@
   },
   {
     "id": "hennessy-very-special",
+    "choiceqr": {
+      "name": "КОНЬЯКИ ТА БРЕНДІ|HENNESSY VERY SPECIAL, ФРАНЦІЯ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/htXeueJ-HJiZsaD-nlkQOCn.webp"
+    },
     "name": "HENNESSY VERY SPECIAL",
     "price": "240 ₴",
     "volume": "50 мл",
@@ -49,6 +65,10 @@
   },
   {
     "id": "mezcal-noble-coyte",
+    "choiceqr": {
+      "name": "ТЕКІЛА|MEZCAL NOBLE COYTE",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/MTyxPCg-CMJOzCI-gAkzHcY.webp"
+    },
     "name": "MEZCAL NOBLE COYTE",
     "price": "245 ₴",
     "volume": "",
@@ -61,6 +81,10 @@
   },
   {
     "id": "samurai-s-daughter",
+    "choiceqr": {
+      "name": "ПИВО ПЛЯШКОВЕ|SAMURAI'S DAUGHTER",
+      "photo": ""
+    },
     "name": "SAMURAI'S DAUGHTER",
     "price": "160 ₴",
     "volume": "330 мл",
@@ -73,6 +97,10 @@
   },
   {
     "id": "bumbu-xo-18-y-o",
+    "choiceqr": {
+      "name": "РОМ|BUMBU XO, 18 Y.O",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/zJqCGYx-mDMNJlG-JiJAFeg.webp"
+    },
     "name": "BUMBU XO, 18 Y.O",
     "price": "360 ₴",
     "volume": "50 мл",
@@ -85,6 +113,10 @@
   },
   {
     "id": "esbjaerg",
+    "choiceqr": {
+      "name": "ГОРІЛКА|ESBJAERG, НІДЕРЛАНДИ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/XbdlteC-FUtYfXI-EzsqAoG.webp"
+    },
     "name": "ESBJAERG",
     "price": "90 ₴",
     "volume": "50 мл",
@@ -97,6 +129,10 @@
   },
   {
     "id": "arran-amarone-cask",
+    "choiceqr": {
+      "name": "ВІСКІ|ARRAN AMARONE CASK",
+      "photo": ""
+    },
     "name": "ARRAN AMARONE CASK",
     "price": "450 ₴",
     "volume": "50 мл",
@@ -109,6 +145,10 @@
   },
   {
     "id": "a-e-dor-vsop",
+    "choiceqr": {
+      "name": "КОНЬЯКИ ТА БРЕНДІ|A.E. DOR VSOP, ФРАНЦІЯ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/DdIJNLk-DatpcVp-hYQzwoL.webp"
+    },
     "name": "A.E. DOR VSOP",
     "price": "310 ₴",
     "volume": "50 мл",
@@ -121,6 +161,10 @@
   },
   {
     "id": "mezcal-lokita-artesanal",
+    "choiceqr": {
+      "name": "ТЕКІЛА|MEZCAL LOKITA, ARTESANAL",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/exJkWVv-IRrkGck-inRTnvg.webp"
+    },
     "name": "MEZCAL LOKITA, Artesanal",
     "price": "245 ₴",
     "volume": "",
@@ -133,6 +177,10 @@
   },
   {
     "id": "pilla-select-venezia",
+    "choiceqr": {
+      "name": "АПЕРИТИВИ ТА ДИГЕСТИВИ|PILLA, SELECT VENEZIA",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/sslehls-NJjjbDN-wPwHCOj.webp"
+    },
     "name": "PILLA, SELECT VENEZIA",
     "price": "125 ₴",
     "volume": "50 мл",
@@ -145,6 +193,10 @@
   },
   {
     "id": "stella-artois",
+    "choiceqr": {
+      "name": "ПИВО НА РОЗЛИВ|STELLA ARTOIS",
+      "photo": ""
+    },
     "name": "STELLA ARTOIS",
     "price": "",
     "volume": "",
@@ -157,6 +209,10 @@
   },
   {
     "id": "party-weizen",
+    "choiceqr": {
+      "name": "ПИВО ПЛЯШКОВЕ|PARTY WEIZEN",
+      "photo": ""
+    },
     "name": "PARTY WEIZEN",
     "price": "160 ₴",
     "volume": "330 мл",
@@ -169,6 +225,10 @@
   },
   {
     "id": "botafogo-spiced",
+    "choiceqr": {
+      "name": "РОМ|BOTAFOGO SPICED",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/xyphVFg-DzdDPzF-lSjdvVI.webp"
+    },
     "name": "BOTAFOGO SPICED",
     "price": "130 ₴",
     "volume": "50 мл",
@@ -181,6 +241,10 @@
   },
   {
     "id": "finlandia",
+    "choiceqr": {
+      "name": "ГОРІЛКА|FINLANDIA, ФІНЛЯНДІЯ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/Pstsevo-UDCDBVL-Nrveehk.webp"
+    },
     "name": "FINLANDIA",
     "price": "90 ₴",
     "volume": "50 мл",
@@ -193,6 +257,10 @@
   },
   {
     "id": "glenmorangie-the-original-12-y-o",
+    "choiceqr": {
+      "name": "ВІСКІ|GLENMORANGIE THE ORIGINAL, 12 Y.O.",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/AJOuzJu-vuCXudI-SsOGfmK.webp"
+    },
     "name": "GLENMORANGIE THE ORIGINAL, 12 Y.O.",
     "price": "435 ₴",
     "volume": "",
@@ -205,6 +273,10 @@
   },
   {
     "id": "durudzhy-veli-7",
+    "choiceqr": {
+      "name": "КОНЬЯКИ ТА БРЕНДІ|ДУРУДЖИ ВЕЛІ 7, ГРУЗІЯ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/yyjbFyz-IbTVGAC-bVJdCxl.webp"
+    },
     "name": "ДУРУДЖИ ВЕЛІ 7",
     "price": "125 ₴",
     "volume": "50 мл",
@@ -217,6 +289,10 @@
   },
   {
     "id": "sierra-antiguo-plata",
+    "choiceqr": {
+      "name": "ТЕКІЛА|SIERRA ANTIGUO PLATA",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/lXfscDE-bDWRAqY-rGOvfOH.webp"
+    },
     "name": "SIERRA ANTIGUO PLATA",
     "price": "150 ₴",
     "volume": "50 мл",
@@ -229,6 +305,10 @@
   },
   {
     "id": "heretic",
+    "choiceqr": {
+      "name": "АПЕРИТИВИ ТА ДИГЕСТИВИ|HERETIC",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/oXpHhvC-RIBrZfz-klTfqyz.webp"
+    },
     "name": "HERETIC",
     "price": "110 ₴",
     "volume": "50 мл",
@@ -241,6 +321,10 @@
   },
   {
     "id": "whitley-neill-quince",
+    "choiceqr": {
+      "name": "ДЖИН|WHITLEY NEILL QUINCE",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/ASPnTtN-iNvJAyI-dFlrJvI.webp"
+    },
     "name": "WHITLEY NEILL QUINCE",
     "price": "165 ₴",
     "volume": "50 мл",
@@ -253,6 +337,10 @@
   },
   {
     "id": "hoegaarden-white",
+    "choiceqr": {
+      "name": "ПИВО НА РОЗЛИВ|HOЕGAARDEN WHITE",
+      "photo": ""
+    },
     "name": "HOEGAARDEN WHITE",
     "price": "",
     "volume": "",
@@ -265,6 +353,10 @@
   },
   {
     "id": "corona-extra",
+    "choiceqr": {
+      "name": "ПИВО ПЛЯШКОВЕ|CORONA EXTRA",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/HYACMHH-oGDdJhD-NvzGyKb.webp"
+    },
     "name": "CORONA EXTRA",
     "price": "145 ₴",
     "volume": "330 мл",
@@ -277,6 +369,10 @@
   },
   {
     "id": "botafogo-black",
+    "choiceqr": {
+      "name": "РОМ|BOTAFOGO BLACK",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/SLbNKvl-EyBWlRe-HTescvG.webp"
+    },
     "name": "BOTAFOGO BLACK",
     "price": "130 ₴",
     "volume": "50 мл",
@@ -289,6 +385,10 @@
   },
   {
     "id": "nemiroff-de-luxe",
+    "choiceqr": {
+      "name": "ГОРІЛКА|NEMIROFF DE LUXE, УКРАЇНА",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/TCzAIIA-jlkklrb-fbHfgET.webp"
+    },
     "name": "NEMIROFF DE LUXE",
     "price": "75 ₴",
     "volume": "50 мл",
@@ -301,6 +401,10 @@
   },
   {
     "id": "the-singleton-of-dufftown-12-y-o",
+    "choiceqr": {
+      "name": "ВІСКІ|THE SINGLETON OF DUFFTOWN 12 Y.O.",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/leTJkOP-DGrOOJk-YHJVHlK.webp"
+    },
     "name": "THE SINGLETON OF DUFFTOWN 12 Y.O.",
     "price": "295 ₴",
     "volume": "50 мл",
@@ -313,6 +417,10 @@
   },
   {
     "id": "saint-remy-vsop",
+    "choiceqr": {
+      "name": "КОНЬЯКИ ТА БРЕНДІ|SAINT REMY VSOP, ФРАНЦІЯ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/crxbyye-GGxNWDW-SGbDUeJ.webp"
+    },
     "name": "SAINT REMY VSOP",
     "price": "105 ₴",
     "volume": "50 мл",
@@ -325,6 +433,10 @@
   },
   {
     "id": "jarana-blanco-100-blue-agave",
+    "choiceqr": {
+      "name": "ТЕКІЛА|JARANA BLANCO 100% BLUE AGAVE",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/FliWGGM-HmIfwvl-JhhzJCp.webp"
+    },
     "name": "JARANA BLANCO 100% Blue Agave",
     "price": "100 ₴",
     "volume": "50 мл",
@@ -337,6 +449,10 @@
   },
   {
     "id": "jagermeister",
+    "choiceqr": {
+      "name": "АПЕРИТИВИ ТА ДИГЕСТИВИ|JAGERMEISTER",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/FHwQlba-SLLVkAz-oKzyLpM.webp"
+    },
     "name": "JAGERMEISTER",
     "price": "125 ₴",
     "volume": "50 мл",
@@ -349,6 +465,10 @@
   },
   {
     "id": "whitley-neill-black-cherry",
+    "choiceqr": {
+      "name": "ДЖИН|WHITLEY NEILL BLACK CHERRY",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/aljoWeX-DbgkkHO-GqwfkGf.webp"
+    },
     "name": "WHITLEY NEILL BLACK CHERRY",
     "price": "165 ₴",
     "volume": "50 мл",
@@ -361,6 +481,10 @@
   },
   {
     "id": "leffe-brune",
+    "choiceqr": {
+      "name": "ПИВО ПЛЯШКОВЕ|LEFFE BRUNЕ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/qCdVLYC-fUkkcSU-lAvLPwd.webp"
+    },
     "name": "LEFFE BRUNE",
     "price": "145 ₴",
     "volume": "330 мл",
@@ -373,6 +497,10 @@
   },
   {
     "id": "santiago-de-cuba-carta-blanca",
+    "choiceqr": {
+      "name": "РОМ|SANTIAGO DE CUBA, CARTA BLANCA",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/ddHGtfI-svFeYQz-lQsbfYD.webp"
+    },
     "name": "SANTIAGO DE CUBA, Carta Blanca",
     "price": "100 ₴",
     "volume": "",
@@ -385,6 +513,10 @@
   },
   {
     "id": "monkey-shoulder",
+    "choiceqr": {
+      "name": "ВІСКІ|MONKEY SHOULDER",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/vbyHOan-nsbIjvp-AqHKBFO.webp"
+    },
     "name": "MONKEY SHOULDER",
     "price": "275 ₴",
     "volume": "50 мл",
@@ -397,6 +529,10 @@
   },
   {
     "id": "calvados-fine-marquis-de-sain-loup",
+    "choiceqr": {
+      "name": "КОНЬЯКИ ТА БРЕНДІ|CALVADOS FINE, MARQUIS DE SAIN-LOUP, ФРАНЦІЯ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/IujrFYm-JedvIzx-WIGzvTr.webp"
+    },
     "name": "CALVADOS FINE, MARQUIS DE SAIN-LOUP",
     "price": "145 ₴",
     "volume": "50 мл",
@@ -409,6 +545,10 @@
   },
   {
     "id": "janara-reposado-100-agave",
+    "choiceqr": {
+      "name": "ТЕКІЛА|JANARA REPOSADO 100% AGAVE",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/ZLkGzyA-LGLeeqk-InHkFNs.webp"
+    },
     "name": "JANARA REPOSADO 100% Agave",
     "price": "105 ₴",
     "volume": "50 мл",
@@ -421,6 +561,10 @@
   },
   {
     "id": "becherovka",
+    "choiceqr": {
+      "name": "АПЕРИТИВИ ТА ДИГЕСТИВИ|BECHERОVKA",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/npbKlKB-cJfDAgt-PTCbopq.webp"
+    },
     "name": "BECHEROVKA",
     "price": "125 ₴",
     "volume": "50 мл",
@@ -433,6 +577,10 @@
   },
   {
     "id": "tanqueray-london-dry-gin",
+    "choiceqr": {
+      "name": "ДЖИН|TANQUERAY LONDON DRY GIN",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/bAyYDOX-JkuMbPh-SbrkeGp.webp"
+    },
     "name": "TANQUERAY London Dry Gin",
     "price": "165 ₴",
     "volume": "50 мл",
@@ -445,6 +593,10 @@
   },
   {
     "id": "zero-stress-b-a",
+    "choiceqr": {
+      "name": "ПИВО ПЛЯШКОВЕ|ZERO STRESS Б/А",
+      "photo": ""
+    },
     "name": "ZERO STRESS б/а",
     "price": "160 ₴",
     "volume": "330 мл",
@@ -457,6 +609,10 @@
   },
   {
     "id": "tanday-asian-gold",
+    "choiceqr": {
+      "name": "РОМ|TANDAY ASIAN GOLD",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/vtDtHtl-jRhmAJL-ulylLqy.webp"
+    },
     "name": "TANDAY ASIAN GOLD",
     "price": "95 ₴",
     "volume": "50 мл",
@@ -469,6 +625,10 @@
   },
   {
     "id": "misaki",
+    "choiceqr": {
+      "name": "ВІСКІ|MISAKI",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/uWSbHIe-vbDepiI-kOeeZpG.webp"
+    },
     "name": "MISAKI",
     "price": "375 ₴",
     "volume": "50 мл",
@@ -481,6 +641,10 @@
   },
   {
     "id": "pisco-capei-especial",
+    "choiceqr": {
+      "name": "КОНЬЯКИ ТА БРЕНДІ|PISCO CAPEI, ESPECIAL",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/flbilUR-VBaChJi-JWkMrwG.webp"
+    },
     "name": "PISCO CAPEI, Especial",
     "price": "100 ₴",
     "volume": "50 мл",
@@ -493,6 +657,10 @@
   },
   {
     "id": "baileys",
+    "choiceqr": {
+      "name": "АПЕРИТИВИ ТА ДИГЕСТИВИ|BAILEYS",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/kSTMlZg-RiUOSrE-sTcJcJJ.webp"
+    },
     "name": "BAILEYS",
     "price": "125 ₴",
     "volume": "50 мл",
@@ -505,6 +673,10 @@
   },
   {
     "id": "tanqueray-rangpur-lime",
+    "choiceqr": {
+      "name": "ДЖИН|TANQUERAY, RANGPUR LIME",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/lbNIGQG-cJFIoHT-FGJBGeV.webp"
+    },
     "name": "TANQUERAY, Rangpur Lime",
     "price": "165 ₴",
     "volume": "",
@@ -517,6 +689,10 @@
   },
   {
     "id": "jack-daniels-tennessee",
+    "choiceqr": {
+      "name": "ВІСКІ|JACK DANIELS TENNESSEE",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/HPNGaVU-qYsgVwW-JtCkDCC.webp"
+    },
     "name": "JACK DANIELS TENNESSEE",
     "price": "180 ₴",
     "volume": "50 мл",
@@ -529,6 +705,10 @@
   },
   {
     "id": "dolin-vermouth-dry",
+    "choiceqr": {
+      "name": "АПЕРИТИВИ ТА ДИГЕСТИВИ|DOLIN VERMOUTH DRY",
+      "photo": ""
+    },
     "name": "DOLIN VERMOUTH DRY",
     "price": "85 ₴",
     "volume": "50 г",
@@ -541,6 +721,10 @@
   },
   {
     "id": "stirling-london-dry",
+    "choiceqr": {
+      "name": "ДЖИН|STIRLING, LONDON DRY",
+      "photo": ""
+    },
     "name": "STIRLING, London dry",
     "price": "150 ₴",
     "volume": "50 мл",
@@ -553,6 +737,10 @@
   },
   {
     "id": "four-roses",
+    "choiceqr": {
+      "name": "ВІСКІ|FOUR ROSES",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/DceUCfE-csHdBaY-cCUnRwF.webp"
+    },
     "name": "FOUR ROSES",
     "price": "180 ₴",
     "volume": "50 мл",
@@ -565,6 +753,10 @@
   },
   {
     "id": "whitley-neil-raspberry-bezalkoholnyi",
+    "choiceqr": {
+      "name": "ДЖИН|WHITLEY NEIL RASPBERRY, БЕЗАЛКОГОЛЬНИЙ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/FWcOVfc-GvURIkY-MHvBbsD.webp"
+    },
     "name": "WHITLEY NEIL RASPBERRY, безалкогольний",
     "price": "165 ₴",
     "volume": "50 мл",
@@ -577,6 +769,10 @@
   },
   {
     "id": "west-cork",
+    "choiceqr": {
+      "name": "ВІСКІ|WEST CORK",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/sXAIvRS-yxYyINL-FFvnlIZ.webp"
+    },
     "name": "WEST CORK",
     "price": "180 ₴",
     "volume": "50 мл",
@@ -589,6 +785,10 @@
   },
   {
     "id": "jameson",
+    "choiceqr": {
+      "name": "ВІСКІ|JAMESON",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/CvBiSNU-rYqKQFA-aeikkjI.webp"
+    },
     "name": "JAMESON",
     "price": "180 ₴",
     "volume": "",
@@ -601,6 +801,10 @@
   },
   {
     "id": "the-pogues-streams",
+    "choiceqr": {
+      "name": "ВІСКІ|THE POGUES, STREAMS",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/HlGFiFl-KIDHuoZ-fGZkNSQ.webp"
+    },
     "name": "THE POGUES, STREAMS",
     "price": "135 ₴",
     "volume": "50 мл",
@@ -613,6 +817,10 @@
   },
   {
     "id": "pogues",
+    "choiceqr": {
+      "name": "ВІСКІ|POGUES",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/vipFPxF-bkGGUKg-euKKIFz.webp"
+    },
     "name": "POGUES",
     "price": "135 ₴",
     "volume": "50 мл",
@@ -625,6 +833,10 @@
   },
   {
     "id": "pogues-honey",
+    "choiceqr": {
+      "name": "ВІСКІ|POGUES HONEY",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/UxbeQZU-IXAwHgD-HZdlWFk.webp"
+    },
     "name": "POGUES HONEY",
     "price": "135 ₴",
     "volume": "50 мл",

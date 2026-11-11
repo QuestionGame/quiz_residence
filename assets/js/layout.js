@@ -3,8 +3,7 @@ import { CONFIG, TEXT } from './context.js';
 import { escapeHtml } from './utils.js';
 import { renderBottomNavigation, renderHeader } from './header.js';
 import { renderTrainerPicker } from './trainer-picker.js';
-
-const SELECT_CLASS = "bg-[#1b2030] text-slate-200 border border-white/10 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-amber-500 outline-none";
+import { renderAccountSheet } from './account.js';
 
 function renderQuestionBlocks() {
   return CONFIG.questions.map((q, index) => `
@@ -24,26 +23,22 @@ function renderQuestionBlocks() {
 function renderQuizSection() {
   return `
     <section id="quizSection" class="space-y-6">
-      <div class="bg-[#131722]/80 border border-white/10 rounded-2xl p-4 sm:p-5 backdrop-blur shadow-xl">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-          <div>
-            <span class="text-xs font-mono uppercase tracking-widest text-amber-400">Питання <span id="quizCurrentIndex">1</span> з <span id="quizTotalCount">0</span></span>
-            <h2 class="text-lg font-bold text-white flex flex-wrap items-center gap-2">
-              <span>${escapeHtml(TEXT.quizHeading)}</span>
-              <span id="mistakeModeIndicator" class="hidden text-xs bg-rose-500/20 text-rose-300 border border-rose-500/40 px-2 py-0.5 rounded-md">Режим виправлення помилок</span>
-            </h2>
-          </div>
-          <div class="flex items-center space-x-2">
-            <label for="quizCategoryFilter" class="text-xs text-slate-400 whitespace-nowrap">Фільтр меню:</label>
-            <select id="quizCategoryFilter" data-change-action="onQuizFilterChange" class="${SELECT_CLASS}"></select>
-          </div>
+      <div id="quizHeader" class="bg-[#131722]/80 border border-white/10 rounded-2xl p-4 sm:p-5 backdrop-blur shadow-xl">
+        <div class="mb-4">
+          <span class="text-xs font-mono uppercase tracking-widest text-amber-400">Питання <span id="quizCurrentIndex">1</span> з <span id="quizTotalCount">0</span></span>
+          <h2 class="text-lg font-bold text-white flex flex-wrap items-center gap-2">
+            <span>${escapeHtml(TEXT.quizHeading)}</span>
+            <span id="mistakeModeIndicator" class="hidden text-xs bg-rose-500/20 text-rose-300 border border-rose-500/40 px-2 py-0.5 rounded-md">Режим виправлення помилок</span>
+          </h2>
         </div>
         <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
           <div id="quizProgressBar" class="h-full bg-gradient-to-r from-wine-500 to-amber-500 transition-all duration-300" style="width: 0%;"></div>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div id="quizFinish" class="quiz-finish hidden" aria-live="polite"></div>
+
+      <div id="quizBody" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-5 bg-gradient-to-b from-[#161a26] to-[#11141e] border border-white/10 rounded-3xl p-6 flex flex-col items-center justify-between shadow-2xl relative overflow-hidden group">
           <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-64 h-64 bg-wine-600/20 rounded-full blur-3xl pointer-events-none"></div>
           <div class="w-full flex justify-between items-start gap-2 z-10 min-h-[1.75rem]">
@@ -69,15 +64,16 @@ function renderQuizSection() {
             </div>
           </div>
 
-          <div class="mt-6 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
-            <button data-action="skipQuizItem" class="text-xs text-slate-400 hover:text-white px-3 py-2 rounded-lg transition">${escapeHtml(TEXT.skip)}</button>
-            <div class="flex items-center space-x-3 ml-auto">
-              <button id="btnCheckAnswer" data-action="checkQuizAnswer" disabled class="px-6 py-2.5 rounded-xl font-semibold text-sm bg-slate-800 text-slate-500 cursor-not-allowed transition shadow-lg flex items-center gap-2">
-                <span>Перевірити відповідь</span><span>✓</span>
-              </button>
-              <button id="btnNextItem" data-action="nextQuizItem" class="hidden px-6 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold transition shadow-lg flex items-center gap-2">
-                <span>${escapeHtml(TEXT.next)}</span><span>→</span>
-              </button>
+          <div class="quiz-actions">
+            <button id="btnCheckAnswer" data-action="checkQuizAnswer" disabled class="px-6 py-2.5 rounded-xl font-semibold text-sm bg-slate-800 text-slate-500 cursor-not-allowed transition shadow-lg flex items-center gap-2">
+              <span>Перевірити відповідь</span><span>✓</span>
+            </button>
+            <button id="btnNextItem" data-action="nextQuizItem" class="hidden quiz-primary px-6 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold transition shadow-lg flex items-center gap-2">
+              <span id="btnNextLabel">${escapeHtml(TEXT.next)}</span><span>→</span>
+            </button>
+            <div class="quiz-actions-secondary">
+              <button id="btnPrevItem" data-action="prevQuizItem" class="quiz-link">← Попереднє</button>
+              <button id="btnSkipItem" data-action="skipQuizItem" class="quiz-link">${escapeHtml(TEXT.skip)}</button>
             </div>
           </div>
         </div>
@@ -146,5 +142,6 @@ export function renderLayout() {
       <div class="sheet-actions"><button type="button" data-action="trainCurrentItem" class="sheet-train-button">Тренувати цю позицію <span aria-hidden="true">↗</span></button></div>
     </section>
   </div>
-  ${renderTrainerPicker()}`;
+  ${renderTrainerPicker()}
+  ${renderAccountSheet()}`;
 }

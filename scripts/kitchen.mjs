@@ -357,6 +357,7 @@ export function buildKitchen({ spec, menuClean, helpers, report }) {
         weight: dish.weight ? dish.weight.replace(/(\d)\s*г$/, '$1 г') : (qr && !perHundred ? formatVolume(qr["Вага / Об'єм"]) : ''),
         notes: dish.description || (qr ? cleanDescription(qr['Опис']) : ''),
         imageUrl: qr?.['Фото'] || '',
+        choiceqr: qr ? { name: qrName, photo: qr['Фото'] || '' } : null,
         image: '',
         ingredients,
         quizIngredients: ingredients.filter(i => i.length <= MAX_OPTION_LENGTH),

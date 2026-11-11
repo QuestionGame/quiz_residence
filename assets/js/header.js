@@ -2,6 +2,7 @@
 import { PAGE_LINKS } from './pages.js';
 import { PAGE_ID, TEXT } from './context.js';
 import { escapeHtml } from './utils.js';
+import { renderAccountButton } from './account.js';
 
 export const TAB_ACTIVE = 'mode-tab is-active';
 export const TAB_IDLE = 'mode-tab';
@@ -18,6 +19,7 @@ export function renderHeader() {
         <span class="status-pill" title="Серія відповідей"><span aria-hidden="true">✦</span><span id="streakCount">0</span></span>
         <span class="status-pill status-accuracy" title="Точність"><span aria-hidden="true">◎</span><span id="accuracyPercent">100%</span></span>
         <button id="soundToggleBtn" class="sound-button" type="button" title="Увімкнути або вимкнути звук" aria-label="Увімкнути або вимкнути звук"><span id="soundIcon">♪</span></button>
+        ${renderAccountButton()}
       </div>
     </div>
 

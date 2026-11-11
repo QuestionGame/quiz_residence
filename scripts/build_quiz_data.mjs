@@ -15,6 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildKitchen } from './kitchen.mjs';
+import { choiceqrKey as key, formatPrice, formatVolume, isPricePerHundred, norm } from '../lib/choiceqr.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_DIR = path.join(ROOT, 'data');
@@ -25,9 +26,6 @@ const kitchenSpec = JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'source', 're
 
 /* ---------------------------------------------------------------- helpers */
 
-const norm = s => String(s || '').replace(/\s+/g, ' ').trim();
-const key = s => norm(s).toUpperCase();
-
 const TRANSLIT = {
   а: 'a', б: 'b', в: 'v', г: 'h', ґ: 'g', д: 'd', е: 'e', є: 'ie', ж: 'zh', з: 'z', и: 'y', і: 'i', ї: 'i', й: 'i',
   к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'kh', ц: 'ts',
@@ -37,19 +35,6 @@ function slug(text) {
   return norm(text).toLowerCase()
     .split('').map(ch => TRANSLIT[ch] ?? ch).join('')
     .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
-}
-
-function formatPrice(value, perHundred = false) {
-  if (value == null) return '';
-  const text = `${String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ₴`;
-  return perHundred ? `${text} / 100 г` : text;
-}
-
-/* Turns ChoiceQR "450 g" / "50 ml" into "450 г" / "50 мл"; drops values without a number ("g"). */
-function formatVolume(raw) {
-  const text = norm(raw);
-  if (!/\d/.test(text)) return '';
-  return text.replace(/\bml\b/i, 'мл').replace(/\bg\b/i, 'г');
 }
 
 function cleanDescription(text) {
@@ -218,9 +203,11 @@ function uniqueIds(items) {
 }
 
 function baseItem(raw, page, name) {
-  const perHundred = /ціна (вказана )?за 100\s*г/i.test(raw['Опис']);
+  const perHundred = isPricePerHundred(raw['Опис']);
   return {
     id: slug(name),
+    // Link to the ChoiceQR dish for the admin "sync prices and photos" button (→ menu_items.choiceqr_name).
+    choiceqr: { name: `${key(raw['Категорія'])}|${key(raw['Назва'])}`, photo: raw['Фото'] || '' },
     name,
     price: formatPrice(raw['Ціна (грн)'], perHundred),
     volume: perHundred ? '' : formatVolume(raw["Вага / Об'єм"]),

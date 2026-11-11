@@ -7,6 +7,10 @@
     "price": "285 ₴",
     "weight": "450 г",
     "notes": "Хрусткий тартін, соковиті сосиски та яйця, доповнені стручковою квасолею з пряним томатним соусом. Ніжна збита тхіна, ароматний чилі-кріспі та хрустка крихта бекону додають страві яскравих смакових акцентів.",
+    "choiceqr": {
+      "name": "АНГЛІЙСКИЙ СНІДАНОК",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/jfkCSbD-lyjEubw-ZzJozLx.webp"
+    },
     "image": "./assets/img/menu/english-breakfast.webp",
     "ingredients": [
       "2 яйця глазунья",
@@ -88,6 +92,10 @@
     "price": "265 ₴",
     "weight": "450 г",
     "notes": "Ароматні томати, солодкий перець і спеції, тушковані до насиченого соусу, у якому запікаються яйця. Подається з ніжним хумусом, що додає кремовості та східного акценту. Ідеальна страва для ситного й ароматного сніданку.",
+    "choiceqr": {
+      "name": "ШАКШУКА З ТОМАТАМИ ТА ХУМУСОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/FYrOMHw-vCcSsbK-FIHKFgC.webp"
+    },
     "image": "./assets/img/menu/shakshuka-hummus.webp",
     "ingredients": [
       "Хумус на дні тарілки",
@@ -155,6 +163,10 @@
     "price": "155 ₴",
     "weight": "200 г",
     "notes": "Омлет з двох яєць з начинкою з крем сиру та зеленим салатом",
+    "choiceqr": {
+      "name": "ОМЛЕТ З ДВОХ ЯЄЦЬ З ЗЕЛЕНИМ САЛАТОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/DlGrkYz-pYUXFbp-cVDEWkV.webp"
+    },
     "image": "./assets/img/menu/two-egg-omelette.webp",
     "ingredients": [
       "Омлет з 2 яєць",
@@ -212,6 +224,10 @@
     "price": "355 ₴",
     "weight": "240 г",
     "notes": "Легкий трюфельний скрембл з крем-сиром на тості з заквасного хлібу та креветками",
+    "choiceqr": {
+      "name": "ТРЮФЕЛЬНИЙ СКРЕМБЛ ТОСТ З КРЕВЕТКАМИ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/lHgeIIG-IejAnCA-CSCxtCI.webp"
+    },
     "image": "./assets/img/menu/truffle-scramble-shrimp-toast.webp",
     "ingredients": [
       "Білий хліб тартін",
@@ -296,6 +312,10 @@
     "price": "275 ₴",
     "weight": "200 г",
     "notes": "Заквасний хліб, крем чіз, авокадо та томати конфі подаємо з міксом салату",
+    "choiceqr": {
+      "name": "АВО ТОСТ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/UXlEUGy-vMDaQrE-DdIMdil.webp"
+    },
     "image": "./assets/img/menu/avo-toast.webp",
     "ingredients": [
       "Білий хліб тартін",
@@ -365,6 +385,10 @@
     "price": "95 ₴",
     "weight": "100 г",
     "notes": "Заквасний хліб зі збитим трюфельним маслом",
+    "choiceqr": {
+      "name": "ХЛІБ ЗІ ЗБИТИМ МАСЛОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/gjkXDrG-BkXqGrw-bRMpmbF.webp"
+    },
     "image": "./assets/img/menu/whipped-butter-bread.webp",
     "ingredients": [
       "Білий хліб тартін",
@@ -428,6 +452,10 @@
     "price": "215 ₴",
     "weight": "320 г",
     "notes": "Ніжна каша з вівсяної та перлової круп із насінням льону, приготована на курячому бульйоні з вершками та вершковим маслом. Подається з соковитим стегном індички су-від, пряною кріспі-сумішшю з часнику, чилі, копченої паприки, мигдалю та кунжуту. Доповнюється теплим яйцем, сиром пармезан, соусом Black Pepper і свіжою зеленою цибулею.",
+    "choiceqr": {
+      "name": "ПРЯНА ЗЛАКОВА КАША З ІНДИЧКОЮ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/HGpEbZU-SubIvKc-VJbJtFC.webp"
+    },
     "image": "./assets/img/menu/spiced-grain-porridge-turkey.webp",
     "ingredients": [
       "Вівсяна крупа",
@@ -511,6 +539,10 @@
     "price": "215 ₴",
     "weight": "250 г",
     "notes": "та сама ідеальна тарілка на ранок: заквасний хліб зі збитим маслом, зелений салат, тепле яйце, сир та томатний джем. Додай свою улюблену основу сніданку та насолоджуйся",
+    "choiceqr": {
+      "name": "БАЗОВИЙ СНІДАНОК",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/tkHmkwq-GaJeeIl-JzKEaIC.webp"
+    },
     "image": "./assets/img/menu/base-breakfast.webp",
     "ingredients": [
       "Яйце 5-хвилинка",
@@ -586,6 +618,10 @@
     "price": "245 ₴",
     "weight": "280 г",
     "notes": "Хумус , солоні огірки, картопля конфі, мікс салату, запечений буряк. Рекомендуємо додати на вибір: лосось слабої солі, пастрамі, креветки або качку😉",
+    "choiceqr": {
+      "name": "СНІДАНОК ДЛЯ НЬОГО",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/wcHqleH-IQFDUka-xTkAHPl.webp"
+    },
     "image": "./assets/img/menu/breakfast-for-him.webp",
     "ingredients": [
       "2 варені яйця",
@@ -660,6 +696,10 @@
     "price": "365 ₴",
     "weight": "310 г",
     "notes": "Лосось власного посолу, запечений буряк, мікс салат, авокадо",
+    "choiceqr": {
+      "name": "СНІДАНОК ДЛЯ НЕЇ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/UJRbCuU-ZeOKJUo-RGjwHst.webp"
+    },
     "image": "./assets/img/menu/breakfast-for-her.webp",
     "ingredients": [
       "Яєчний скрембл з пармезаном",
@@ -734,6 +774,10 @@
     "price": "",
     "weight": "400/235 г",
     "notes": "наш хліб, підкопчене індиче філе, моцарела, цибулевий чатні, мариновані огірки подаємо з картоплею конфі та соусом айолі",
+    "choiceqr": {
+      "name": "МЕЛТ З ІНДИЧКОЮ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/abyPqXp-QBXulKo-imTPgGG.webp"
+    },
     "image": "./assets/img/menu/turkey-melt.webp",
     "ingredients": [
       "Хліб тартін",
@@ -807,6 +851,10 @@
     "price": "",
     "weight": "390/225 г",
     "notes": "Сендвіч з пастрамі з яловичини, з чеддером, капустою кімчі та копченим майонезом. Подаємо з картоплею та маринованими огірочками.",
+    "choiceqr": {
+      "name": "МЕЛТ З ПАСТРАМІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/uTrxbJh-EPvkFtk-pXCWkVW.webp"
+    },
     "image": "./assets/img/menu/pastrami-melt.webp",
     "ingredients": [
       "Хліб тартін",
@@ -871,6 +919,10 @@
     "price": "270 ₴",
     "weight": "260 г",
     "notes": "Ніжні млинці з соковитим пастрамі, чедером та моцарелою, доповнені пікантним соусом із діжонської гірчиці та маринованих огірків. Подаються з ароматним грибним рагу, сметаною та свіжою зеленою цибулею.",
+    "choiceqr": {
+      "name": "МЛИНЦІ З ПАСТРАМІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/GaLIlUE-ZFkzpFI-RTIzbLX.webp"
+    },
     "image": "./assets/img/menu/pancakes-pastrami-mushrooms.webp",
     "ingredients": [
       "Млинці",
@@ -946,6 +998,10 @@
     "price": "245 ₴",
     "weight": "230 г",
     "notes": "млинці з начинкою з печінкового паштету, подаємо з трюфельною сметаною",
+    "choiceqr": {
+      "name": "МЛИНЦІ З ПАШТЕТОМ ТА ТРЮФЕЛЬНОЮ СМЕТАНОЮ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/SFKFsNx-HEFeGrH-EPjPHvY.webp"
+    },
     "image": "./assets/img/menu/pancakes-pate-truffle-sour-cream.webp",
     "ingredients": [
       "Млинці з начинкою з курячого паштету",
@@ -1002,6 +1058,10 @@
     "price": "225 ₴",
     "weight": "230 г",
     "notes": "Подаються зі смаженим фундуком та фісташковою крихтою, прикрашені бутонами чайної троянди й пелюстками анчану.",
+    "choiceqr": {
+      "name": "СИРНИКИ ТРИ МОЛОКА",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/GIESJnB-faudeiL-qjpqJPp.webp"
+    },
     "image": "./assets/img/menu/syrnyky-three-milks.webp",
     "ingredients": [
       "Сирники з сиру 9%",
@@ -1073,6 +1133,10 @@
     "price": "200 ₴",
     "weight": "260 г",
     "notes": "Ніжні сирники з хрусткою меренгою та вершковим йогуртом, доповнені ароматним апельсиновим джемом «Сюзет» із пряними нотами. Легкий карамельний акцент тростинного цукру завершує смакову композицію.",
+    "choiceqr": {
+      "name": "СИРНИКИ SUZET",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/XiJcpcG-FtexZHM-VeZuDPC.webp"
+    },
     "image": "./assets/img/menu/syrnyky-meringue.webp",
     "ingredients": [
       "Сирники з сиру 9%",
@@ -1138,6 +1202,10 @@
     "price": "220 ₴",
     "weight": "300 г",
     "notes": "Дуже ніжні млинці з вершковою сирною начинкою, доповнені солодкою сметаною та яскравим смородиновим джемом. Завершує подачу ароматна зелена олія, що додає свіжого трав’яного акценту.",
+    "choiceqr": {
+      "name": "МЛИНЦІ З СИРОМ ТА СМОРОДИНОВИМ ДЖЕМОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/WgukCbu-pxHYPDm-DPHkBbl.webp"
+    },
     "image": "./assets/img/menu/sweet-cheese-pancakes.webp",
     "ingredients": [
       "Трубочки млинців із солодким сиром",
@@ -1190,6 +1258,10 @@
     "price": "235 ₴",
     "weight": "280 г",
     "notes": "Ніжне тісто, соковита вишня та легка ягідна кислинка, посипається фісташкою та сезонними ягодами.",
+    "choiceqr": {
+      "name": "ВАРЕНИКИ З ВИШНЕЮ ТА ПОЛУНИЧНИМ КЮЛІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/JErGmIL-CSSMIVC-HFqDTIG.webp"
+    },
     "image": "./assets/img/menu/cherry-varenyky-strawberry-coulis.webp",
     "ingredients": [
       "Фіолетове тісто на буряковому соці",
@@ -1260,6 +1332,10 @@
     "price": "225 ₴",
     "weight": "160 г",
     "notes": "Тонко нарізане слабосолене філе дорадо, заправлене лимонним фрешем і соусом понзу. Подається зі свіжим шпинатом, маринованою редискою, ніжним вершковим соусом, зеленою олією, кунжутом і зеленою цибулею, що підкреслюють свіжість та делікатний смак риби.",
+    "choiceqr": {
+      "name": "КРУДО З ДОРАДО",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/vPdfeok-wJJhuGl-vfqqJkl.webp"
+    },
     "image": "./assets/img/menu/crudo-dorado.webp",
     "ingredients": [
       "Дорадо с/с",
@@ -1351,6 +1427,10 @@
     "price": "340 ₴",
     "weight": "180 г",
     "notes": "Соковитий ростбіф із ніжної яловичини, хрусткий чіпс із каперсів та поєднання гірчичного і вишуканого соусу вітелло тоннато - справжня гастрономічна насолода!",
+    "choiceqr": {
+      "name": "ВІТЕЛЛО ТОННАТО",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/lXMVkGj-iWYZkGa-hnbeAtu.webp"
+    },
     "image": "./assets/img/menu/vitello-tonnato.webp",
     "ingredients": [
       "Ростбіф",
@@ -1414,6 +1494,10 @@
     "price": "435 ₴",
     "weight": "285 г",
     "notes": "Салямі, прошутто, чорізо, дорблю, маасдам, брі, гауда, вʼялені томати, сирні грінки, соус обліпиховий",
+    "choiceqr": {
+      "name": "АНТИПАСТІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/rSIbFgD-bgofQGJ-ulPkCWG.webp"
+    },
     "image": "./assets/img/menu/antipasti.webp",
     "ingredients": [
       "Сири камамбер",
@@ -1497,6 +1581,10 @@
     "price": "285 ₴",
     "weight": "210 г",
     "notes": "Лосось власного посолу на подушці з лабне",
+    "choiceqr": {
+      "name": "БРУСКЕТА З ЛОСОСЕМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/FpzhAAL-YGluOJO-jhmbUEJ.webp"
+    },
     "image": "./assets/img/menu/salmon-bruschetta.webp",
     "ingredients": [
       "Хліб",
@@ -1582,6 +1670,10 @@
     "price": "385 ₴",
     "weight": "230 г",
     "notes": "подаємо в хрусткому пані пурі з соусом понзу",
+    "choiceqr": {
+      "name": "ТАРТАР ІЗ ТУНЦЯ ТА КРЕВЕТОК",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/ItblUHH-WYBeuO-WMBInKh.jpeg.webp"
+    },
     "image": "./assets/img/menu/tuna-tartare.webp",
     "ingredients": [
       "Паніпурі",
@@ -1673,6 +1765,10 @@
     "price": "335 ₴",
     "weight": "190 г",
     "notes": "Подаємо з соусом із печеного перцю, емульсією з жовтка, маринованою цибулею шалот та анчоусами (але можна і без)",
+    "choiceqr": {
+      "name": "ТАРТАР ІЗ ЯЛОВИЧИНИ З АНЧОУСАМИ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/kZCtunb-WZEpjVe-mHHEJqa.jpeg.webp"
+    },
     "image": "./assets/img/menu/beef-tartare.webp",
     "ingredients": [
       "Теляча вирізка",
@@ -1793,6 +1889,10 @@
     "price": "325 ₴",
     "weight": "150 г",
     "notes": "подаємо із пікантним соусом кімчі",
+    "choiceqr": {
+      "name": "КРЕВЕТКА ТЕМПУРА",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/ZdJzjgb-AvBHCCk-biMbVkC.webp"
+    },
     "image": "./assets/img/menu/tempura-shrimp.webp",
     "ingredients": [
       "Креветки тигрові",
@@ -1862,6 +1962,10 @@
     "price": "295 ₴",
     "weight": "220 г",
     "notes": "Ніжний лососевий рієт у поєднанні з повітряним сирно-вершковим мусом та сиром Філадельфія. Подається з лимонним теріякі, підсмаженим на вершковому маслі тостовим хлібом і зеленою цибулею.",
+    "choiceqr": {
+      "name": "РІЄТ ІЗ ЛОСОСЯ З ВЕРШКОВИМ МУСОМ ТА ЦИТРУСОВИМ ТЕРІЯКІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/lRweHDa-JeeJsQP-sGhnDAv.webp"
+    },
     "image": "./assets/img/menu/salmon-riette.webp",
     "ingredients": [
       "Рієт з лосося",
@@ -1947,6 +2051,10 @@
     "price": "175 ₴",
     "weight": "250 г",
     "notes": "філе малосольного оселедця та тепла картопля, подаємо з маринованою цибулею та лабне",
+    "choiceqr": {
+      "name": "МАЛОСОЛЬНІ ОСЕЛЕДЦІ З КАРТОПЛЕЮ, ТЕПЛИМ ЯЙЦЕМ ТА ЙОГУРТОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/bImuJJi-WOGYCzZ-clJqUXm.webp"
+    },
     "image": "./assets/img/menu/salted-herring.webp",
     "ingredients": [
       "Оселедець філе",
@@ -2014,6 +2122,10 @@
     "price": "215 ₴",
     "weight": "240 г",
     "notes": "подаємо з гречаними грінками",
+    "choiceqr": {
+      "name": "ПАШТЕТ ІЗ КУРЯЧОЇ ПЕЧІНКИ З ЦИБУЛЕВИМ ЧАТНІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/LDsikIR-GESDRTn-bZFuSEd.webp"
+    },
     "image": "./assets/img/menu/chicken-pate.webp",
     "ingredients": [
       "Паштет",
@@ -2088,6 +2200,10 @@
     "price": "245 ₴",
     "weight": "190 г",
     "notes": "Хрусткі шрімпкейки з ніжною начинкою з курячого філе та креветки, пікантним перцевим джемом, ніжним соусом кімчі, солодко-солоним унагі та свіжою зеленою цибулею.",
+    "choiceqr": {
+      "name": "SHRIMP-КЕЙКИ SURF&TURF",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/AhKyJyX-iEDPJWG-pblqRkw.webp"
+    },
     "image": "./assets/img/menu/shrimp-cakes-surf-turf.webp",
     "ingredients": [
       "Куряче філе",
@@ -2159,6 +2275,10 @@
     "price": "435 ₴",
     "weight": "325 г",
     "notes": "молодий ромен, м'яке яйце, авокадо та обсмажена креветка, заправляємо соусом з пармезаном та анчоусам",
+    "choiceqr": {
+      "name": "ЦЕЗАР З КРЕВЕТКОЮ ТА АВОКАДО",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/XiGXCUh-nRFdVtg-fdjJHGr.jpeg.webp"
+    },
     "image": "./assets/img/menu/caesar-shrimp.webp",
     "ingredients": [
       "Креветка тигрова",
@@ -2263,6 +2383,10 @@
     "price": "335 ₴",
     "weight": "300 г",
     "notes": "молодий ромен, м'яке яйце, крихта бекону, соус з пармезаном і анчоусами та дуже соковита курка в хрумкій скоринці",
+    "choiceqr": {
+      "name": "ЦЕЗАР З ХРУМКОЮ КУРКОЮ, М'ЯКИМ ЯЙЦЕМ ТА ЧІПСАМИ З БЕКОНУ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/YFubIEt-blKKaJE-jwRDezR.webp"
+    },
     "image": "./assets/img/menu/caesar-chicken-bacon.webp",
     "ingredients": [
       "Ромен",
@@ -2362,6 +2486,10 @@
     "price": "345 ₴",
     "weight": "220 г",
     "notes": "мікс зелені, копчене качине філе, томати, нектарин, ягідний соус.",
+    "choiceqr": {
+      "name": "САЛАТ ІЗ КАЧИНИМ ФІЛЕ ТА ЯГІДНИМ СОУСОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/CJNZqOH-uDUiStd-lnrXkkM.webp"
+    },
     "image": "./assets/img/menu/duck-fillet-salad.webp",
     "ingredients": [
       "Мікс салату",
@@ -2426,6 +2554,10 @@
     "price": "275 ₴",
     "weight": "350 г",
     "notes": "мікс томатів, перець, огірки, редис, синя цибуля, петрушка, фета, песто та джем з оливок , заправляємо грецькою оливковою олією.",
+    "choiceqr": {
+      "name": "ГРЕЦЬКИЙ З ПЕСТО З СЕЗОННОЇ ЗЕЛЕНІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/PXEJhSv-nTFxQQf-eKDAMCG.webp"
+    },
     "image": "./assets/img/menu/greek-pesto.webp",
     "ingredients": [
       "Огірок",
@@ -2516,6 +2648,10 @@
     "price": "355 ₴",
     "weight": "250 г",
     "notes": "мікс освіжаючої зелені, картопля конфі, запечена морква та цибуля, яловичина гриль, копчені гливи, наш хумус та песто, посипаємо журавлиною",
+    "choiceqr": {
+      "name": "САЛАТ ІЗ ЯЛОВИЧИНОЮ ТА ХУМУСОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/aRDuLHM-klaMJOM-IKFMbKu.webp"
+    },
     "image": "./assets/img/menu/beef-hummus-salad.webp",
     "ingredients": [
       "Хумус",
@@ -2606,6 +2742,10 @@
     "price": "425 ₴",
     "weight": "260 г",
     "notes": "улюблене поєднання: авокадо, лосось, манго, огірки, томати, мікс молодої зелені, крем сир, які заправляємо оливковою олією з фрешем лимону.",
+    "choiceqr": {
+      "name": "САЛАТ ІЗ ЛОСОСЕМ, МАНГО ТА АВОКАДО",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/ILpAjHZ-dPwWcVJ-TIDklav.webp"
+    },
     "image": "./assets/img/menu/salmon-mango-avocado-salad.webp",
     "ingredients": [
       "Мікс салату",
@@ -2691,6 +2831,10 @@
     "price": "355 ₴",
     "weight": "200 г",
     "notes": "Філе тунця, салат, соковите манго, авокадо, свіжий огірок, кунжут та соус понзу з фрешем лайма - легка, яскрава та освіжаюча страва з азійськими нотами.",
+    "choiceqr": {
+      "name": "ЗЕЛЕНИЙ САЛАТ З ТУНЦЕМ ТАТАКІ ТА АВОКАДО",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/FGFnDsK-aZIqNie-HkJfqkL.webp"
+    },
     "image": "./assets/img/menu/tuna-tataki-salad.webp",
     "ingredients": [
       "Салат",
@@ -2772,6 +2916,10 @@
     "price": "245 ₴",
     "weight": "480 г",
     "notes": "з зеленим салом та часниковими пампушками",
+    "choiceqr": {
+      "name": "ДУЖЕ ЧЕРВОНИЙ БОРЩ ЗІ СВИНЯЧИМ РЕБЕРЦЕМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/tDNEZRG-ihiSCQG-pHvQZzV.jpeg.webp"
+    },
     "image": "./assets/img/menu/red-borscht.webp",
     "ingredients": [
       "Борщ",
@@ -2846,6 +2994,10 @@
     "price": "165 ₴",
     "weight": "380 г",
     "notes": "легкий курячий бульйон з фреш пастою, курячими мітболами, половинкою курячого яйця, зеленим горошком та зеленню",
+    "choiceqr": {
+      "name": "БУЛЬЙОН З МІТ БОЛАМИ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/bSCGkKR-kbhmRcf-GSYYThe.jpeg.webp"
+    },
     "image": "./assets/img/menu/chicken-meatball-broth.webp",
     "ingredients": [
       "Курячий бульйон",
@@ -2914,6 +3066,10 @@
     "price": "295 ₴",
     "weight": "430 г",
     "notes": "Насичений ароматний бульйон із яловичини та курки з пряними нотами спецій, рисовою локшиною й ніжним ростбіфом, паростками сої, кінзою, лаймом, заправкою чилі та соусом хойсін.",
+    "choiceqr": {
+      "name": "ФО БО З ЯЛОВИЧИНОЮ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/kQzGdZd-ivkAGFW-slCDvJm.webp"
+    },
     "image": "./assets/img/menu/pho-bo.webp",
     "ingredients": [
       "Яловичо-курячий бульйон",
@@ -2999,6 +3155,10 @@
     "price": "326 ₴",
     "weight": "260 г",
     "notes": "Ніжний крем-суп із форелі з вершковою текстурою, пікантними нотами том яму та місо, легкою цитрусовою свіжістю й ароматом копченої паприки, доповнений зеленою цибулею.",
+    "choiceqr": {
+      "name": "ПРЯНИЙ КРЕМ-СУП З ФОРЕЛІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/klmvjmh-vnTKckQ-CHEHClJ.webp"
+    },
     "image": "./assets/img/menu/spicy-trout-cream-soup.webp",
     "ingredients": [
       "Філе форелі",
@@ -3075,6 +3235,10 @@
     "price": "220 ₴",
     "weight": "320 г",
     "notes": "Оксамитовий гарбузовий крем із вершковими нотами, подається з соковитими креветками та свіжою зеленою олією. Тепла, пряна та затишна страва з атмосферою осіннього вечора.",
+    "choiceqr": {
+      "name": "КРЕМ СУП З ГАРБУЗА",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/DTzUEvg-JRQDurV-LxDISqc.webp"
+    },
     "image": "./assets/img/menu/pumpkin-cream-soup.webp",
     "ingredients": [
       "Крем з гарбуза",
@@ -3139,6 +3303,10 @@
     "price": "335 ₴",
     "weight": "370 г",
     "notes": "Ідеальне поєднання ніжного томатно-вершкового соусу і соковитого курячого стегна в хрумкій паніровці",
+    "choiceqr": {
+      "name": "ПАСТА ЗІ ШНІЦЕЛЕМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/bxkKkwr-vjCsCYr-bGhZsfG.webp"
+    },
     "image": "./assets/img/menu/schnitzel-pasta.webp",
     "ingredients": [
       "Паста",
@@ -3213,6 +3381,10 @@
     "price": "325 ₴",
     "weight": "250 г",
     "notes": "Подаємо у вершковому соусі з сиром пармезан, та посипаємо крихтою фісташки.",
+    "choiceqr": {
+      "name": "РАВІОЛІ З РІКОТОЮ ТА ШПИНАТОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/drEJOMI-adeyboc-CgvqeRu.webp"
+    },
     "image": "./assets/img/menu/ricotta-spinach-ravioli.webp",
     "ingredients": [
       "Равіолі шпинатні",
@@ -3285,6 +3457,10 @@
     "price": "365 ₴",
     "weight": "300 г",
     "notes": "Ніжні равіолі з ароматною копченою качкою, вершковим маскарпоне та витриманим пармезаном, доповнені соусом деміглас, солодкою цибулею чатні, в'яленими томатами та зеленим горошком.",
+    "choiceqr": {
+      "name": "РАВІОЛІ З КОПЧЕНОЮ КАЧКОЮ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/nWRfqFs-nfFarDy-CFZJKJV.webp"
+    },
     "image": "./assets/img/menu/smoked-duck-ravioli.webp",
     "ingredients": [
       "Копчене качине філе",
@@ -3367,6 +3543,10 @@
     "price": "329 ₴",
     "weight": "300 г",
     "notes": "Пшенична локшина з ніжною телятиною та стручковою квасолею в насиченому пряному соусі з цитрусовими нотками, маслом бернуазет, кріспі чилі, цибулею та пармезаном.",
+    "choiceqr": {
+      "name": "УДОН З ЯЛОВИЧИНОЮ ТОНКАЦУ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/dVlTlCV-cMToODD-AXoomxq.webp"
+    },
     "image": "./assets/img/menu/beef-udon.webp",
     "ingredients": [
       "Пшенична локшина удон",
@@ -3455,6 +3635,10 @@
     "price": "318 ₴",
     "weight": "230 г",
     "notes": "Ніжні пельмені з креветково-курячою начинкою, подані з вершковим грецьким йогуртом, ароматним кропом, розтопленим вершковим маслом і скибочками слабосоленого лосося.",
+    "choiceqr": {
+      "name": "ПЕЛЬМЕНІ З КРЕВЕТКАМИ ТА ФОРЕЛЛЮ СЛАБОЇ СОЛІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/CDkfUsP-AJuLeCM-HeztjIl.webp"
+    },
     "image": "./assets/img/menu/shrimp-pelmeni.webp",
     "ingredients": [
       "Тісто на воді та борошні",
@@ -3531,6 +3715,10 @@
     "price": "269 ₴",
     "weight": "270 г",
     "notes": "Тонкі шари пасти з насиченим болоньєзе з яловичини та ніжним соусом бешамель. Доповнена сирним соусом із пармезану, краплею соусу унагі та свіжим базиліком — класична італійська страва з сучасним акцентом.",
+    "choiceqr": {
+      "name": "ЛАЗАНЬЄТТА",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/EWgmGWo-TbISoMI-xHQIvoy.webp"
+    },
     "image": "./assets/img/menu/lasagnetta.webp",
     "ingredients": [
       "Фарш болоньєзе",
@@ -3609,6 +3797,10 @@
     "price": "347 ₴",
     "weight": "500 г",
     "notes": "Запечений баклажан з рубленою яловичиною та моцарелою під вершковим соусом, соусами унагі та блек пепер, пармезаном. Подається з хрусткою картоплею фрі.",
+    "choiceqr": {
+      "name": "БАКЛАЖАН З РУБЛЕНОЮ ЯЛОВИЧИНОЮ, ЧИЛІ-КРІСПОМ ТА СОУСОМ БЛЕК ПЕПЕР",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/yITYtbk-OqspklK-CyVFGMy.webp"
+    },
     "image": "./assets/img/menu/baked-eggplant-beef.webp",
     "ingredients": [
       "Запечений баклажан",
@@ -3715,6 +3907,10 @@
     "price": "335 ₴ / 100 г",
     "weight": "",
     "notes": "(Україна)",
+    "choiceqr": {
+      "name": "СТЕЙК РІБАЙ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/nXrwQmL-dXmFjmC-locrIyC.webp"
+    },
     "image": "./assets/img/menu/ribeye-steak.webp",
     "ingredients": [
       "Телятина рібай 21+ день витримки",
@@ -3773,6 +3969,10 @@
     "price": "345 ₴ / 100 г",
     "weight": "",
     "notes": "Подаємо з вишневим соусом",
+    "choiceqr": {
+      "name": "МЕДАЛЬЙОНИ З ЯЛОВИЧИНИ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/WNyDlDk-eLUDptB-cvxKdNC.webp"
+    },
     "image": "./assets/img/menu/veal-medallion.webp",
     "ingredients": [
       "Теляча вирізка",
@@ -3817,6 +4017,10 @@
     "price": "295 ₴ / 100 г",
     "weight": "",
     "notes": "з солодким печеним перцем та пеппер соусом",
+    "choiceqr": {
+      "name": "КАРЕ ТЕЛЯТИНИ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/AemkHlE-CaYaCGU-hhbruUt.webp"
+    },
     "image": "./assets/img/menu/veal-rack.webp",
     "ingredients": [
       "Каре телятини",
@@ -3884,6 +4088,10 @@
     "price": "425 ₴",
     "weight": "290 г",
     "notes": "Пастрамі з яловичини, молода картопля, подаємо на подушці з лабне, з молодим горошком, шпинатом, песто та печеним часником.",
+    "choiceqr": {
+      "name": "ПАСТРАМІ ІЗ ЯЛОВИЧИНИ З КАРТОПЛЕЮ ТА ЛАБНЕ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/MejpltI-rXXNUsy-bOHYblx.webp"
+    },
     "image": "./assets/img/menu/pastrami-labneh.webp",
     "ingredients": [
       "Яловий биток пастрамі",
@@ -3957,6 +4165,10 @@
     "price": "470 ₴",
     "weight": "370 г",
     "notes": "подаємо з джемом із журавлини",
+    "choiceqr": {
+      "name": "КАЧИНА ГРУДКА З КРЕМОМ З КУКУРУДЗИ ТА ГРУШЕЮ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/FKAtKad-apVMYIi-kohCwoK.jpeg.webp"
+    },
     "image": "./assets/img/menu/duck-breast.webp",
     "ingredients": [
       "Качине філе су-від",
@@ -4028,6 +4240,10 @@
     "price": "355 ₴",
     "weight": "360 г",
     "notes": "Класична італійська свиняча корейка на кістці в хрусткій золотистій паніровці, обсмажена до досконалої скоринки. Подається з томатним соусом, запеченою моцарелою, свіжим болгарським перцем, шпинатом, а пряна кріспі-суміш із чилі додає страві виразного смаку, який точно запам'ятається.",
+    "choiceqr": {
+      "name": "КОРЕЙКА МІЛАНЕЗЕ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/AJKYCPQ-voqDHbV-HnPJDVT.webp"
+    },
     "image": "./assets/img/menu/pork-milanese.webp",
     "ingredients": [
       "Свиняча корейка на кістці",
@@ -4101,6 +4317,10 @@
     "price": "295 ₴",
     "weight": "300 г",
     "notes": "Ніжне філе індички, фаршироване хамоном і тягучою моцарелою, у хрусткій золотистій паніровці. Подається з ніжним гірчичним соусом, доповнюється пікантним майонезом кімчі та свіжою зеленню.",
+    "choiceqr": {
+      "name": "КОРДОН БЛЮ З ІНДИЧКИ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/bCPVCby-aTfAIfU-vDnJYta.webp"
+    },
     "image": "./assets/img/menu/cordon-bleu-turkey.webp",
     "ingredients": [
       "Індиче філе су-від",
@@ -4175,6 +4395,10 @@
     "price": "325 ₴",
     "weight": "300 г",
     "notes": "Соковите стегно курчати з картопляним пюре, соусом чімічурі та шпинатом. Ідеальний обід 👌🏼",
+    "choiceqr": {
+      "name": "КУРЯЧЕ СТЕГНО З ІДЕАЛЬНИМ ПЮРЕ ТА ШПИНАТОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/hrFUdGY-rkUCHrC-mYoTbve.webp"
+    },
     "image": "./assets/img/menu/chicken-thigh-puree.webp",
     "ingredients": [
       "Куряче стегно мариноване",
@@ -4233,6 +4457,10 @@
     "price": "375 ₴",
     "weight": "350 г",
     "notes": "Дві соковиті біф-котлети, подвійний сир чедер, мариновані огірки та цибуля, цибулевий крісп, кетчуп, діжонська гірчиця та айолі у пухкій булочці.",
+    "choiceqr": {
+      "name": "СМЕШ ДАБЛ ЧИЗБУРГЕР",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/Jdxtvev-yvmLhLT-YHmDAZC.webp"
+    },
     "image": "./assets/img/menu/double-smash-cheeseburger.webp",
     "ingredients": [
       "Булочка бріош",
@@ -4320,6 +4548,10 @@
     "price": "197 ₴ / 100 г",
     "weight": "",
     "notes": "Тунець татакі із соковитою серединкою та ніжною текстурою. Подаємо із пікантним соусом теріякі, шпинатом та кріспі з часником та чілі.",
+    "choiceqr": {
+      "name": "СТЕЙК З ТУНЦЯ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/dUIWbPm-HXmlDZy-aABNMJL.webp"
+    },
     "image": "./assets/img/menu/tuna-steak.webp",
     "ingredients": [
       "Тунець татакі",
@@ -4387,6 +4619,10 @@
     "price": "315 ₴ / 100 г",
     "weight": "",
     "notes": "з запеченою картоплею та шпинатом",
+    "choiceqr": {
+      "name": "ЛОСОСЬ З ХРУСТКОЮ СКОРИНКОЮ НА КРЕМІ З ТОМАТІВ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/bBvMeaE-fAKnsoJ-fiIBJHg.webp"
+    },
     "image": "./assets/img/menu/crispy-skin-salmon.webp",
     "ingredients": [
       "Філе лосося",
@@ -4458,6 +4694,10 @@
     "price": "335 ₴",
     "weight": "350 г",
     "notes": "Приготований із пряною сумішшю спецій. Подається з вершковим картопляним пюре, зеленню та лимонно-теріякі соусом.",
+    "choiceqr": {
+      "name": "БИТОК ІЗ ЛОСОСЯ, КРЕВЕТОК І ФЕРМЕРСЬКОЇ ТИЛАПІЇ З ЛИМОННИМ ТЕРІЯКІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/KxjExCU-mFQJcSJ-TJjHtYw.webp"
+    },
     "image": "./assets/img/menu/salmon-patty.webp",
     "ingredients": [
       "Фарш",
@@ -4537,6 +4777,10 @@
     "price": "395 ₴",
     "weight": "250 г",
     "notes": "креветки, мідії, кальмари у соусі з білого вина, з молодою картоплею конфі та біском з креветок",
+    "choiceqr": {
+      "name": "СОТЕ З МОРЕПРОДУКТАМИ ТА БІСКОМ ІЗ КРЕВЕТОК",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/sZJDbYe-ZviJBoh-QegTPpd.webp"
+    },
     "image": "./assets/img/menu/seafood-saute-bisque.webp",
     "ingredients": [
       "Креветки",
@@ -4610,6 +4854,10 @@
     "price": "244 ₴",
     "weight": "420 г",
     "notes": "Томати, моцарела та свіжий базилік. Неаполітанська класика з леопардовою скоринкою.",
+    "choiceqr": {
+      "name": "МАРГАРИТА",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/QSflJGH-ASuNEpj-KWCmNWg.webp"
+    },
     "image": "./assets/img/menu/pizza-margherita.webp",
     "ingredients": [
       "Томатний соус для піци",
@@ -4675,6 +4923,10 @@
     "price": "345 ₴",
     "weight": "440 г",
     "notes": "соковита, мʼясна з пікантним присмаком та кремовим післясмаком",
+    "choiceqr": {
+      "name": "PIZZA|ПЕПЕРОНІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/cvGQwlM-oSnFBWt-ukJjxfP.webp"
+    },
     "image": "./assets/img/menu/pizza-pepperoni.webp",
     "ingredients": [
       "Томатний соус для піци",
@@ -4733,6 +4985,10 @@
     "price": "326 ₴",
     "weight": "490 г",
     "notes": "томатна основа, карамелізований ананас, куряче стегно, моцарела, пармезан",
+    "choiceqr": {
+      "name": "З АНАНАСОМ ТА КУРЯЧИМ СТЕГНОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/siIXQwG-INeFcDT-NjZAOqG.webp"
+    },
     "image": "./assets/img/menu/pizza-chicken-pineapple.webp",
     "ingredients": [
       "Томатний соус для піци",
@@ -4805,6 +5061,10 @@
     "price": "308 ₴",
     "weight": "430 г",
     "notes": "томатна основа, моцарела, куряче стегно, гливи копчені, пармезан",
+    "choiceqr": {
+      "name": "З СОКОВИТИМ КУРЯЧИМ СТЕГНОМ ТА КОПЧЕНИМИ ГЛИВАМИ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/YFkGdQX-HeFbDhH-RMoaCGf.webp"
+    },
     "image": "./assets/img/menu/pizza-chicken-oyster-mushrooms.webp",
     "ingredients": [
       "Томатний соус для піци",
@@ -4870,6 +5130,10 @@
     "price": "348 ₴",
     "weight": "470 г",
     "notes": "Ніжна телятина, свіжа рукола, маринована цибуля, моцарела й вишуканий аромат трюфельної олії.",
+    "choiceqr": {
+      "name": "З ТОМЛЕНОЮ ЯЛОВИЧИНОЮ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/SJHmzYD-FnsLQlG-EJzCGAH.webp"
+    },
     "image": "./assets/img/menu/pizza-braised-beef.webp",
     "ingredients": [
       "Томатний соус + вершки",
@@ -4938,6 +5202,10 @@
     "price": "369 ₴",
     "weight": "460 г",
     "notes": "Італійський характер у кожному шматочку: ростбіф, в'ялені томати, рукола, каперси. моцарела та песто.",
+    "choiceqr": {
+      "name": "З РОСТБІФОМ, РУКОЛОЮ ТА В'ЯЛЕНИМИ ТОМАТАМИ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/klOHLFz-sfKphkk-EzrSNoi.webp"
+    },
     "image": "./assets/img/menu/pizza-roastbeef.webp",
     "ingredients": [
       "Томатний соус для піци",
@@ -5013,6 +5281,10 @@
     "price": "315 ₴",
     "weight": "520 г",
     "notes": "томатна основа, баклажан, цукіні, гриби ерінги, томати, часник конфі, соус з каперсами",
+    "choiceqr": {
+      "name": "ВЕГАН",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/vyHtviv-ebreVIB-eOGGxHr.webp"
+    },
     "image": "./assets/img/menu/pizza-vegan.webp",
     "ingredients": [
       "Томатний соус для піци",
@@ -5080,6 +5352,10 @@
     "price": "345 ₴",
     "weight": "400 г",
     "notes": "Преміальна біла піца з вершковим соусом та благородним поєднанням чотирьох сирів.",
+    "choiceqr": {
+      "name": "Б'ЯНКА З РІКОТТОЮ ТА ДОРБЛЮ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/IGYCDmj-xtkxuUj-JRzbLFV.webp"
+    },
     "image": "./assets/img/menu/pizza-bianca.webp",
     "ingredients": [
       "Вершковий соус",
@@ -5153,6 +5429,10 @@
     "price": "344 ₴",
     "weight": "430 г",
     "notes": "з журавлиною та малиновим соусом",
+    "choiceqr": {
+      "name": "З КРАФТОВИМИ СИРАМИ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/DQJYBhM-INgHuUf-JWJlpJo.webp"
+    },
     "image": "./assets/img/menu/pizza-craft-cheeses.webp",
     "ingredients": [
       "Вершковий соус",
@@ -5224,6 +5504,10 @@
     "price": "435 ₴",
     "weight": "420 г",
     "notes": "Вишукане поєднання лосося, свіжого шпинату, моцарели та пармезану на хрусткому тісті з вершковою основою.",
+    "choiceqr": {
+      "name": "З ЛОСОСЕМ ТА ШПИНАТОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/SGiXkyP-yCUbgHt-RjktIyd.webp"
+    },
     "image": "./assets/img/menu/pizza-salmon-spinach.webp",
     "ingredients": [
       "Вершковий соус",
@@ -5301,6 +5585,10 @@
     "price": "375 ₴",
     "weight": "450 г",
     "notes": "Поєднання білих грибів, сиру дорблю, моцарели, пармезану та трюфельної пасти на вершковій основі.",
+    "choiceqr": {
+      "name": "З БІЛИМИ ГРИБАМИ ТА ПАРМЕЗАНОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/esOfJVC-zhereQB-JTQHhJB.webp"
+    },
     "image": "./assets/img/menu/pizza-porcini.webp",
     "ingredients": [
       "Вершковий соус",
@@ -5374,6 +5662,10 @@
     "price": "325 ₴",
     "weight": "450 г",
     "notes": "дуже сирна та дуже грибна, піцца з моцарелою та ДорБлю, ерінгами, трюфельною пастою та солодким цибулевим мармеладом.",
+    "choiceqr": {
+      "name": "ТРЮФЕЛЬНА З ДОРБЛЮ, ЕРІНГАМИ ТА ЦИБУЛЕВИМ МАРМЕЛАДОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/RTColvI-uiHObbG-iKNVryI.webp"
+    },
     "image": "./assets/img/menu/pizza-truffle-mushroom.webp",
     "ingredients": [
       "Вершковий соус",
@@ -5459,6 +5751,10 @@
     "price": "165 ₴",
     "weight": "200 г",
     "notes": "Преміальна біла піца з вершковим соусом та благородним поєднанням чотирьох сирів.",
+    "choiceqr": {
+      "name": "Б'ЯНКА МІНІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/HCFplKE-JkweEkB-YdqipzF.webp"
+    },
     "image": "./assets/img/menu/pizza-bianca-mini.webp",
     "ingredients": [
       "Вершковий соус",
@@ -5531,6 +5827,10 @@
     "price": "165 ₴",
     "weight": "200 г",
     "notes": "Вишукане поєднання лосося, свіжого шпинату, моцарели та пармезану на хрусткому тісті з вершковою основою.",
+    "choiceqr": {
+      "name": "ЛОСОСЬ - ШПИНАТ МІНІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/UACrUJL-KJDGXCO-smJxGqo.webp"
+    },
     "image": "./assets/img/menu/pizza-salmon-spinach-mini.webp",
     "ingredients": [
       "Вершковий соус",
@@ -5602,6 +5902,10 @@
     "price": "165 ₴",
     "weight": "200 г",
     "notes": "Соковита, мʼясна з пікантним присмаком та кремовим післясмаком.",
+    "choiceqr": {
+      "name": "MINI PIZZA|ПЕПЕРОНІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/GZNjBbW-rdCJYEY-CIWmDlo.webp"
+    },
     "image": "./assets/img/menu/pizza-pepperoni-mini.webp",
     "ingredients": [
       "Томатний соус для піци",
@@ -5660,6 +5964,10 @@
     "price": "175 ₴",
     "weight": "220 г",
     "notes": "Класичний Наполеон, ми приготували з кремом з натуральної індонезійської ванілі. Солодкий та ароматний, ідеально з фільтр кавою та американо .",
+    "choiceqr": {
+      "name": "НАПОЛЕОН З ВАНІЛЬНИМ КРЕМОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/ufZEufi-belebnQ-jFrejjA.webp"
+    },
     "image": "./assets/img/menu/napoleon-vanilla.webp",
     "ingredients": [
       "Листкові коржі",
@@ -5714,6 +6022,10 @@
     "price": "175 ₴",
     "weight": "150 г",
     "notes": "тонке тісто, ніжний, насичений крем та кокосове праліне",
+    "choiceqr": {
+      "name": "НАПОЛЕОН КОКОСОВИЙ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/suMquII-FCDzpoE-nDzFtDZ.webp"
+    },
     "image": "./assets/img/menu/napoleon-coconut.webp",
     "ingredients": [
       "Листкові коржі",
@@ -5794,6 +6106,10 @@
     "price": "185 ₴",
     "weight": "170 г",
     "notes": "шари медового тіста з ароматним маком, ніжний крем і ягідна вишнева начинка",
+    "choiceqr": {
+      "name": "МАКОВИЙ МЕДОВИК З ВИШНЕЮ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/dBebfFi-IhQGGQo-rhZKsNo.webp"
+    },
     "image": "./assets/img/menu/poppy-seed-medovik.webp",
     "ingredients": [
       "Медові коржі",
@@ -5859,6 +6175,10 @@
     "price": "175 ₴",
     "weight": "160 г",
     "notes": "гармонійне поєднання ніжного маскарпоне та насиченого кавового аромату",
+    "choiceqr": {
+      "name": "МАЙЖЕ КЛАСИЧНИЙ ТІРАМІСУ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/QWXjFOW-AsIOdts-VDHjDDo.webp"
+    },
     "image": "./assets/img/menu/classic-tiramisu.webp",
     "ingredients": [
       "Печиво савоярді",
@@ -5936,6 +6256,10 @@
     "price": "170 ₴",
     "weight": "170 г",
     "notes": "з морозивом та шоколадним соусом",
+    "choiceqr": {
+      "name": "ШОКОЛАДНИЙ ФОНДАН",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/bzaubej-oLItENg-MwlQVfp.webp"
+    },
     "image": "./assets/img/menu/chocolate-fondant.webp",
     "ingredients": [
       "Шоколадний кекс з рідким центром",
@@ -6001,6 +6325,10 @@
     "price": "55 ₴",
     "weight": "50 г",
     "notes": "морозиво власного виробництва",
+    "choiceqr": {
+      "name": "МОРОЗИВО",
+      "photo": ""
+    },
     "image": "",
     "ingredients": [
       "Вершки",
@@ -6088,6 +6416,10 @@
     "price": "200 ₴",
     "weight": "200 г",
     "notes": "Тонке тісто, ніжна начинка з соковитих яблук та родзинок. Подаємо теплим та хрустким з домашнім ванільним морозивом.",
+    "choiceqr": {
+      "name": "ШТРУДЕЛЬ З ЯБЛУКАМИ ТА ДОМАШНІМ МОРОЗИВОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/jbGcUJz-FDjDnZb-CtNFnhe.webp"
+    },
     "image": "./assets/img/menu/apple-strudel.webp",
     "ingredients": [
       "Тонке тісто",
@@ -6144,6 +6476,10 @@
     "price": "185 ₴",
     "weight": "180 г",
     "notes": "Ніжний вершково-карамельний чізкейк із насиченим кремом на соковитій основі з шоколадним брауні. Ідеальне поєднання кремової текстури, шоколадної насиченості та солодкої карамельної нотки.",
+    "choiceqr": {
+      "name": "КАРАМЕЛЬНИЙ ЧІЗКЕЙК З БРАУНІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/oFQSpqk-rVvDaeC-eybMUfK.webp"
+    },
     "image": "./assets/img/menu/caramel-cheesecake-brownie.webp",
     "ingredients": [
       "Шоколадне брауні",
@@ -6194,6 +6530,10 @@
     "price": "235 ₴",
     "weight": "260 г",
     "notes": "Ніжне тісто, соковита вишня та легка ягідна кислинка, посипаються фісташкою.",
+    "choiceqr": {
+      "name": "ВАРЕНИКИ З ВИШНЕЮ, ПОЛУНИЧНИМ КЮЛІ ТА ГОРІШКАМИ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/bkeUIsa-cFwOyXG-wcmzSEV.webp"
+    },
     "image": "./assets/img/menu/cherry-varenyky-nuts.webp",
     "ingredients": [
       "Тісто",
@@ -6250,6 +6590,10 @@
     "price": "145 ₴",
     "weight": "310 г",
     "notes": "легкий курячий бульйон з курячими мітболами, фреш пастою та половинкою курячого яйця",
+    "choiceqr": {
+      "name": "КУРЯЧИЙ БУЛЬЙОН З ФРИКАДЕЛЬКАМИ",
+      "photo": ""
+    },
     "image": "",
     "ingredients": [
       "Курячий бульйон",
@@ -6302,6 +6646,10 @@
     "price": "175 ₴",
     "weight": "280 г",
     "notes": "",
+    "choiceqr": {
+      "name": "КУРЯЧІ МІТБОЛИ З КАРТОПЛЯНИМ ПЮРЕ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/keWzLhl-LcJxbFp-AdzCuJI.webp"
+    },
     "image": "./assets/img/menu/kids-meatballs-puree.webp",
     "ingredients": [
       "Курячі мітболи",
@@ -6351,6 +6699,10 @@
     "price": "165 ₴",
     "weight": "190 г",
     "notes": "",
+    "choiceqr": {
+      "name": "СИРНИЧКИ ЗІ СМЕТАНОЮ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/jCeuiHb-jcFLDtw-CZCVcBM.webp"
+    },
     "image": "./assets/img/menu/kids-syrnychky.webp",
     "ingredients": [
       "Сирники",
@@ -6398,6 +6750,10 @@
     "price": "185 ₴",
     "weight": "150 г",
     "notes": "",
+    "choiceqr": {
+      "name": "ВЕРШКОВІ СПАГЕТТІ З ПАРМЕЗАНОМ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/eaCmbxw-dFFbpte-BhfDhMv.webp"
+    },
     "image": "./assets/img/menu/kids-creamy-spaghetti.webp",
     "ingredients": [
       "Спагетті",
@@ -6454,6 +6810,10 @@
     "price": "85 ₴",
     "weight": "",
     "notes": "",
+    "choiceqr": {
+      "name": "КАРТОПЛЯНЕ ПЮРЕ",
+      "photo": ""
+    },
     "image": "",
     "ingredients": [
       "Картопля",
@@ -6489,6 +6849,10 @@
     "price": "275 ₴",
     "weight": "260 г",
     "notes": "томати, болгарський перець, цукіні, баклажани та ерінг, подаємо з соусом чімічурі та часником конфі",
+    "choiceqr": {
+      "name": "ОВОЧІ ГРИЛЬ З ЧАСНИКОМ КОНФІ ТА СОУСОМ ЧІМІЧУРІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/SZbuFfW-pMjyoXu-bPYjQhp.webp"
+    },
     "image": "./assets/img/menu/grilled-vegetables.webp",
     "ingredients": [
       "Помідор",
@@ -6527,6 +6891,10 @@
     "price": "195 ₴",
     "weight": "240 г",
     "notes": "запечена бейбі картопля та ніжний зелений йогурт",
+    "choiceqr": {
+      "name": "ЗАПЕЧЕНА КАРТОПЛЯ З ЙОГУРТОМ ТА ЗЕЛЕНОЮ ОЛІЄЮ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/DJalfJH-NoSyDpG-FcktClV.webp"
+    },
     "image": "./assets/img/menu/baked-potatoes.webp",
     "ingredients": [
       "Запечена картопля",
@@ -6565,6 +6933,10 @@
     "price": "185 ₴",
     "weight": "150 г",
     "notes": "подаємо з соусом кімчі",
+    "choiceqr": {
+      "name": "БАТАТ ФРІ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/IqtztcF-WWfHGne-SipclwU.webp"
+    },
     "image": "./assets/img/menu/sweet-potato-fries.webp",
     "ingredients": [
       "Батат фрі",
@@ -6593,6 +6965,10 @@
     "price": "85 ₴",
     "weight": "",
     "notes": "подаємо з кетчупом",
+    "choiceqr": {
+      "name": "КАРТОПЛЯ ФРІ",
+      "photo": ""
+    },
     "image": "",
     "ingredients": [
       "Картопля фрі",

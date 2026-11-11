@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мій профіль | Residence Trainer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍷</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body class="auth-body profile-body">
+  <main class="auth-card profile-card" hidden>
+    <a id="profileBack" class="profile-back" href="./index.html">← До тренажера</a>
+
+    <div class="account-head profile-head">
+      <span id="profileAvatar" class="account-avatar" aria-hidden="true"></span>
+      <div>
+        <h1 id="profileName"></h1>
+        <p id="profileMeta"></p>
+      </div>
+    </div>
+
+    <section class="profile-section" aria-labelledby="nameTitle">
+      <h2 id="nameTitle" class="profile-section-title">Ім’я та прізвище</h2>
+      <p class="profile-hint">Так вас бачить адміністратор у результатах.</p>
+      <form id="nameForm" class="auth-form" novalidate>
+        <label class="auth-field">
+          <span>Ім’я</span>
+          <input name="firstName" type="text" autocomplete="given-name" maxlength="256" required>
+        </label>
+        <label class="auth-field">
+          <span>Прізвище</span>
+          <input name="lastName" type="text" autocomplete="family-name" maxlength="40" required>
+        </label>
+        <p class="auth-error" role="alert" hidden></p>
+        <p class="auth-success" role="status" hidden></p>
+        <button class="auth-submit" type="submit">Зберегти</button>
+      </form>
+    </section>
+
+    <section class="profile-section" aria-labelledby="passwordTitle">
+      <h2 id="passwordTitle" class="profile-section-title">Пароль</h2>
+      <p class="profile-hint">Щонайменше 8 символів. Після зміни на інших пристроях потрібно буде увійти знову.</p>
+      <form id="passwordForm" class="auth-form" novalidate>
+        <input type="text" name="username" autocomplete="username" hidden>
+        <label class="auth-field">
+          <span>Поточний пароль</span>
+          <span class="auth-password">
+            <input name="current" type="password" autocomplete="current-password" required>
+            <button type="button" class="auth-password-toggle" data-toggle-password aria-label="Показати пароль" aria-pressed="false">👁</button>
+          </span>
+        </label>
+        <label class="auth-field">
+          <span>Новий пароль</span>
+          <span class="auth-password">
+            <input name="password" type="password" autocomplete="new-password" minlength="8" required>
+            <button type="button" class="auth-password-toggle" data-toggle-password aria-label="Показати пароль" aria-pressed="false">👁</button>
+          </span>
+        </label>
+        <label class="auth-field">
+          <span>Повторіть новий пароль</span>
+          <span class="auth-password">
+            <input name="repeat" type="password" autocomplete="new-password" minlength="8" required>
+            <button type="button" class="auth-password-toggle" data-toggle-password aria-label="Показати пароль" aria-pressed="false">👁</button>
+          </span>
+        </label>
+        <p class="auth-error" role="alert" hidden></p>
+        <p class="auth-success" role="status" hidden></p>
+        <button class="auth-submit" type="submit">Змінити пароль</button>
+      </form>
+    </section>
+
+    <button id="profileSignOut" type="button" class="account-action account-signout profile-signout"><span aria-hidden="true">↪</span>Вийти</button>
+  </main>
+
+  <script type="module" src="./assets/js/profile.js"></script>
+</body>
+</html>

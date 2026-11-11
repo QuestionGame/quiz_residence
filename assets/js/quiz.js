@@ -1,8 +1,9 @@
-/* Quiz mode: category filters, building answer options, checking answers. */
+/* Quiz mode: building answer options, the test flow (forward / back / skip / finish), checking answers. */
 import { CONFIG, TEXT, groupLabel, groupOf, state, store } from './context.js';
 import { escapeHtml, formatItemCount, itemImage, shuffle, unique } from './utils.js';
 import { sound } from './sound.js';
 import { updateStatsUI } from './stats.js';
+import { recordAttempt } from './storage.js';
 
 const formatOption = (question, value) => (question.format ? question.format(value) : value);
 const asArray = value => (Array.isArray(value) ? value : value ? [value] : []);
@@ -55,21 +56,15 @@ export function buildOptions(question, item) {
   return shuffle([correct, ...picks]);
 }
 
-/* ---------------------------------------------------------- filters */
+/* ---------------------------------------------------------- catalog filters */
 
 export function renderCategoryFilters() {
   const counts = new Map();
   store.items.forEach(item => counts.set(groupOf(item), (counts.get(groupOf(item)) || 0) + 1));
 
-  const quizSelect = document.getElementById('quizCategoryFilter');
   const flashSelect = document.getElementById('flashcardCategoryFilter');
-  quizSelect.innerHTML = `<option value="ALL">${escapeHtml(TEXT.allItems)} (${store.items.length})</option>`;
   flashSelect.innerHTML = `<option value="ALL">Всі категорії</option>`;
-
-  counts.forEach((count, group) => {
-    quizSelect.add(new Option(`${groupLabel(group)} (${count})`, group));
-    flashSelect.add(new Option(groupLabel(group), group));
-  });
+  counts.forEach((count, group) => flashSelect.add(new Option(groupLabel(group), group)));
 
   document.getElementById('flashcardCountBadge').textContent = store.items.length;
   document.getElementById('flashcardResultCount').textContent = formatItemCount(store.items.length);
@@ -80,26 +75,40 @@ export function renderCategoryFilters() {
   ].join('');
 }
 
-/* ---------------------------------------------------------- quiz flow */
+/* ---------------------------------------------------------- quiz flow
+   A test is one pass over the pool and ends with a summary. Every visited question keeps its record in
+   state.history (shown options, answers, result), so "← Попереднє" shows it exactly as it was.
+   Mistake training is the exception: when the pool runs out it starts again with the items that are
+   still wrong, until none are left. */
+
+const mistakeItems = () => store.items.filter(item => state.stats.mistakesSet.has(item.id));
 
 export function initQuiz() {
-  applyFilterToPool();
-  state.currentIndex = 0;
-  loadQuizQuestion();
+  let pool = state.mistakesModeActive ? mistakeItems() : [];
+  if (!pool.length) {
+    setMistakeMode(false);
+    pool = [...store.items];
+  }
+  state.quizPool = shuffle(pool);
+  startRound();
 }
 
-/* "Тренувати цю позицію": the chosen item comes first, then the quiz continues over the whole menu
-   (a one-item pool would repeat the same item forever on "Наступна"). */
+/* "Тренувати цю позицію": the chosen item comes first, then the test continues over the whole menu. */
 export function startQuizForItem(itemId) {
   const item = store.items.find(entry => entry.id === itemId);
   if (!item) return false;
   setMistakeMode(false);
-  state.quizFilter = 'ALL';
-  document.getElementById('quizCategoryFilter').value = 'ALL';
   state.quizPool = [item, ...shuffle(store.items.filter(entry => entry !== item))];
-  state.currentIndex = 0;
-  loadQuizQuestion();
+  startRound();
   return true;
+}
+
+/* "Тренажер" picker: continue a regular test in progress, otherwise start a new one. */
+export function resumeOrRestartQuiz() {
+  if (state.finished || state.mistakesModeActive) {
+    setMistakeMode(false);
+    initQuiz();
+  }
 }
 
 export function setMistakeMode(active) {
@@ -107,42 +116,40 @@ export function setMistakeMode(active) {
   document.getElementById('mistakeModeIndicator').classList.toggle('hidden', !active);
 }
 
-function applyFilterToPool() {
-  if (state.mistakesModeActive) {
-    state.quizPool = store.items.filter(item => state.stats.mistakesSet.has(item.id));
-    if (state.quizPool.length === 0) {
-      setMistakeMode(false);
-      state.quizPool = [...store.items];
-    }
-  } else if (state.quizFilter === 'ALL') {
-    state.quizPool = [...store.items];
-  } else {
-    state.quizPool = store.items.filter(item => groupOf(item) === state.quizFilter);
-  }
-  shuffle(state.quizPool);
+function startRound() {
+  state.history = [];
+  state.currentIndex = 0;
+  setFinished(false);
+  loadQuizQuestion();
 }
 
-export function onQuizFilterChange() {
-  state.quizFilter = document.getElementById('quizCategoryFilter').value;
-  setMistakeMode(false);
-  initQuiz();
+function setFinished(finished) {
+  state.finished = finished;
+  document.getElementById('quizHeader').classList.toggle('hidden', finished);
+  document.getElementById('quizBody').classList.toggle('hidden', finished);
+  document.getElementById('quizFinish').classList.toggle('hidden', !finished);
+}
+
+/* New question → back to the top, so the photo and the name are on screen again. */
+function scrollToQuizTop() {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
 }
 
 function loadQuizQuestion() {
   const item = state.quizPool[state.currentIndex];
-  if (!item) {
-    state.currentIndex = 0;
-    return;
-  }
+  if (!item) return;
+  const record = state.history[state.currentIndex] ||= { options: {}, shownCorrect: {}, answers: null, checked: false };
 
   state.answerChecked = false;
   state.activeQuestions = questionsFor(item);
   state.userAnswers = {};
-  state.shownCorrect = {};
+  state.shownCorrect = record.shownCorrect;
 
+  const total = state.quizPool.length;
   document.getElementById('quizCurrentIndex').textContent = state.currentIndex + 1;
-  document.getElementById('quizTotalCount').textContent = state.quizPool.length;
-  document.getElementById('quizProgressBar').style.width = `${((state.currentIndex + 1) / state.quizPool.length) * 100}%`;
+  document.getElementById('quizTotalCount').textContent = total;
+  document.getElementById('quizProgressBar').style.width = `${((state.currentIndex + 1) / total) * 100}%`;
 
   const badge = CONFIG.quizBadge(item);
   const meta = CONFIG.quizMeta(item);
@@ -158,9 +165,9 @@ function loadQuizQuestion() {
     'h-full w-full');
 
   document.getElementById('quizResultPanel').classList.add('hidden');
-  document.getElementById('btnCheckAnswer').classList.remove('hidden');
-  document.getElementById('btnNextItem').classList.add('hidden');
-  validateCanCheck();
+  const isLast = state.currentIndex === total - 1 && !state.mistakesModeActive;
+  document.getElementById('btnNextLabel').textContent = isLast ? 'Завершити тест' : TEXT.next;
+  document.getElementById('btnPrevItem').disabled = state.currentIndex === 0;
 
   let step = 0;
   CONFIG.questions.forEach(question => {
@@ -170,8 +177,26 @@ function loadQuizQuestion() {
     resetBadge(`badge-${question.key}`);
     if (!isActive) return;
     block.querySelector('[data-step-number]').textContent = ++step;
-    renderOptions(question, item);
+    renderOptions(question, item, record);
   });
+
+  if (record.checked) {
+    // Already answered: show it read-only with the verdict, without recording it again.
+    state.activeQuestions.forEach(q => {
+      const saved = record.answers[q.key];
+      state.userAnswers[q.key] = q.multi ? new Set(saved) : saved;
+    });
+    state.answerChecked = true;
+    showVerdict(item);
+  }
+  setButtons(record.checked);
+}
+
+function setButtons(checked) {
+  document.getElementById('btnCheckAnswer').classList.toggle('hidden', checked);
+  document.getElementById('btnNextItem').classList.toggle('hidden', !checked);
+  document.getElementById('btnSkipItem').classList.toggle('invisible', checked);
+  validateCanCheck();
 }
 
 function resetBadge(id) {
@@ -193,20 +218,22 @@ function setSelected(btn, selected) {
   if (mark) mark.textContent = selected ? '✓' : '';
 }
 
-function renderOptions(question, item) {
+/* Options are built once per question and kept in the record, so going back shows the same ones. */
+function renderOptions(question, item, record) {
   const container = document.getElementById(`grid-${question.key}`);
   container.innerHTML = "";
-  let values;
-  if (question.multi) {
-    const { options, correct } = buildChecklist(question, item);
-    state.shownCorrect[question.key] = correct;
-    state.userAnswers[question.key] = new Set();
-    values = options;
-  } else {
-    values = buildOptions(question, item);
+  if (!record.options[question.key]) {
+    if (question.multi) {
+      const { options, correct } = buildChecklist(question, item);
+      record.options[question.key] = options;
+      record.shownCorrect[question.key] = correct;
+    } else {
+      record.options[question.key] = buildOptions(question, item);
+    }
   }
+  if (question.multi) state.userAnswers[question.key] = new Set();
 
-  values.forEach(value => {
+  record.options[question.key].forEach(value => {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.dataset.value = value;
@@ -247,7 +274,7 @@ const isAnswered = q => (q.multi ? state.userAnswers[q.key]?.size > 0 : Boolean(
 /* Optional questions (e.g. allergens) never block checking and never count towards the score. */
 const allAnswered = () => state.activeQuestions.filter(q => !q.optional).every(isAnswered);
 
-const CHECK_BTN_BASE = "px-6 py-2.5 rounded-xl font-semibold text-sm transition shadow-lg flex items-center gap-2";
+const CHECK_BTN_BASE = "quiz-primary px-6 py-2.5 rounded-xl font-semibold text-sm transition shadow-lg flex items-center gap-2";
 const CHECK_BTN_ENABLED = "bg-gradient-to-r from-wine-600 to-amber-600 hover:from-wine-500 hover:to-amber-500 text-white cursor-pointer transform hover:-translate-y-0.5";
 const CHECK_BTN_DISABLED = "bg-slate-800 text-slate-500 cursor-not-allowed";
 
@@ -305,31 +332,16 @@ function setBadgeStatus(elementId, isCorrect, optional = false) {
   el.innerHTML = `<span>${text}</span>`;
 }
 
-export function checkQuizAnswer() {
-  const item = state.quizPool[state.currentIndex];
-  if (!item || state.answerChecked || !allAnswered()) return;
-  state.answerChecked = true;
-
+/* Colours the options, sets the badges and fills the result panel for the current answers. */
+function showVerdict(item) {
   let isAllCorrect = true;
-  state.activeQuestions.forEach(question => {
+  const details = state.activeQuestions.map(question => {
     const { correct, chosen, isCorrect } = evaluate(question, item);
     if (!isCorrect && !question.optional) isAllCorrect = false;
     markOptions(question, correct, chosen);
     setBadgeStatus(`badge-${question.key}`, isCorrect, question.optional);
+    return { key: question.key, label: question.label, correct, chosen, isCorrect, optional: Boolean(question.optional) };
   });
-
-  state.stats.answeredTotal++;
-  if (isAllCorrect) {
-    sound.playCorrect();
-    state.stats.correctTotal++;
-    state.stats.streak++;
-    state.stats.mistakesSet.delete(item.id);
-  } else {
-    sound.playWrong();
-    state.stats.streak = 0;
-    state.stats.mistakesSet.add(item.id);
-  }
-  updateStatsUI();
 
   const panel = document.getElementById('quizResultPanel');
   const header = document.getElementById('resultHeaderBadge');
@@ -351,17 +363,110 @@ export function checkQuizAnswer() {
   const note = CONFIG.notes(item);
   document.getElementById('resultNote').textContent = note || '';
   document.getElementById('resultNoteBox').classList.toggle('hidden', !note);
-
-  document.getElementById('btnCheckAnswer').classList.add('hidden');
-  document.getElementById('btnNextItem').classList.remove('hidden');
+  return { isAllCorrect, details };
 }
 
+/* «Прихований доступ» (profiles.answer_assist, set by an admin): whatever was picked becomes the correct answer. */
+function pickCorrectAnswers(item) {
+  state.activeQuestions.forEach(question => {
+    const correct = question.multi ? state.shownCorrect[question.key] : [question.answer(item)];
+    state.userAnswers[question.key] = question.multi ? new Set(correct) : correct[0];
+    document.querySelectorAll(`#grid-${question.key} .option-btn`).forEach(b => setSelected(b, correct.includes(b.dataset.value)));
+  });
+}
+
+export function checkQuizAnswer() {
+  const item = state.quizPool[state.currentIndex];
+  if (!item || state.answerChecked || !allAnswered()) return;
+  if (store.profile?.answer_assist) pickCorrectAnswers(item);
+  state.answerChecked = true;
+
+  const { isAllCorrect, details } = showVerdict(item);
+  // Saved with the attempt so the admin can see what exactly was answered.
+  recordAttempt(item, isAllCorrect, details);
+  Object.assign(state.history[state.currentIndex], {
+    checked: true,
+    isAllCorrect,
+    answers: Object.fromEntries(state.activeQuestions.map(q => [q.key, q.multi ? [...state.userAnswers[q.key]] : state.userAnswers[q.key]]))
+  });
+
+  state.stats.answeredTotal++;
+  if (isAllCorrect) {
+    sound.playCorrect();
+    state.stats.correctTotal++;
+    state.stats.streak++;
+    state.stats.mistakesSet.delete(item.id);
+  } else {
+    sound.playWrong();
+    state.stats.streak = 0;
+    state.stats.mistakesSet.add(item.id);
+  }
+  updateStatsUI();
+  setButtons(true);
+}
+
+/* "Наступне" and "Пропустити": a skipped question stays unanswered and can be reopened with "← Попереднє". */
 export function nextQuizItem() {
   sound.playClick();
   state.currentIndex++;
-  if (state.currentIndex >= state.quizPool.length) {
-    state.currentIndex = 0;
-    shuffle(state.quizPool);
-  }
+  if (state.currentIndex < state.quizPool.length) loadQuizQuestion();
+  else if (state.mistakesModeActive && mistakeItems().length) initQuiz();
+  else showFinish();
+  scrollToQuizTop();
+}
+
+export function prevQuizItem() {
+  if (state.currentIndex === 0) return;
+  sound.playClick();
+  state.currentIndex--;
   loadQuizQuestion();
+  scrollToQuizTop();
+}
+
+export function restartQuiz() {
+  sound.playClick();
+  setMistakeMode(false);
+  initQuiz();
+  scrollToQuizTop();
+}
+
+/* ---------------------------------------------------------- end of the test */
+
+function finishHeading(wasMistakeMode, answered, share) {
+  if (wasMistakeMode) return ['🎉', 'Усі помилки виправлено'];
+  if (!answered) return ['⏭️', 'Тест завершено без відповідей'];
+  if (share === 100) return ['🏆', 'Тест пройдено бездоганно'];
+  return share >= 70 ? ['👏', 'Тест завершено'] : ['📚', 'Тест завершено — варто повторити'];
+}
+
+function showFinish() {
+  const wasMistakeMode = state.mistakesModeActive;
+  const total = state.quizPool.length;
+  const answered = state.history.filter(record => record?.checked);
+  const correct = answered.filter(record => record.isAllCorrect).length;
+  const wrongItems = state.quizPool.filter((item, i) => state.history[i]?.checked && !state.history[i].isAllCorrect);
+  const skipped = total - answered.length;
+  const share = answered.length ? Math.round((correct / answered.length) * 100) : 0;
+  const mistakesLeft = state.stats.mistakesSet.size;
+  const [icon, title] = finishHeading(wasMistakeMode, answered.length, share);
+  setMistakeMode(false);
+
+  document.getElementById('quizFinish').innerHTML = `
+    <div class="quiz-finish-icon" aria-hidden="true">${icon}</div>
+    <h2 class="quiz-finish-title">${title}</h2>
+    ${wasMistakeMode
+      ? '<p class="quiz-finish-text">Кожну позицію зі списку помилок ви назвали правильно.</p>'
+      : `<p class="quiz-finish-text">Правильно <strong>${correct}</strong> з <strong>${total}</strong></p>
+        <div class="quiz-finish-stats">
+          <div><strong class="is-good">${correct}</strong><span>правильно</span></div>
+          <div><strong class="is-bad">${wrongItems.length}</strong><span>з помилками</span></div>
+          <div><strong>${skipped}</strong><span>пропущено</span></div>
+        </div>
+        ${wrongItems.length ? `<div class="quiz-finish-list"><p>Варто повторити</p><ul>${wrongItems.map(item => `<li>${escapeHtml(item.name)}</li>`).join('')}</ul></div>` : ''}`}
+    <div class="quiz-finish-actions">
+      ${mistakesLeft ? `<button type="button" class="quiz-finish-button is-primary" data-action="startMistakesQuiz">Тренувати помилки <span>${mistakesLeft}</span></button>` : ''}
+      <button type="button" class="quiz-finish-button${mistakesLeft ? '' : ' is-primary'}" data-action="restartQuiz">${wasMistakeMode ? 'Пройти тест' : 'Пройти ще раз'}</button>
+      <button type="button" class="quiz-finish-button is-ghost" data-mode="flashcards">До каталогу</button>
+    </div>`;
+  setFinished(true);
 }

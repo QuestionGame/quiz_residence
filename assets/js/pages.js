@@ -32,7 +32,7 @@ const COUNTRY_FLAGS = {
 const withFlag = country => `${COUNTRY_FLAGS[country] || "🌍"} ${country}`;
 
 /* 14 major food allergens (EU Regulation 1169/2011). Keep in sync with ALLERGENS in scripts/kitchen.mjs. */
-const MENU_ALLERGENS = ['Глютен', 'Ракоподібні', 'Молюски', 'Риба', 'Яйця', 'Молоко', 'Горіхи', 'Арахіс',
+export const MENU_ALLERGENS = ['Глютен', 'Ракоподібні', 'Молюски', 'Риба', 'Яйця', 'Молоко', 'Горіхи', 'Арахіс',
   'Соя', 'Кунжут', 'Гірчиця', 'Селера', 'Сульфіти', 'Люпин'];
 
 export const PAGE_LINKS = [
@@ -45,8 +45,6 @@ export const PAGE_LINKS = [
 export const PAGES = {
   /* ------------------------------------------------------------- WINE */
   wine: {
-    dataUrl: './data/wines.json',
-    storageKey: 'sommelierTrainer.stats.v1',
     groupField: 'category',
     groupLabels: { "CORAVIN SELECTION": "Coravin Selection", "Біле": "Біле вино", "Червоне": "Червоне вино" },
     placeholderIcon: '🍷',
@@ -55,7 +53,6 @@ export const PAGES = {
       subtitle: 'Винна карта ресторану',
       quizHeading: 'Визначте параметри вина',
       quizHint: 'Уважно погляньте на етикетку, форму пляшки та колір капсули',
-      allItems: 'Усі вина',
       skip: 'Пропустити вино →',
       next: 'Наступне вино',
       noteLabel: 'Шпаргалка сомельє',
@@ -119,8 +116,6 @@ export const PAGES = {
 
   /* -------------------------------------------------------------- BAR */
   bar: {
-    dataUrl: './data/bar.json',
-    storageKey: 'residenceTrainer.bar.v1',
     groupField: 'group',
     placeholderIcon: '🥃',
     text: {
@@ -128,7 +123,6 @@ export const PAGES = {
       subtitle: 'Барна карта ресторану',
       quizHeading: 'Визначте напій',
       quizHint: 'Згадайте, що це за напій, звідки він і чим вирізняється',
-      allItems: 'Усі позиції бару',
       skip: 'Пропустити →',
       next: 'Наступна позиція',
       noteLabel: 'Підказка бармена',
@@ -185,8 +179,6 @@ export const PAGES = {
 
   /* -------------------------------------------------------- COCKTAILS */
   cocktails: {
-    dataUrl: './data/cocktails.json',
-    storageKey: 'residenceTrainer.cocktails.v1',
     groupField: 'group',
     placeholderIcon: '🍸',
     text: {
@@ -194,7 +186,6 @@ export const PAGES = {
       subtitle: 'Коктейльна карта ресторану',
       quizHeading: 'Визначте склад коктейлю',
       quizHint: 'Згадайте основу коктейлю, його склад і групу в меню',
-      allItems: 'Усі коктейлі',
       skip: 'Пропустити →',
       next: 'Наступний коктейль',
       noteLabel: 'Підказка бармена',
@@ -249,8 +240,6 @@ export const PAGES = {
 
   /* ---------------------------------------------------------- KITCHEN */
   menu: {
-    dataUrl: './data/menu.json',
-    storageKey: 'residenceTrainer.menu.v2',
     groupField: 'group',
     placeholderIcon: '🍽️',
     text: {
@@ -258,7 +247,6 @@ export const PAGES = {
       subtitle: 'Меню кухні ресторану',
       quizHeading: 'Склад і алергени страви',
       quizHint: 'Позначте всі інгредієнти, що входять до страви, і всі алергени, які вона містить',
-      allItems: 'Усі страви',
       skip: 'Пропустити →',
       next: 'Наступна страва',
       noteLabel: 'Опис',

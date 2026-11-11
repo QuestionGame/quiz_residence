@@ -1,6 +1,5 @@
-/* Header counters (streak, accuracy, mistakes) — refreshed and saved after every change. */
+/* Header counters (streak, accuracy, mistakes) — refreshed after every change (answers are saved in storage.js). */
 import { state } from './context.js';
-import { saveStats } from './storage.js';
 import { renderMistakesList } from './mistakes.js';
 
 export function updateStatsUI() {
@@ -15,5 +14,4 @@ export function updateStatsUI() {
   document.getElementById('mistakeActionCount').textContent = mistakeCount;
 
   renderMistakesList();
-  saveStats();
 }

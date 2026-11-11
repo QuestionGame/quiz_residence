@@ -6,12 +6,13 @@ export const CONFIG = PAGES[PAGE_ID];
 export const TEXT = CONFIG.text;
 
 /* Loaded menu items (filled once in main.js). Kept in an object so modules share one array. */
-export const store = { items: [], wineItems: [] };
+export const store = { items: [], wineItems: [], profile: null };
 
 export const state = {
   quizPool: [],
-  quizFilter: 'ALL',
   currentIndex: 0,
+  history: [],       // per question of the current test: shown options, answers, result (see quiz.js)
+  finished: false,
   answerChecked: false,
   activeQuestions: [],
   userAnswers: {},   // question key → value, or Set of values for checklist questions
