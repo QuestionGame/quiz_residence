@@ -9,16 +9,16 @@ import { checkQuizAnswer, initQuiz, nextQuizItem, onQuizFilterChange, renderCate
 import { updateStatsUI } from './stats.js';
 import { renderFlashcards } from './flashcards.js';
 import { renderMistakesList } from './mistakes.js';
-import { renderCheatSheet } from './cheatsheet.js';
 import { bindItemSheet, closeItemSheet, openItemSheet } from './item-sheet.js';
+import { QUIZ_HASH, bindTrainerPicker, closeTrainerPicker, openTrainerPicker } from './trainer-picker.js';
 
 /* ------------------------------------------------------- mode switching */
 
+/* The quiz has no top tab: it is opened by "Тренажер" in the bottom navigation. */
 const TABS = [
-  { id: 'tabQuiz', section: 'quizSection', mode: 'quiz' },
   { id: 'tabFlashcards', section: 'flashcardsSection', mode: 'flashcards' },
-  { id: 'tabMistakes', section: 'mistakesSection', mode: 'mistakes' },
-  { id: 'tabCatalog', section: 'catalogSection', mode: 'catalog' }
+  { id: null, section: 'quizSection', mode: 'quiz' },
+  { id: 'tabMistakes', section: 'mistakesSection', mode: 'mistakes' }
 ];
 
 let currentMode = 'flashcards';
@@ -29,13 +29,16 @@ export function switchMode(newMode, playSound = true) {
   TABS.forEach(t => {
     const isActive = t.mode === newMode;
     document.getElementById(t.section).classList.toggle('hidden', !isActive);
-    document.getElementById(t.id).className = isActive ? TAB_ACTIVE : TAB_IDLE;
+    if (t.id) {
+      const tab = document.getElementById(t.id);
+      tab.className = isActive ? TAB_ACTIVE : TAB_IDLE;
+      tab.setAttribute('aria-pressed', String(isActive));
+    }
   });
   document.querySelector('[data-trainer-tab]')?.classList.toggle('is-mode-active', newMode === 'quiz');
 
   if (newMode === 'flashcards') renderFlashcards();
   else if (newMode === 'mistakes') renderMistakesList();
-  else if (newMode === 'catalog') renderCheatSheet();
 }
 
 function startMistakesQuiz() {
@@ -74,13 +77,15 @@ const ACTIONS = {
   nextQuizItem,
   startMistakesQuiz,
   clearMistakes,
-  print: () => window.print(),
   closeItemSheet,
-  trainCurrentItem
+  trainCurrentItem,
+  openTrainerPicker,
+  closeTrainerPicker
 };
 
 function bindEvents() {
   bindItemSheet();
+  bindTrainerPicker({ onCurrentPage: () => switchMode('quiz') });
 
   document.addEventListener('click', event => {
     const target = event.target instanceof Element ? event.target : null;
@@ -137,8 +142,13 @@ async function initializeApp() {
     renderCategoryFilters();
     initQuiz();
     updateStatsUI();
-    renderCheatSheet();
-    switchMode('flashcards', false);
+    // Opened from the trainer picker of another section (e.g. bar.html#quiz): start in the quiz.
+    if (location.hash === QUIZ_HASH) {
+      history.replaceState(null, '', location.pathname + location.search);
+      switchMode('quiz', false);
+    } else {
+      switchMode('flashcards', false);
+    }
   } catch (error) {
     console.error(`Unable to load ${CONFIG.dataUrl}:`, error);
     const status = document.getElementById('appStatus');

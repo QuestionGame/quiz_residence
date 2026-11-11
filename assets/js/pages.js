@@ -59,9 +59,6 @@ export const PAGES = {
       skip: 'Пропустити вино →',
       next: 'Наступне вино',
       noteLabel: 'Шпаргалка сомельє',
-      cheatTab: 'Шпаргалка сомельє',
-      cheatHeading: 'Зведена шпаргалка ресторану',
-      cheatSubheading: 'Повна структурована таблиця всіх вин з меню за країнами та категоріями',
       mistakesHeading: 'Вина, що потребують повторення',
       mistakesHint: 'Сюди автоматично потрапляють вина, у яких ви припустилися хоча б однієї помилки (у країні, сорті чи класифікації).',
       searchPlaceholder: '🔍 Пошук за назвою або сортом...',
@@ -78,7 +75,6 @@ export const PAGES = {
       { label: 'Сорт винограду', values: String(w.grapes).split(/[,;]+/).map(v => v.trim()).filter(Boolean) },
       { label: 'Стиль', values: [w.classificationGeneral] }
     ],
-    highlight: w => w.category === 'CORAVIN SELECTION',
     searchFields: ['name', 'grapes', 'country'],
     questions: [
       {
@@ -118,15 +114,7 @@ export const PAGES = {
       { label: 'Класифікація', value: w => w.classificationGeneral, accent: true },
       { label: "Об'єм / Міцність", value: w => w.volume, mono: true }
     ],
-    summary: w => [`📍 ${w.country} • 🏷️ ${w.classification}`, `🍇 ${w.grapes}`],
-    columns: [
-      { header: 'Вино', width: '19%', value: w => w.name, name: true },
-      { header: 'Категорія меню', width: '12%', value: w => w.category, mono: true },
-      { header: 'Країна', width: '14%', value: w => `${withFlag(w.country)}${w.region ? ` (${w.region})` : ''}` },
-      { header: 'Класифікація', width: '18%', value: w => w.classificationGeneral, accent: true },
-      { header: 'Сорт винограду', width: '15%', value: w => w.grapes },
-      { header: 'Ключові ноти смаку', width: '22%', value: w => w.tastingNotes, notes: true }
-    ]
+    summary: w => [`📍 ${w.country} • 🏷️ ${w.classification}`, `🍇 ${w.grapes}`]
   },
 
   /* -------------------------------------------------------------- BAR */
@@ -144,9 +132,6 @@ export const PAGES = {
       skip: 'Пропустити →',
       next: 'Наступна позиція',
       noteLabel: 'Підказка бармена',
-      cheatTab: 'Шпаргалка бармена',
-      cheatHeading: 'Зведена шпаргалка бару',
-      cheatSubheading: 'Усі позиції барної карти: вид, країна, стиль і смакові ноти',
       mistakesHeading: 'Позиції, що потребують повторення',
       mistakesHint: 'Сюди автоматично потрапляють напої, у яких ви припустилися хоча б однієї помилки.',
       searchPlaceholder: '🔍 Пошук за назвою, країною або стилем...',
@@ -195,15 +180,7 @@ export const PAGES = {
       { label: 'Стиль', value: i => i.style, accent: true },
       { label: "Порція / ціна", value: i => [i.volume, i.price].filter(Boolean).join(' • ') || '—', mono: true }
     ],
-    summary: i => [`🥃 ${i.type}${i.country ? ` • 📍 ${i.country}` : ''}`, `🏷️ ${i.style}`],
-    columns: [
-      { header: 'Позиція', width: '20%', value: i => i.name, name: true },
-      { header: 'Вид', width: '12%', value: i => i.type, mono: true },
-      { header: 'Країна', width: '12%', value: i => (i.country ? withFlag(i.country) : '—') },
-      { header: 'Стиль', width: '17%', value: i => i.style, accent: true },
-      { header: 'Порція / ціна', width: '11%', value: i => [i.volume, i.price].filter(Boolean).join(' • ') || '—' },
-      { header: 'Смакові ноти', width: '28%', value: i => i.notes, notes: true }
-    ]
+    summary: i => [`🥃 ${i.type}${i.country ? ` • 📍 ${i.country}` : ''}`, `🏷️ ${i.style}`]
   },
 
   /* -------------------------------------------------------- COCKTAILS */
@@ -221,9 +198,6 @@ export const PAGES = {
       skip: 'Пропустити →',
       next: 'Наступний коктейль',
       noteLabel: 'Підказка бармена',
-      cheatTab: 'Шпаргалка бармена',
-      cheatHeading: 'Зведена шпаргалка коктейлів',
-      cheatSubheading: 'Усі коктейлі меню: група, основа, склад і опис',
       mistakesHeading: 'Коктейлі, що потребують повторення',
       mistakesHint: 'Сюди автоматично потрапляють коктейлі, у яких ви припустилися хоча б однієї помилки.',
       searchPlaceholder: '🔍 Пошук за назвою або інгредієнтом...',
@@ -270,15 +244,7 @@ export const PAGES = {
       { label: 'Склад', value: i => i.ingredients },
       { label: "Ціна / об'єм", value: i => [i.price, i.volume].filter(Boolean).join(' • ') || '—', mono: true }
     ],
-    summary: i => [`🥃 ${i.base} • 🏷️ ${i.group}`, `🍋 ${i.ingredients}`],
-    columns: [
-      { header: 'Коктейль', width: '17%', value: i => i.name, name: true },
-      { header: 'Група', width: '11%', value: i => i.group, mono: true },
-      { header: 'Основа', width: '11%', value: i => i.base, accent: true },
-      { header: 'Склад', width: '25%', value: i => i.ingredients },
-      { header: 'Ціна', width: '8%', value: i => i.price || '—' },
-      { header: 'Опис', width: '28%', value: i => i.notes, notes: true }
-    ]
+    summary: i => [`🥃 ${i.base} • 🏷️ ${i.group}`, `🍋 ${i.ingredients}`]
   },
 
   /* ---------------------------------------------------------- KITCHEN */
@@ -296,9 +262,6 @@ export const PAGES = {
       skip: 'Пропустити →',
       next: 'Наступна страва',
       noteLabel: 'Опис',
-      cheatTab: 'Шпаргалка меню',
-      cheatHeading: 'Зведена шпаргалка кухні',
-      cheatSubheading: 'Усі страви меню: склад, алергени, вихід і ціна',
       mistakesHeading: 'Страви, що потребують повторення',
       mistakesHint: 'Сюди автоматично потрапляють страви, у яких ви припустилися хоча б однієї помилки.',
       searchPlaceholder: '🔍 Пошук за назвою, інгредієнтом або алергеном...',
@@ -343,13 +306,6 @@ export const PAGES = {
     summary: i => [
       `⚠️ ${i.allergens.join(', ') || 'без основних алергенів'}`,
       `🥗 ${i.ingredients.slice(0, 5).join(', ')}${i.ingredients.length > 5 ? '…' : ''}`
-    ],
-    columns: [
-      { header: 'Страва', width: '18%', value: i => i.name, name: true },
-      { header: 'Розділ', width: '11%', value: i => i.group, mono: true },
-      { header: 'Склад', width: '41%', value: i => i.ingredients.join(', ') },
-      { header: 'Алергени', width: '18%', value: i => i.allergens.join(', ') || '—', accent: true },
-      { header: 'Вихід / ціна', width: '12%', value: i => [i.weight, i.price].filter(Boolean).join(' • ') || '—' }
     ]
   }
 };

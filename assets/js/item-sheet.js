@@ -2,8 +2,9 @@
    Bottom sheet on phones (swipe down / Back button / Esc closes it), centered dialog on desktop. */
 import { CONFIG, PAGE_ID, store } from './context.js';
 import { escapeHtml, itemImage } from './utils.js';
+import { createSheet } from './sheet.js';
 
-let returnFocus = null;
+const sheet = createSheet({ rootId: 'itemSheet', dialogId: 'itemSheetDialog', stateKey: 'item' });
 
 /* ------------------------------------------------------------ sections */
 
@@ -93,8 +94,6 @@ export function openItemSheet(itemId, trigger) {
   if (!item) return;
   const root = document.getElementById('itemSheet');
   const dialog = document.getElementById('itemSheetDialog');
-  const wasOpen = root.classList.contains('is-open');
-  returnFocus = trigger || document.activeElement;
 
   const details = CONFIG.details.map(detail => `
     <div class="detail-row ${detail.accent ? 'detail-row-accent' : ''}">
@@ -107,58 +106,35 @@ export function openItemSheet(itemId, trigger) {
     ? `<section class="sheet-section"><div class="sheet-section-heading"><span class="section-kicker">SERVICE NOTES</span><h3>Опис і подача з меню</h3></div><p class="sheet-service-notes">${escapeHtml(notes)}</p></section>`
     : '';
 
-  document.getElementById('sheetItemGroup').textContent = CONFIG.cardBadge(item) || CONFIG.text.subtitle;
   root.dataset.itemId = item.id;
+  // Full-bleed 16:10 photo at the top of the sheet (none for items without a photo).
+  const media = document.getElementById('sheetMedia');
+  media.innerHTML = item.image ? itemImage(item, 'sheet-media-image', 'sheet-media-image') : '';
+  media.hidden = !item.image;
+  dialog.classList.toggle('has-media', Boolean(item.image));
+
   document.getElementById('sheetContent').innerHTML = `
-    <div class="sheet-hero ${item.image ? 'has-image' : 'no-image'}">${item.image ? itemImage(item, 'sheet-hero-image', 'sheet-hero-image') : ''}<div class="sheet-hero-copy">
-      <p class="sheet-price">${escapeHtml(CONFIG.cardCorner(item) || '')}</p>
+    <div class="sheet-hero">
+      <p class="sheet-overline">
+        <span class="sheet-group">${escapeHtml(CONFIG.cardBadge(item) || CONFIG.text.subtitle)}</span>
+        <span class="sheet-price">${escapeHtml(CONFIG.cardCorner(item) || '')}</span>
+      </p>
       <h2 id="sheetItemName">${escapeHtml(item.name)}</h2>
       ${lead}
-    </div></div>
+    </div>
     <dl class="sheet-details">${details}</dl>
     ${renderComposition(item)}
     ${menuNotes}
     ${renderAllergens(item)}
     ${renderPairings(item)}`;
 
-  root.classList.add('is-open');
-  root.setAttribute('aria-hidden', 'false');
-  document.body.classList.add('sheet-is-open');
-  dialog.scrollTop = 0;
-  if (!wasOpen) history.pushState({ itemSheet: true }, ''); // phone "Back" closes the sheet, not the page
-  requestAnimationFrame(() => dialog.focus({ preventScroll: true }));
+  sheet.open(trigger);
 }
 
-function hideItemSheet() {
-  const root = document.getElementById('itemSheet');
-  if (!root.classList.contains('is-open')) return;
-  root.classList.remove('is-open');
-  root.setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('sheet-is-open');
-  if (returnFocus instanceof HTMLElement) returnFocus.focus({ preventScroll: true });
-}
-
-/* Closing goes through history so the entry pushed on open is consumed (popstate → hideItemSheet). */
 export function closeItemSheet() {
-  if (!document.getElementById('itemSheet').classList.contains('is-open')) return;
-  if (history.state?.itemSheet) history.back(); else hideItemSheet();
+  sheet.close();
 }
 
 export function bindItemSheet() {
-  const dialog = document.getElementById('itemSheetDialog');
-  window.addEventListener('popstate', hideItemSheet);
-
-  // Swipe down from the top of the sheet closes it.
-  let startY = null;
-  dialog.addEventListener('touchstart', event => {
-    startY = dialog.scrollTop === 0 ? event.touches[0].clientY : null;
-  }, { passive: true });
-  dialog.addEventListener('touchend', event => {
-    if (startY !== null && event.changedTouches[0].clientY - startY > 100) closeItemSheet();
-    startY = null;
-  }, { passive: true });
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') closeItemSheet();
-  });
+  sheet.bind();
 }

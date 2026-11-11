@@ -2,6 +2,7 @@
 import { CONFIG, TEXT } from './context.js';
 import { escapeHtml } from './utils.js';
 import { renderBottomNavigation, renderHeader } from './header.js';
+import { renderTrainerPicker } from './trainer-picker.js';
 
 const SELECT_CLASS = "bg-[#1b2030] text-slate-200 border border-white/10 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-amber-500 outline-none";
 
@@ -118,34 +119,6 @@ function renderMistakesSection() {
     </section>`;
 }
 
-function renderCatalogSection() {
-  return `
-    <section id="catalogSection" class="hidden space-y-6">
-      <div class="bg-[#131722]/90 border border-white/10 rounded-2xl p-4 sm:p-6 overflow-hidden shadow-2xl">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <div>
-            <h2 class="text-xl font-bold font-serif text-white">${escapeHtml(TEXT.cheatHeading)}</h2>
-            <p class="text-xs text-slate-400">${escapeHtml(TEXT.cheatSubheading)}</p>
-          </div>
-          <button data-action="print" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg border border-white/10 transition flex items-center gap-1.5">
-            <span>🖨️</span><span>Друк / Експорт</span>
-          </button>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full min-w-[760px] table-fixed text-left border-collapse text-xs">
-            <colgroup>${CONFIG.columns.map(c => `<col style="width: ${c.width}">`).join('')}</colgroup>
-            <thead>
-              <tr class="border-b border-white/10 bg-slate-900/60 text-slate-400 font-mono uppercase text-[11px]">
-                ${CONFIG.columns.map(c => `<th class="py-3 px-3">${escapeHtml(c.header)}</th>`).join('')}
-              </tr>
-            </thead>
-            <tbody id="cheatSheetTableBody" class="divide-y divide-white/5 text-slate-300"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>`;
-}
-
 export function renderLayout() {
   document.title = `${TEXT.title} | ${TEXT.subtitle}`;
   document.getElementById('app').innerHTML = `
@@ -155,7 +128,6 @@ export function renderLayout() {
     ${renderFlashcardsSection()}
     ${renderQuizSection()}
     ${renderMistakesSection()}
-    ${renderCatalogSection()}
   </main>
   <footer class="residence-footer border-t border-white/5 bg-[#0a0c11] py-4 px-4 text-center text-xs text-slate-500">
     <p>${escapeHtml(TEXT.footer)}</p>
@@ -164,10 +136,15 @@ export function renderLayout() {
   <div id="itemSheet" class="item-sheet-root" aria-hidden="true">
     <button class="item-sheet-backdrop" data-action="closeItemSheet" aria-label="Закрити картку"></button>
     <section id="itemSheetDialog" class="item-sheet" role="dialog" aria-modal="true" aria-labelledby="sheetItemName" tabindex="-1">
-      <div class="sheet-handle-wrap"><span class="sheet-handle"></span></div>
-      <div class="sheet-toolbar"><span id="sheetItemGroup" class="sheet-group"></span><button type="button" data-action="closeItemSheet" class="sheet-close" aria-label="Закрити">×</button></div>
+      <!-- Zero-height sticky layer: the drag handle and the close button float over the photo and stay reachable while scrolling -->
+      <div class="sheet-float">
+        <span class="sheet-handle" aria-hidden="true"></span>
+        <button type="button" data-action="closeItemSheet" class="sheet-close" aria-label="Закрити">✕</button>
+      </div>
+      <div id="sheetMedia" class="sheet-media" hidden></div>
       <div id="sheetContent" class="item-sheet-content"></div>
       <div class="sheet-actions"><button type="button" data-action="trainCurrentItem" class="sheet-train-button">Тренувати цю позицію <span aria-hidden="true">↗</span></button></div>
     </section>
-  </div>`;
+  </div>
+  ${renderTrainerPicker()}`;
 }

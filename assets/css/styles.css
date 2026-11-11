@@ -22,74 +22,6 @@
       display: none;
     }
 
-    /* Print: light, ink-friendly cheat sheet.
-       !important is needed to beat Tailwind CDN utilities injected after this file. */
-    @media print {
-      @page {
-        margin: 12mm;
-      }
-
-      header,
-      footer,
-      #appStatus,
-      #primaryBottomNav,
-      #itemSheet,
-      [data-action="print"] {
-        display: none !important;
-      }
-
-      html,
-      body,
-      body * {
-        background: transparent !important;
-        color: #000 !important;
-        box-shadow: none !important;
-        text-shadow: none !important;
-        backdrop-filter: none !important;
-      }
-
-      body * {
-        border-color: #bbb !important;
-      }
-
-      main {
-        max-width: none !important;
-        padding: 0 !important;
-      }
-
-      #catalogSection > div {
-        border: none !important;
-        padding: 0 !important;
-        overflow: visible !important;
-      }
-
-      #catalogSection .overflow-x-auto {
-        overflow: visible !important;
-      }
-
-      #catalogSection table {
-        min-width: 0 !important;
-        font-size: 9pt;
-      }
-
-      #catalogSection thead {
-        display: table-header-group;
-      }
-
-      #catalogSection tr {
-        break-inside: avoid;
-        page-break-inside: avoid;
-      }
-
-      #catalogSection tbody tr {
-        border-bottom: 1px solid #ccc !important;
-      }
-
-      #catalogSection td > span.rounded-full {
-        display: none !important;
-      }
-    }
-
     :root {
       color-scheme: dark;
       --residence-ink: #0b0e14;
@@ -165,6 +97,7 @@
     .residence-header-main,
     .residence-search-area,
     .mode-nav,
+    .residence-chips-area,
     .residence-main {
       width: min(100% - 28px, 1120px);
       margin-inline: auto;
@@ -356,47 +289,148 @@
       background: rgba(217, 107, 67, 0.17);
     }
 
+    /* "Каталог" / "Помилки": two equal full-width buttons under the search field. */
     .mode-nav {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 0 0 2px;
+    }
+
+    .mode-tab {
+      min-height: 48px;
       display: flex;
-      gap: 7px;
-      overflow-x: auto;
-      padding: 0 0 11px;
-      scrollbar-width: none;
-    }
-
-    .mode-nav::-webkit-scrollbar {
-      display: none;
-    }
-
-    .mode-nav button {
-      min-height: 40px;
-      flex: 0 0 auto;
-      gap: 7px;
-      padding: 0 13px;
-      border: 1px solid transparent;
-      border-radius: 11px;
-      color: #a9a8a2;
-      background: transparent;
-      font-size: 12px;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 14px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 14px;
+      color: #d4d0c7;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
+      transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
     }
 
-    .mode-nav button:hover {
+    .mode-tab:hover {
+      border-color: rgba(217, 107, 67, 0.5);
       color: var(--residence-text);
-      background: rgba(255, 255, 255, 0.055);
     }
 
-    .mode-nav button.bg-wine-600\/40,
-    .mode-nav button.is-active {
-      border-color: rgba(217, 107, 67, 0.42);
-      color: #fff1e6;
-      background: rgba(217, 107, 67, 0.13);
+    .mode-tab.is-active {
+      border-color: rgba(217, 107, 67, 0.8);
+      color: #fff3ea;
+      background: linear-gradient(135deg, rgba(217, 107, 67, 0.3), rgba(217, 107, 67, 0.12));
       box-shadow: inset 0 -2px var(--residence-copper);
     }
 
     .mode-count {
+      min-width: 24px;
+      height: 22px;
+      display: inline-grid;
+      place-items: center;
+      padding: 0 7px;
+      border-radius: 999px;
       color: var(--residence-champagne);
+      background: rgba(212, 175, 55, 0.13);
+      font-size: 12px;
       font-variant-numeric: tabular-nums;
+    }
+
+    .residence-chips-area {
+      padding: 0 0 8px;
+    }
+
+    /* Trainer picker (assets/js/trainer-picker.js) — reuses the .item-sheet shell. */
+    .trainer-picker-head {
+      padding: 22px 52px 14px 0;
+    }
+
+    .trainer-picker-head h2 {
+      margin: 4px 0 0;
+      color: #fff9ee;
+      font: 600 22px/1.25 Cinzel, Georgia, serif;
+    }
+
+    .trainer-picker-list {
+      display: grid;
+      gap: 10px;
+      padding-bottom: 6px;
+    }
+
+    .trainer-option {
+      min-height: 76px;
+      display: grid;
+      grid-template-columns: 50px minmax(0, 1fr) 20px;
+      align-items: center;
+      gap: 13px;
+      padding: 12px 14px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 18px;
+      color: var(--residence-text);
+      background: rgba(255, 255, 255, 0.035);
+      text-decoration: none;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    .trainer-option:hover {
+      border-color: rgba(217, 107, 67, 0.6);
+      background: rgba(217, 107, 67, 0.08);
+    }
+
+    .trainer-option:active {
+      transform: scale(0.985);
+    }
+
+    .trainer-option.is-current {
+      border-color: rgba(217, 107, 67, 0.55);
+    }
+
+    .trainer-option-icon {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      background: rgba(212, 175, 55, 0.1);
+      font-size: 26px;
+    }
+
+    .trainer-option-copy {
+      min-width: 0;
+      display: grid;
+      gap: 3px;
+    }
+
+    .trainer-option-title {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .trainer-option-badge {
+      padding: 1px 8px;
+      border-radius: 999px;
+      color: var(--residence-copper-light);
+      background: rgba(217, 107, 67, 0.14);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .trainer-option-topics {
+      color: var(--residence-muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .trainer-option-arrow {
+      color: var(--residence-champagne);
+      font-size: 18px;
     }
 
     .residence-main {
@@ -591,8 +625,9 @@
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       align-items: center;
+      gap: 6px; /* adjacent highlights (current section + Тренажер) never touch */
       margin-inline: auto;
-      padding: 5px 5px;
+      padding: 6px 7px;
       border: 1px solid rgba(212, 175, 55, 0.28);
       border-radius: 23px;
       background: rgba(20, 23, 33, 0.94);
@@ -609,8 +644,9 @@
       align-items: center;
       justify-content: center;
       gap: 3px;
+      padding: 0 2px;
       border: 0;
-      border-radius: 17px;
+      border-radius: 15px;
       color: #a7a59f;
       background: transparent;
       font-size: 10px;
@@ -659,14 +695,12 @@
     }
 
     #quizSection,
-    #mistakesSection,
-    #catalogSection {
+    #mistakesSection {
       color: var(--residence-text);
     }
 
     #quizSection > div:first-child,
-    #mistakesSection > div:first-child,
-    #catalogSection > div:first-child {
+    #mistakesSection > div:first-child {
       border-color: var(--residence-line) !important;
       border-radius: 17px !important;
       background: rgba(20, 23, 33, 0.78) !important;
@@ -745,36 +779,104 @@
       transform: translateY(105%);
       transition: transform 280ms cubic-bezier(0.2, 0.75, 0.25, 1);
       -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* a visible scrollbar would cut a strip off the full-bleed hero photo */
+    }
+
+    .item-sheet::-webkit-scrollbar {
+      display: none;
     }
 
     .item-sheet-root.is-open .item-sheet {
       transform: translateY(0);
     }
 
-    .sheet-handle-wrap {
+    /* Zero-height sticky layer at the top of the sheet: the drag handle and the close button float
+       over the hero photo and stay reachable while the sheet is scrolled. */
+    .sheet-float {
       position: sticky;
-      z-index: 2;
+      z-index: 3;
       top: 0;
-      display: grid;
-      place-items: center;
-      height: 24px;
-      background: linear-gradient(#141721 68%, rgba(20, 23, 33, 0));
+      height: 0;
     }
 
     .sheet-handle {
-      width: 38px;
+      position: absolute;
+      top: 9px;
+      left: 50%;
+      width: 40px;
       height: 4px;
       border-radius: 99px;
-      background: rgba(238, 232, 219, 0.28);
+      background: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+      transform: translateX(-50%);
     }
 
-    .sheet-toolbar {
-      min-height: 45px;
+    .sheet-close {
+      position: absolute;
+      top: 12px;
+      right: -8px; /* 12px from the sheet edge (the sheet has 20px side padding) */
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 50%;
+      color: #fff;
+      background: rgba(11, 14, 20, 0.48);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+
+    .sheet-close::after {
+      content: "";
+      position: absolute;
+      inset: -4px; /* 48px touch target */
+    }
+
+    .sheet-close:hover {
+      background: rgba(11, 14, 20, 0.7);
+    }
+
+    .sheet-close:active {
+      transform: scale(0.94);
+    }
+
+    /* Full-bleed 16:10 hero photo; the top corners follow the sheet's own radius. */
+    .sheet-media {
+      margin: 0 -20px;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border-radius: 24px 24px 0 0;
+      background: #0f121a;
+    }
+
+    .sheet-media-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .sheet-hero {
+      padding: 18px 0 18px;
+      border-bottom: 1px solid var(--residence-line);
+    }
+
+    /* No photo: keep the hero text clear of the floating close button. */
+    .item-sheet:not(.has-media) .sheet-hero {
+      padding-top: 64px;
+    }
+
+    .sheet-overline {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 6px;
+      gap: 12px;
+      margin: 0 0 6px;
     }
 
     .sheet-group {
@@ -784,48 +886,11 @@
       text-transform: uppercase;
     }
 
-    .sheet-close {
-      width: 44px;
-      height: 44px;
-      flex: 0 0 44px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 50%;
-      color: #e3dfd6;
-      background: rgba(255, 255, 255, 0.055);
-      cursor: pointer;
-      font-size: 25px;
-      line-height: 1;
-    }
-
-    .sheet-hero {
-      display: grid;
-      gap: 16px;
-      align-items: center;
-      padding: 2px 0 18px;
-      border-bottom: 1px solid var(--residence-line);
-    }
-
-    .sheet-hero.has-image {
-      grid-template-columns: 112px minmax(0, 1fr);
-    }
-
-    .sheet-hero-image {
-      width: 112px;
-      height: 132px;
-      object-fit: contain;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.035);
-    }
-
-    .sheet-hero-copy {
-      min-width: 0;
-    }
-
     .sheet-price {
-      margin: 0 0 4px;
       color: var(--residence-champagne);
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 700;
+      white-space: nowrap;
     }
 
     .sheet-hero h2 {
@@ -1089,6 +1154,7 @@
       .residence-header-main,
       .residence-search-area,
       .mode-nav,
+      .residence-chips-area,
       .residence-main {
         width: min(100% - 64px, 1120px);
       }
@@ -1154,12 +1220,12 @@
         transform: none;
       }
 
-      .sheet-handle-wrap {
-        display: none;
+      .item-sheet.trainer-picker {
+        max-width: 480px;
       }
 
-      .sheet-toolbar {
-        margin-top: 10px;
+      .sheet-handle {
+        display: none; /* no swipe-to-close on desktop */
       }
     }
 
