@@ -1,9 +1,8 @@
 // Staff accounts (admin only).
 //   GET    → list of accounts with last sign-in
 //   POST   { username, fullName, password, role }          → create an account
-//   PATCH  { id, fullName?, role?, isActive?, password?, answerAssist? }  → change name / role / access / password /
-//          «прихований доступ» (quiz answers always counted as correct, see migrations/…_answer_assist.sql)
-// Accounts are never deleted (their quiz history stays); "isActive: false" blocks sign-in instead.
+//   PATCH  { id, fullName?, role?, isActive?, password? }  → change name / role / access / password
+//   DELETE { id }                                          → permanently delete account and its quiz history
 import { HttpError, USERNAME_PATTERN, adminClient, handle, readJson, requireAdmin, usernameToEmail } from '../lib/server.mjs';
 
 const ROLES = ['staff', 'admin'];
@@ -30,7 +29,7 @@ function checkRole(value) {
 async function listUsers() {
   const db = adminClient();
   const [{ data: profiles, error }, { data: auth, error: authError }] = await Promise.all([
-    db.from('profiles').select('id, username, full_name, role, is_active, answer_assist, created_at').order('full_name'),
+    db.from('profiles').select('id, username, full_name, role, is_active, created_at').order('full_name'),
     db.auth.admin.listUsers({ perPage: 1000 })
   ]);
   if (error || authError) throw new Error((error || authError).message);
@@ -80,8 +79,6 @@ async function updateUser(req) {
   if (body.fullName !== undefined) changes.full_name = cleanName(body.fullName);
   if (body.role !== undefined) changes.role = checkRole(body.role);
   if (body.isActive !== undefined) changes.is_active = Boolean(body.isActive);
-  if (body.answerAssist !== undefined) changes.answer_assist = Boolean(body.answerAssist);
-
   const losesAdmin = target.role === 'admin' && target.is_active && (changes.role === 'staff' || changes.is_active === false);
   if (losesAdmin) {
     if (target.id === caller.id) throw new HttpError(400, 'Не можна зняти права адміністратора або заблокувати самого себе');
@@ -104,8 +101,39 @@ async function updateUser(req) {
   return { ok: true };
 }
 
+async function deleteUser(req) {
+  const caller = await requireAdmin(req);
+  const body = await readJson(req);
+  if (typeof body.id !== 'string' || !/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(body.id)) {
+    throw new HttpError(400, 'Некоректний ідентифікатор користувача');
+  }
+
+  const db = adminClient();
+  const { data: target, error: targetError } = await db.from('profiles')
+    .select('id, role, is_active')
+    .eq('id', body.id)
+    .maybeSingle();
+  if (targetError) throw new Error(targetError.message);
+  if (!target) throw new HttpError(404, 'Користувача не знайдено');
+  if (target.id === caller.id) throw new HttpError(400, 'Не можна видалити власний акаунт');
+
+  if (target.role === 'admin' && target.is_active) {
+    const { count, error } = await db.from('profiles')
+      .select('id', { count: 'exact', head: true })
+      .eq('role', 'admin')
+      .eq('is_active', true);
+    if (error) throw new Error(error.message);
+    if (count <= 1) throw new HttpError(400, 'Має залишитися хоча б один активний адміністратор');
+  }
+
+  const { error } = await db.auth.admin.deleteUser(target.id);
+  if (error) throw new HttpError(400, error.message);
+  return { ok: true };
+}
+
 export default handle({
   GET: async req => { await requireAdmin(req); return listUsers(); },
   POST: createUser,
-  PATCH: updateUser
+  PATCH: updateUser,
+  DELETE: deleteUser
 });

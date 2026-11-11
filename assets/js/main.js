@@ -1,7 +1,7 @@
 /* Entry point: renders the page, wires up events and loads the page's data.
    Loaded from every HTML page as <script type="module" src="./assets/js/main.js">. */
 import { PAGE_ID, state, store } from './context.js';
-import { requireProfile } from './auth.js';
+import { getViewer, loginHref } from './auth.js';
 import { loadItems } from './data.js';
 import { sound } from './sound.js';
 import { loadStats, resetMistakes } from './storage.js';
@@ -76,7 +76,11 @@ function selectCategoryChip(chip) {
 
 /* ------------------------------------------------------------- events */
 
+/* Guest → login.html, then back to the same section (and straight into the quiz if it was open). */
+const goToLogin = () => location.assign(loginHref({ hash: currentMode === 'quiz' ? QUIZ_HASH : '' }));
+
 const ACTIONS = {
+  goToLogin,
   skipQuizItem: nextQuizItem,
   prevQuizItem,
   checkQuizAnswer,
@@ -127,9 +131,9 @@ function bindEvents() {
 /* -------------------------------------------------------------- start */
 
 async function initializeApp() {
-  // Every page needs a signed-in, active account (otherwise → login.html).
-  store.profile = await requireProfile();
-  if (!store.profile) return;
+  // Signed in → answers are reported to the admin; guest (null) → the trainer works, nothing leaves the browser.
+  store.profile = await getViewer();
+  if (store.profile === undefined) return; // blocked account, redirected to login.html
 
   renderLayout();
   bindEvents();

@@ -1,5 +1,5 @@
 /* Static page shell: header + the four mode sections + footer, rendered from the page config. */
-import { CONFIG, TEXT } from './context.js';
+import { CONFIG, TEXT, store } from './context.js';
 import { escapeHtml } from './utils.js';
 import { renderBottomNavigation, renderHeader } from './header.js';
 import { renderTrainerPicker } from './trainer-picker.js';
@@ -31,6 +31,11 @@ function renderQuizSection() {
             <span id="mistakeModeIndicator" class="hidden text-xs bg-rose-500/20 text-rose-300 border border-rose-500/40 px-2 py-0.5 rounded-md">Режим виправлення помилок</span>
           </h2>
         </div>
+        ${store.profile ? '' : `
+        <div class="guest-notice" role="note">
+          <p><strong>Режим гостя.</strong> Відповіді не надсилаються адміністратору — це тренування для себе.</p>
+          <button type="button" class="guest-notice-button" data-action="goToLogin">Увійти, щоб скласти тест зі звітом</button>
+        </div>`}
         <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
           <div id="quizProgressBar" class="h-full bg-gradient-to-r from-wine-500 to-amber-500 transition-all duration-300" style="width: 0%;"></div>
         </div>

@@ -382,8 +382,6 @@ export function checkQuizAnswer() {
   state.answerChecked = true;
 
   const { isAllCorrect, details } = showVerdict(item);
-  // Saved with the attempt so the admin can see what exactly was answered.
-  recordAttempt(item, isAllCorrect, details);
   Object.assign(state.history[state.currentIndex], {
     checked: true,
     isAllCorrect,
@@ -401,6 +399,8 @@ export function checkQuizAnswer() {
     state.stats.streak = 0;
     state.stats.mistakesSet.add(item.id);
   }
+  // Signed in: saved for the admin with the details of what was answered. Guest: kept in this browser only.
+  recordAttempt(item, isAllCorrect, details);
   updateStatsUI();
   setButtons(true);
 }

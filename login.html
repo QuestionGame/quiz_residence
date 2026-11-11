@@ -21,7 +21,7 @@
     </div>
 
     <h1 class="auth-title">Вхід для персоналу</h1>
-    <p class="auth-lead">Логін і пароль видає адміністратор.</p>
+    <p class="auth-lead">Увійдіть, щоб результати тестів бачив адміністратор. Логін і пароль видає він.</p>
 
     <form id="loginForm" class="auth-form" novalidate>
       <label class="auth-field">
@@ -38,6 +38,8 @@
       <p id="loginError" class="auth-error" role="alert" hidden></p>
       <button id="loginSubmit" class="auth-submit" type="submit">Увійти</button>
     </form>
+    <a id="guestLink" class="auth-guest" href="./index.html">Продовжити без входу</a>
+    <p class="auth-guest-hint">Без входу можна гортати каталог і тренуватися, але результати тестів не потрапляють до адміністратора.</p>
   </main>
 
   <script type="module" src="./assets/js/login.js"></script>

@@ -1,12 +1,12 @@
-/* Items tab: browse, edit, add and hide menu items of a section (table menu_items, admin-only RLS). */
+/* Items tab: browse, edit, add and delete menu items of a section (table menu_items, admin-only RLS). */
 import { supabase } from '../auth.js';
 import { PAGE_LINKS } from '../pages.js';
-import { escapeHtml, formatDate, openDialog, slug, toast, withBusy } from './ui.js';
+import { escapeHtml, formatDate, openDialog, showFormErrors, slug, toast, withBusy } from './ui.js';
 import { renderItemFields, readItemForm } from './item-forms.js';
 
 const BUCKET = 'menu-images';
 const PHOTO_MAX_SIDE = 800; // same size as the photos already in the project
-const state = { page: 'menu', search: '', showHidden: false, rows: [] };
+const state = { page: 'menu', search: '', rows: [] };
 const META = {
   wine: d => [d.category, d.priceHint],
   bar: d => [d.group, [d.volume, d.price].filter(Boolean).join(' · ')],
@@ -16,7 +16,7 @@ const META = {
 
 async function loadRows() {
   const { data, error } = await supabase.from('menu_items')
-    .select('page, id, data, choiceqr_name, is_active, sort_order, updated_at')
+    .select('page, id, data, choiceqr_name, sort_order, updated_at')
     .eq('page', state.page)
     .order('sort_order').order('name');
   if (error) throw new Error(error.message);
@@ -29,20 +29,19 @@ const suggestions = key => [...new Set(state.rows.map(row => row.data[key]).filt
 function renderList(container) {
   const term = state.search.trim().toLowerCase();
   const rows = state.rows.filter(row =>
-    (state.showHidden || row.is_active) && (!term || JSON.stringify(row.data).toLowerCase().includes(term)));
-  const hidden = state.rows.filter(row => !row.is_active).length;
+    !term || JSON.stringify(row.data).toLowerCase().includes(term));
   container.innerHTML = `
-    <p class="admin-muted">${rows.length} з ${state.rows.length}${hidden ? ` · прихованих: ${hidden}` : ''}</p>
+    <p class="admin-muted">${rows.length} з ${state.rows.length}</p>
     ${rows.length ? `<ul class="admin-items">${rows.map(row => {
       const [line1, line2] = META[row.page](row.data);
       return `
-      <li class="admin-item ${row.is_active ? '' : 'is-inactive'}">
+      <li class="admin-item">
         <button type="button" class="admin-item-open" data-edit-item="${escapeHtml(row.id)}">
           ${row.data.image ? `<img src="${escapeHtml(row.data.image)}" alt="" loading="lazy">` : '<span class="admin-item-noimg" aria-hidden="true">—</span>'}
           <span class="admin-item-copy">
             <strong>${escapeHtml(row.data.name)}</strong>
             <small>${escapeHtml([line1, line2].filter(Boolean).join(' · '))}</small>
-            <small class="admin-item-flags">${row.is_active ? '' : '<span class="admin-badge is-off">приховано</span>'}${row.choiceqr_name ? '<span class="admin-badge">ChoiceQR</span>' : ''}<span>змінено ${escapeHtml(formatDate(row.updated_at))}</span></small>
+            <small class="admin-item-flags">${row.choiceqr_name ? '<span class="admin-badge">ChoiceQR</span>' : ''}<span>змінено ${escapeHtml(formatDate(row.updated_at))}</span></small>
           </span>
         </button>
       </li>`;
@@ -93,29 +92,44 @@ function itemForm(row) {
         <summary>Службове</summary>
         <label class="admin-field"><span>Назва в ChoiceQR</span>
           <input name="choiceqrName" value="${escapeHtml(row?.choiceqr_name || '')}" autocomplete="off" spellcheck="false">
-          <small>Для кнопки «Оновити ціни й фото»: «НАЗВА» або «КАТЕГОРІЯ|НАЗВА» як у ChoiceQR. Порожнє — позиція не синхронізується.</small></label>
+          <small>Для вкладки ChoiceQR: «НАЗВА» або «КАТЕГОРІЯ|НАЗВА» як у ChoiceQR. Порожнє — позиція не синхронізується.</small></label>
         ${row ? `<p class="admin-muted">ID: <code>${escapeHtml(row.id)}</code></p>` : ''}
       </details>
-      <label class="admin-check"><input type="checkbox" name="isActive" ${row ? (row.is_active ? 'checked' : '') : 'checked'}>
-        <span>Показувати працівникам <small>Зніміть, щоб приховати позицію (наприклад, її прибрали з меню). Історія відповідей збережеться.</small></span></label>
       <p class="admin-form-error" role="alert" hidden></p>
       <div class="admin-form-actions">
+        ${row ? '<button type="button" class="admin-button is-danger admin-delete" data-delete-item>Видалити позицію</button>' : ''}
         <button type="button" class="admin-button is-ghost" data-close>Скасувати</button>
         <button type="submit" class="admin-button">${row ? 'Зберегти' : 'Додати позицію'}</button>
       </div>
     </form>`;
 }
 
+/* Photo uploaded to our Storage bucket → its path inside the bucket ("menu/x-123.webp"); other photos → null
+   (the photos that ship with the site in assets/img are not deleted). */
+function storagePath(url) {
+  const marker = `/storage/v1/object/public/${BUCKET}/`;
+  const at = String(url || '').indexOf(marker);
+  return at === -1 ? null : decodeURIComponent(String(url).slice(at + marker.length).split('?')[0]);
+}
+
+/* Deletes the item and its photo in Storage. Workers' answers about it stay in the results (stored by name). */
+async function removeItem(row) {
+  const { error } = await supabase.from('menu_items').delete().eq('page', row.page).eq('id', row.id).select('id').single();
+  if (error) throw new Error(`Не вдалося видалити: ${error.message}`);
+  const photo = storagePath(row.data.image);
+  if (photo) await supabase.storage.from(BUCKET).remove([photo]); // a leftover photo is harmless, so errors are ignored
+}
+
 async function save(form, row) {
   const { data, errors } = readItemForm(state.page, form, row?.data || {});
-  if (errors.length) throw new Error(errors.join('. '));
+  if (errors.length) throw Object.assign(new Error(errors.map(e => e.message).join('. ')), { fields: errors });
   const id = row?.id || uniqueId(data.name);
 
   const file = form.photo.files[0];
   if (file) data.image = await uploadPhoto(state.page, id, file);
   else if (form.removePhoto?.checked) delete data.image;
 
-  const fields = { data, choiceqr_name: form.choiceqrName.value.trim().toUpperCase() || null, is_active: form.isActive.checked };
+  const fields = { data, choiceqr_name: form.choiceqrName.value.trim().toUpperCase() || null };
   const result = row
     ? await supabase.from('menu_items').update(fields).eq('page', state.page).eq('id', id)
     : await supabase.from('menu_items').insert({
@@ -136,7 +150,6 @@ export async function renderItems(panel) {
       <div class="admin-segmented" role="group" aria-label="Розділ">${PAGE_LINKS.map(link =>
         `<button type="button" data-page="${link.id}" aria-pressed="${link.id === state.page}" class="${link.id === state.page ? 'is-active' : ''}">${link.icon} ${escapeHtml(link.label)}</button>`).join('')}</div>
       <input type="search" class="admin-search" placeholder="Пошук у розділі…" aria-label="Пошук позицій" data-search>
-      <label class="admin-check"><input type="checkbox" data-show-hidden><span>Показати приховані</span></label>
     </div>
     <div id="itemsList"><p class="admin-muted">Завантаження…</p></div>
     <dialog id="itemDialog" class="admin-dialog admin-dialog-wide" aria-labelledby="itemDialogTitle">
@@ -152,6 +165,7 @@ export async function renderItems(panel) {
     const section = PAGE_LINKS.find(l => l.id === state.page);
     dialog.querySelector('h2').textContent = row ? row.data.name : `Нова позиція · ${section.label}`;
     dialog.querySelector('.admin-dialog-body').innerHTML = itemForm(row);
+    dialog.dataset.itemId = row?.id || '';
     const form = dialog.querySelector('form');
     form.photo.addEventListener('change', () => {
       const file = form.photo.files[0];
@@ -159,16 +173,14 @@ export async function renderItems(panel) {
     });
     form.addEventListener('submit', async event => {
       event.preventDefault();
-      const error = form.querySelector('.admin-form-error');
-      error.hidden = true;
+      showFormErrors(form, []);
       try {
         const name = await withBusy(form.querySelector('[type=submit]'), 'Збереження…', () => save(form, row));
         dialog.close();
         toast(`«${name}» збережено`);
         await reload();
       } catch (failure) {
-        error.textContent = failure.message;
-        error.hidden = false;
+        showFormErrors(form, failure.fields || [{ message: failure.message }]);
       }
     });
     openDialog(dialog);
@@ -190,13 +202,32 @@ export async function renderItems(panel) {
     if (event.target.closest('[data-new-item]')) return open(null);
     const edit = event.target.closest('[data-edit-item]');
     if (edit) return open(state.rows.find(row => row.id === edit.dataset.editItem));
+    const deleteButton = event.target.closest('[data-delete-item]');
+    if (deleteButton) {
+      const row = state.rows.find(r => r.id === dialog.dataset.itemId);
+      if (!row) return;
+      const confirmed = window.confirm(
+        `Видалити «${row.data.name}»?
+
+` +
+        'Позиція зникне з каталогу й тестів, а також з бази без можливості відновлення. ' +
+        'Відповіді працівників по ній залишаться в «Результатах».'
+      );
+      if (!confirmed) return;
+      try {
+        await withBusy(deleteButton, 'Видалення…', () => removeItem(row));
+        dialog.close();
+        toast(`«${row.data.name}» видалено`);
+        await reload();
+      } catch (error) {
+        showFormErrors(dialog.querySelector('form'), [{ message: error.message }]);
+      }
+      return;
+    }
     if (event.target.closest('[data-close]')) dialog.close();
   });
   panel.addEventListener('input', event => {
     if (event.target.matches('[data-search]')) { state.search = event.target.value; renderList(list); }
-  });
-  panel.addEventListener('change', event => {
-    if (event.target.matches('[data-show-hidden]')) { state.showHidden = event.target.checked; renderList(list); }
   });
   await reload();
 }

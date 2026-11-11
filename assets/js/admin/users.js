@@ -1,10 +1,45 @@
 /* Users tab: staff accounts — create, rename, change role, reset password, block / unblock.
    All changes go through api/admin-users.js (service-role key on the server). */
 import { apiFetch } from '../auth.js';
-import { escapeHtml, formatAgo, formatDate, generatePassword, openDialog, toast, withBusy } from './ui.js';
+import { escapeHtml, formatAgo, formatDate, generatePassword, openDialog, showFormErrors, toast, validityErrors, withBusy } from './ui.js';
 
 const ROLE_LABELS = { staff: 'Працівник', admin: 'Адміністратор' };
 let users = [];
+
+/* What exactly is wrong with a login (the rule is in lib/server.mjs: ^[a-z0-9][a-z0-9._-]{2,31}$). */
+function usernameProblem(value) {
+  if (!value) return 'Логін: обов’язкове поле';
+  const bad = [...new Set(value.replace(/[a-z0-9._-]/g, ''))];
+  if (bad.length) {
+    const shown = bad.map(ch => (ch === ' ' ? 'пробіл' : `«${ch}»`)).join(', ');
+    return `Логін: недопустимі символи ${shown}. Можна лише латинські літери, цифри, крапку, дефіс і підкреслення`;
+  }
+  if (!/^[a-z0-9]/.test(value)) return 'Логін має починатися з латинської літери або цифри';
+  if (value.length < 3) return `Логін: щонайменше 3 символи (зараз ${value.length})`;
+  if (value.length > 32) return 'Логін: не більше 32 символів';
+  return '';
+}
+
+function checkUserForm(form, isNew) {
+  const errors = validityErrors(form).filter(e => e.name !== 'username');
+  if (!form.fullName.value.trim() && !errors.some(e => e.name === 'fullName')) {
+    errors.push({ name: 'fullName', message: 'Ім’я та прізвище: обов’язкове поле' });
+  }
+  if (isNew) {
+    const problem = usernameProblem(form.username.value.trim());
+    if (problem) errors.push({ name: 'username', message: problem });
+  }
+  const password = form.password.value;
+  if ((isNew || password) && password.length < 8 && !errors.some(e => e.name === 'password')) {
+    errors.push({ name: 'password', message: password ? `Пароль: щонайменше 8 символів (зараз ${password.length})` : 'Пароль: обов’язкове поле' });
+  }
+  // Same order as the fields in the form.
+  const order = name => [...form.elements].indexOf(form.elements[name]);
+  return errors.sort((a, b) => order(a.name) - order(b.name));
+}
+
+/* Server messages ("Логін «x» уже зайнятий", "Пароль…") are shown under the field they are about. */
+const fieldOfServerError = message => (/^Логін/.test(message) ? 'username' : /^Пароль/.test(message) ? 'password' : /^Вкажіть ім’я/.test(message) ? 'fullName' : null);
 
 function renderList(container) {
   container.innerHTML = users.length ? `
@@ -38,12 +73,12 @@ const passwordField = (name, label, hint, required) => `
 function userForm(user) {
   const isNew = !user;
   return `
-    <form class="admin-form" method="dialog" novalidate>
+    <form class="admin-form" method="dialog" novalidate data-user-id="${escapeHtml(user?.id || '')}">
       <label class="admin-field"><span>Ім’я та прізвище</span>
         <input name="fullName" required maxlength="80" value="${escapeHtml(user?.full_name || '')}" autocomplete="off"></label>
       ${isNew ? `
       <label class="admin-field"><span>Логін</span>
-        <input name="username" required pattern="[a-z0-9][a-z0-9._\\-]{2,31}" maxlength="32" autocapitalize="none" spellcheck="false" autocomplete="off" placeholder="olena.k">
+        <input name="username" required maxlength="32" autocapitalize="none" spellcheck="false" autocomplete="off" placeholder="olena.k">
         <small>3–32 символи: латинські літери, цифри, крапка, дефіс, підкреслення. Змінити потім не можна.</small></label>` : `
       <p class="admin-muted">Логін: <code>${escapeHtml(user.username)}</code></p>`}
       <label class="admin-field"><span>Роль</span>
@@ -55,10 +90,10 @@ function userForm(user) {
       ${isNew ? '' : `
       <label class="admin-check"><input type="checkbox" name="isActive" ${user.is_active ? 'checked' : ''}>
         <span>Доступ дозволено <small>Зніміть, щоб заблокувати вхід (історія результатів збережеться).</small></span></label>
-      <label class="admin-check"><input type="checkbox" name="answerAssist" ${user.answer_assist ? 'checked' : ''}>
-        <span>Прихований доступ <small>Після «Перевірити відповідь» обрані варіанти замінюються правильними, і спроба зараховується як правильна. Ніде, крім цього вікна, не показується.</small></span></label>`}
+      `}
       <p class="admin-form-error" role="alert" hidden></p>
       <div class="admin-form-actions">
+        ${isNew ? '' : '<button type="button" class="admin-button is-danger" data-delete-user>Видалити акаунт</button>'}
         <button type="button" class="admin-button is-ghost" data-close>Скасувати</button>
         <button type="submit" class="admin-button">${isNew ? 'Створити' : 'Зберегти'}</button>
       </div>
@@ -98,19 +133,27 @@ export async function renderUsers(panel) {
     dialog.querySelector('h2').textContent = user ? `Змінити: ${user.full_name}` : 'Новий працівник';
     body.innerHTML = userForm(user);
     const form = body.querySelector('form');
-    if (!user) form.password.value = generatePassword();
+    if (!user) {
+      form.password.value = generatePassword();
+      // Logins are lower-case: "Olena.K" becomes "olena.k" while typing instead of being rejected.
+      form.username.addEventListener('input', () => {
+        const { selectionStart, selectionEnd } = form.username;
+        form.username.value = form.username.value.toLowerCase();
+        form.username.setSelectionRange(selectionStart, selectionEnd);
+      });
+    }
     form.addEventListener('submit', async event => {
       event.preventDefault();
-      const error = form.querySelector('.admin-form-error');
-      error.hidden = true;
-      if (!form.reportValidity()) return;
+      const problems = checkUserForm(form, !user);
+      showFormErrors(form, problems);
+      if (problems.length) return;
       const submit = form.querySelector('[type=submit]');
       try {
         await withBusy(submit, 'Збереження…', async () => {
           if (user) {
             await apiFetch('admin-users', { method: 'PATCH', body: {
               id: user.id, fullName: form.fullName.value, role: form.role.value,
-              isActive: form.isActive.checked, answerAssist: form.answerAssist.checked,
+              isActive: form.isActive.checked,
               password: form.password.value || undefined
             } });
             dialog.close();
@@ -126,8 +169,7 @@ export async function renderUsers(panel) {
           await reload();
         });
       } catch (failure) {
-        error.textContent = failure.message;
-        error.hidden = false;
+        showFormErrors(form, [{ name: fieldOfServerError(failure.message), message: failure.message }]);
       }
     });
     openDialog(dialog);
@@ -137,6 +179,33 @@ export async function renderUsers(panel) {
     if (event.target.closest('[data-new-user]')) return open(null);
     const edit = event.target.closest('[data-edit-user]');
     if (edit) return open(users.find(u => u.id === edit.dataset.editUser));
+    const deleteButton = event.target.closest('[data-delete-user]');
+    if (deleteButton) {
+      const targetId = deleteButton.closest('form')?.dataset.userId;
+      const target = users.find(candidate => candidate.id === targetId);
+      if (!target) return;
+      const confirmed = window.confirm(
+        `Видалити акаунт «${target.full_name}» (@${target.username})?\n\n` +
+        'Усі результати квізів, помилки та статистика цього користувача будуть видалені без можливості відновлення.'
+      );
+      if (!confirmed) return;
+      try {
+        await withBusy(deleteButton, 'Видалення…', () => apiFetch('admin-users', {
+          method: 'DELETE',
+          body: { id: target.id }
+        }));
+        dialog.close();
+        toast('Акаунт і його історію видалено');
+        try {
+          await reload();
+        } catch (error) {
+          toast(`Акаунт видалено, але список не оновився: ${error.message}`, 'error');
+        }
+      } catch (error) {
+        toast(error.message, 'error');
+      }
+      return;
+    }
     const generate = event.target.closest('[data-generate]');
     if (generate) {
       const input = generate.closest('form').elements[generate.dataset.generate];

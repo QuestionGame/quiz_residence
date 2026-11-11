@@ -7,6 +7,7 @@ const errorBox = document.getElementById('loginError');
 const submit = document.getElementById('loginSubmit');
 const params = new URLSearchParams(location.search);
 const next = safeNext(params.get('next'));
+document.getElementById('guestLink').href = `./${next}`;
 
 function showError(message) {
   errorBox.textContent = message;

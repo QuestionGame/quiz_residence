@@ -15,7 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildKitchen } from './kitchen.mjs';
-import { choiceqrKey as key, formatPrice, formatVolume, isPricePerHundred, norm } from '../lib/choiceqr.mjs';
+import { choiceqrKey as key, cleanDescription, formatPrice, formatVolume, isPricePerHundred, norm } from '../lib/choiceqr.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_DIR = path.join(ROOT, 'data');
@@ -35,14 +35,6 @@ function slug(text) {
   return norm(text).toLowerCase()
     .split('').map(ch => TRANSLIT[ch] ?? ch).join('')
     .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
-}
-
-function cleanDescription(text) {
-  return norm(text)
-    .replace(/^[-–—]\s*/, '')
-    .replace(/\*\s*ціна вказана за 100\s*г\s*/i, '')
-    .replace(/\*\s*ЦІНА ЗА 100\s*г\s*/i, '')
-    .trim();
 }
 
 function itemsOf(sectionNames) {

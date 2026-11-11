@@ -43,6 +43,14 @@ if (profile) {
   nameForm.firstName.value = first;
   nameForm.lastName.value = rest.join(' ');
   passwordForm.username.value = profile.username; // lets password managers save the right login
+
+  // Browsers fill a saved password into "current password" on their own, so the field would open already
+  // filled in. They skip read-only fields, so it stays read-only until the user taps or tabs into it.
+  const unlock = event => event.currentTarget.removeAttribute('readonly');
+  passwordForm.querySelectorAll('[data-no-autofill]').forEach(input => {
+    input.value = '';
+    for (const type of ['pointerdown', 'focus']) input.addEventListener(type, unlock, { once: true });
+  });
   showProfile(profile);
   card.hidden = false;
 

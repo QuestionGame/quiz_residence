@@ -1254,6 +1254,7 @@
     }
 
     .auth-card {
+      box-sizing: border-box; /* login / profile pages load no Tailwind preflight */
       width: min(100%, 400px);
       padding: 28px 22px 24px;
       border: 1px solid rgba(212, 175, 55, 0.22);
@@ -1728,4 +1729,105 @@
       border-radius: 999px;
       background: rgba(0, 0, 0, 0.25);
       font-size: 12px;
+    }
+
+    /* ---------- Guest mode (no sign-in): header button, account sheet, quiz notice, login page link */
+    .account-button.is-guest svg,
+    .account-avatar.is-guest svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+    }
+
+    .account-avatar.is-guest svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .account-note {
+      margin: 0 0 16px;
+      color: var(--residence-muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .account-login {
+      justify-content: center;
+      border-color: transparent;
+      color: #fff;
+      background: linear-gradient(135deg, #d96b43, #b8532f);
+    }
+
+    .account-login span {
+      color: #fff;
+    }
+
+    .guest-notice {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 14px;
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 14px;
+      background: rgba(212, 175, 55, 0.07);
+    }
+
+    .guest-notice p {
+      flex: 1 1 220px;
+      margin: 0;
+      color: #e9e2cf;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .guest-notice strong {
+      color: var(--residence-champagne);
+    }
+
+    .guest-notice-button {
+      flex: 1 1 auto;
+      min-height: 44px;
+      padding: 8px 14px;
+      border: 1px solid rgba(217, 107, 67, 0.55);
+      border-radius: 12px;
+      color: #ffd9c9;
+      background: rgba(217, 107, 67, 0.14);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .guest-notice-button:hover {
+      background: rgba(217, 107, 67, 0.24);
+    }
+
+    .auth-guest {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      margin-top: 12px;
+      border: 1px solid rgba(212, 175, 55, 0.24);
+      border-radius: 15px;
+      color: var(--residence-text);
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .auth-guest:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .auth-guest-hint {
+      margin: 10px 2px 0;
+      color: var(--residence-muted);
+      font-size: 12px;
+      line-height: 1.45;
+      text-align: center;
     }

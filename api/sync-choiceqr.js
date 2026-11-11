@@ -1,11 +1,12 @@
-// "Оновити ціни й фото з ChoiceQR" (admin only).
+// "Синхронізація з ChoiceQR" (admin only).
 //   POST { apply: false } → report what would change (nothing is written)
-//   POST { apply: true }  → write new prices / volumes, upload changed photos to Storage, return the report
+//   POST { apply: true }  → write new prices / volumes / descriptions, upload changed photos to Storage, return the report
 // The menu itself (names, composition, allergens, quiz answers) is edited in the admin panel; this only
-// refreshes prices, portion sizes and photos of items linked to a ChoiceQR dish (menu_items.choiceqr_name).
+// refreshes prices, portion sizes, menu descriptions and photos of items linked to a ChoiceQR dish
+// (menu_items.choiceqr_name).
 import { createHash } from 'node:crypto';
 import { HttpError, adminClient, handle, readJson, requireAdmin } from '../lib/server.mjs';
-import { choiceqrKey, fetchChoiceqrMenu, formatPrice, formatVolume, indexChoiceqrItems, isPricePerHundred } from '../lib/choiceqr.mjs';
+import { choiceqrKey, cleanDescription, fetchChoiceqrMenu, formatPrice, formatVolume, indexChoiceqrItems, isPricePerHundred } from '../lib/choiceqr.mjs';
 
 export const config = { maxDuration: 60 };
 
@@ -14,6 +15,8 @@ const BUCKET = 'menu-images';
 const TRACKED_SECTIONS = ['БАР', 'КОКТЕЙЛІ', 'НА СНІДАНОК', 'ПІЦА', 'НА ОБІД ТА ВЕЧЕРЮ'];
 // Portion sizes come from ChoiceQR for drinks; kitchen weights come from the kitchen spec.
 const VOLUME_PAGES = new Set(['bar', 'cocktails']);
+// Sections whose item description is `notes` (wine has its own tasting notes and no ChoiceQR link).
+const DESCRIPTION_PAGES = new Set(['bar', 'cocktails', 'menu']);
 
 async function uploadPhoto(db, page, id, url) {
   const response = await fetch(url);
@@ -42,11 +45,11 @@ async function sync(req) {
   const index = indexChoiceqrItems(choiceqrItems);
 
   const { data: rows, error } = await db.from('menu_items')
-    .select('page, id, name, data, choiceqr_name, is_active')
+    .select('page, id, name, data, choiceqr_name')
     .not('choiceqr_name', 'is', null);
   if (error) throw new Error(error.message);
 
-  const report = { applied: Boolean(apply), checked: rows.length, prices: [], volumes: [], photos: [], missing: [], fresh: [], errors: [] };
+  const report = { applied: Boolean(apply), checked: rows.length, prices: [], volumes: [], descriptions: [], photos: [], missing: [], fresh: [], ignored: [], errors: [] };
   const linked = new Set();
   const updates = [];
 
@@ -74,6 +77,15 @@ async function sync(req) {
         changed = true;
       }
     }
+    if (DESCRIPTION_PAGES.has(row.page)) {
+      // An empty ChoiceQR description never wipes ours (some items have a description written by hand).
+      const description = cleanDescription(source.description);
+      if (description && description !== data.notes) {
+        report.descriptions.push({ page: row.page, id: row.id, name: row.name, from: data.notes || '—', to: description });
+        data.notes = description;
+        changed = true;
+      }
+    }
     if (source.photo && source.photo !== data.choiceqrPhoto) {
       report.photos.push({ page: row.page, id: row.id, name: row.name, url: source.photo });
       if (apply) {
@@ -89,10 +101,16 @@ async function sync(req) {
     if (changed) updates.push({ page: row.page, id: row.id, data });
   }
 
+  // New ChoiceQR dishes, minus the ones the admin marked «Не додавати в тренажер» (table choiceqr_ignored).
+  const { data: ignoredRows, error: ignoredError } = await db.from('choiceqr_ignored').select('key, name, section, category').order('name');
+  if (ignoredError) throw new Error(ignoredError.message);
+  report.ignored = ignoredRows;
+  const ignored = new Set(ignoredRows.map(row => row.key));
   const tracked = new Set(TRACKED_SECTIONS);
   report.fresh = choiceqrItems
     .filter(item => tracked.has(choiceqrKey(item.section)) && !linked.has(item))
-    .map(item => ({ section: item.section, category: item.category, name: item.name, price: formatPrice(item.price) }));
+    .map(item => ({ key: `${choiceqrKey(item.category)}|${choiceqrKey(item.name)}`, section: item.section, category: item.category, name: item.name, price: formatPrice(item.price) }))
+    .filter(item => !ignored.has(item.key));
 
   if (apply) {
     for (const update of updates) {

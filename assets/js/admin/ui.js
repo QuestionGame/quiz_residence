@@ -68,6 +68,77 @@ export function generatePassword() {
   return `${pick()}-${digits}-${last[0].toUpperCase()}${last.slice(1)}`;
 }
 
+/* ------------------------------------------------------- form errors
+   Errors are { name?: form field name, message }. Each is shown under its field (the field is outlined),
+   all of them are listed in the form's .admin-form-error box, and the first invalid field gets focus.
+   Forms use `novalidate`, so the browser's own vague bubbles ("Виберіть потрібний формат") never appear. */
+
+const fieldLabel = input => (input.closest('.admin-field')?.querySelector(':scope > span, :scope > legend')?.textContent || input.name)
+  .replace('*', '').trim();
+
+/* Messages for the browser's built-in checks (required, minlength, maxlength…), in Ukrainian and per field. */
+export function validityErrors(form) {
+  const errors = [];
+  for (const input of form.elements) {
+    if (!input.name || input.disabled || input.validity.valid) continue;
+    const label = fieldLabel(input);
+    const v = input.validity;
+    const message = v.valueMissing ? `${label}: обов’язкове поле`
+      : v.tooShort ? `${label}: щонайменше ${input.minLength} символів (зараз ${input.value.length})`
+      : v.tooLong ? `${label}: не більше ${input.maxLength} символів`
+      : `${label}: неправильне значення`;
+    errors.push({ name: input.name, message });
+  }
+  return errors;
+}
+
+export function clearFormErrors(form) {
+  form.querySelectorAll('.admin-field-error').forEach(note => note.remove());
+  form.querySelectorAll('.is-invalid').forEach(field => field.classList.remove('is-invalid'));
+  form.querySelectorAll('[aria-invalid]').forEach(input => input.removeAttribute('aria-invalid'));
+  const box = form.querySelector('.admin-form-error');
+  if (box) box.hidden = true;
+}
+
+export function showFormErrors(form, errors) {
+  clearFormErrors(form);
+  if (!errors.length) return;
+  let first = null;
+  for (const { name, message } of errors) {
+    const element = name ? form.elements[name] : null;
+    const input = element instanceof RadioNodeList ? element[0] : element;
+    const field = input?.closest('.admin-field');
+    if (!field) continue;
+    field.classList.add('is-invalid');
+    input.setAttribute('aria-invalid', 'true');
+    const note = document.createElement('small');
+    note.className = 'admin-field-error';
+    note.textContent = message;
+    field.append(note);
+    first ||= input;
+  }
+  const box = form.querySelector('.admin-form-error');
+  if (box) {
+    box.innerHTML = errors.length === 1 ? escapeHtml(errors[0].message)
+      : `<strong>Виправте, будь ласка:</strong><ul>${errors.map(e => `<li>${escapeHtml(e.message)}</li>`).join('')}</ul>`;
+    box.hidden = false;
+  }
+  (first || box)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  first?.focus({ preventScroll: true });
+
+  // The note under a field disappears as soon as that field is edited.
+  if (!form.dataset.errorReset) {
+    form.dataset.errorReset = '1';
+    form.addEventListener('input', event => {
+      const field = event.target.closest('.admin-field.is-invalid');
+      if (!field) return;
+      field.classList.remove('is-invalid');
+      field.querySelector('.admin-field-error')?.remove();
+      event.target.removeAttribute('aria-invalid');
+    });
+  }
+}
+
 export function openDialog(dialog) {
   dialog.showModal();
   dialog.querySelector('[autofocus], input, select, textarea')?.focus();

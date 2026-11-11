@@ -1,20 +1,10 @@
-/* Results tab: every worker's quiz results by period and section, with a per-worker breakdown. */
+/* Results tab: every worker's quiz results (all time) by section, with a per-worker breakdown. */
 import { supabase } from '../auth.js';
 import { PAGE_LINKS } from '../pages.js';
 import { accuracyTone, escapeHtml, formatAgo, formatDate, openDialog, percent } from './ui.js';
 
-const PERIODS = [
-  { id: '7', label: '7 днів', days: 7 },
-  { id: '30', label: '30 днів', days: 30 },
-  { id: 'all', label: 'Увесь час', days: null }
-];
 const SECTIONS = Object.fromEntries(PAGE_LINKS.map(link => [link.id, link]));
-const filters = { period: '30', page: 'all' };
-
-const since = () => {
-  const { days } = PERIODS.find(p => p.id === filters.period);
-  return days ? new Date(Date.now() - days * 864e5).toISOString() : '1970-01-01T00:00:00Z';
-};
+const filters = { page: 'all' };
 
 const accuracyCell = (correct, total) => {
   const value = percent(correct, total);
@@ -28,7 +18,7 @@ function segmented(name, options, current) {
 
 async function loadSummary() {
   const [{ data: rows, error }, { data: people, error: peopleError }] = await Promise.all([
-    supabase.rpc('attempt_summary', { since: since(), only_page: filters.page === 'all' ? null : filters.page }),
+    supabase.rpc('attempt_summary', { only_page: filters.page === 'all' ? null : filters.page }),
     supabase.from('profiles').select('id, username, full_name, role, is_active').order('full_name')
   ]);
   if (error || peopleError) throw new Error((error || peopleError).message);
@@ -95,7 +85,7 @@ async function openWorker(dialog, user) {
 
   let query = supabase.from('quiz_attempts')
     .select('page, item_id, item_name, is_correct, details, created_at')
-    .eq('user_id', user.id).gte('created_at', since())
+    .eq('user_id', user.id)
     .order('created_at', { ascending: false }).limit(500);
   if (filters.page !== 'all') query = query.eq('page', filters.page);
   const { data: attempts, error } = await query;
@@ -116,7 +106,7 @@ async function openWorker(dialog, user) {
   const correct = attempts.filter(a => a.is_correct).length;
 
   dialog.querySelector('.admin-dialog-body').innerHTML = `
-    <p class="admin-muted">@${escapeHtml(user.username)} · ${escapeHtml(PERIODS.find(p => p.id === filters.period).label)}${filters.page === 'all' ? '' : ` · ${escapeHtml(SECTIONS[filters.page].label)}`}${attempts.length === 500 ? ' · показано останні 500 відповідей' : ''}</p>
+    <p class="admin-muted">@${escapeHtml(user.username)}${filters.page === 'all' ? '' : ` · ${escapeHtml(SECTIONS[filters.page].label)}`}${attempts.length === 500 ? ' · показано останні 500 відповідей' : ''}</p>
     <div class="admin-stats">
       <div><span>Відповідей</span><strong>${attempts.length}</strong></div>
       <div><span>Точність</span><strong>${accuracyCell(correct, attempts.length)}</strong></div>
@@ -125,7 +115,7 @@ async function openWorker(dialog, user) {
     <h3>Найчастіші помилки</h3>
     ${problems.length ? `<ul class="admin-problems">${problems.map(p => `
       <li><span>${SECTIONS[p.page].icon} ${escapeHtml(p.name)}</span><span class="admin-muted">${p.wrong} з ${p.total} невірно</span></li>`).join('')}</ul>`
-      : '<p class="admin-muted">Помилок за цей період немає.</p>'}
+      : '<p class="admin-muted">Помилок немає.</p>'}
     <h3>Останні відповіді</h3>
     ${attempts.length ? `<ul class="admin-attempts">${attempts.slice(0, 40).map(a => `
       <li class="${a.is_correct ? 'is-right' : 'is-wrong'}">
@@ -133,7 +123,7 @@ async function openWorker(dialog, user) {
         <span><strong>${SECTIONS[a.page].icon} ${escapeHtml(a.item_name)}</strong>
           ${describeMistakes(a.details).map(line => `<small>${escapeHtml(line)}</small>`).join('')}</span>
         <time datetime="${a.created_at}">${escapeHtml(formatDate(a.created_at))}</time>
-      </li>`).join('')}</ul>` : '<p class="admin-muted">За цей період відповідей немає.</p>'}`;
+      </li>`).join('')}</ul>` : '<p class="admin-muted">Відповідей ще немає.</p>'}`;
 }
 
 export async function renderResults(panel) {
@@ -141,7 +131,6 @@ export async function renderResults(panel) {
     <div class="admin-toolbar">
       <div><h1>Результати працівників</h1><p class="admin-muted">Відповіді в тренажері. Натисніть на працівника, щоб побачити його помилки.</p></div>
       <div class="admin-filters">
-        ${segmented('period', PERIODS, filters.period)}
         ${segmented('page', [{ id: 'all', label: 'Усі розділи' }, ...PAGE_LINKS.map(l => ({ id: l.id, label: `${l.icon} ${l.label}` }))], filters.page)}
       </div>
     </div>

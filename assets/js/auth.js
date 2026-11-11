@@ -23,7 +23,25 @@ export async function getProfile() {
   return data || null;
 }
 
-/* Returns the signed-in, active profile — or sends the visitor to the login page and returns null. */
+/* login.html link that brings the visitor back here afterwards (e.g. bar.html#quiz). */
+export function loginHref({ blocked = false, hash = location.hash } = {}) {
+  const here = `${location.pathname.split('/').pop() || 'index.html'}${hash}`;
+  const params = new URLSearchParams({ next: safeNext(here) });
+  if (blocked) params.set('blocked', '1');
+  return `./login.html?${params}`;
+}
+
+/* Trainer pages: the signed-in profile, or null for a guest (guests can use the trainer, nothing is reported).
+   A blocked account is signed out and sent to login.html with an explanation; returns undefined then. */
+export async function getViewer() {
+  const profile = await getProfile().catch(() => null);
+  if (!profile || profile.is_active) return profile;
+  await supabase.auth.signOut();
+  location.replace(loginHref({ blocked: true }));
+  return undefined;
+}
+
+/* Admin panel and profile page: the signed-in, active profile — or sends the visitor to login.html and returns null. */
 export async function requireProfile({ admin = false } = {}) {
   const profile = await getProfile().catch(() => null);
   if (profile?.is_active && (!admin || profile.role === 'admin')) return profile;
@@ -33,10 +51,7 @@ export async function requireProfile({ admin = false } = {}) {
     return null;
   }
   if (profile && !profile.is_active) await supabase.auth.signOut();
-  const here = `${location.pathname.split('/').pop() || 'index.html'}${location.hash}`;
-  const params = new URLSearchParams({ next: safeNext(here) });
-  if (profile && !profile.is_active) params.set('blocked', '1');
-  location.replace(`./login.html?${params}`);
+  location.replace(loginHref({ blocked: Boolean(profile) }));
   return null;
 }
 

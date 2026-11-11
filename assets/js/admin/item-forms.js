@@ -115,7 +115,8 @@ function parseComponents(text) {
   }).filter(group => group.values.length);
 }
 
-/* Form → item data (keeps fields the form doesn't show, e.g. choiceqrPhoto). Returns { data, errors }. */
+/* Form → item data (keeps fields the form doesn't show, e.g. choiceqrPhoto).
+   Returns { data, errors }; each error is { name: form field, message } (shown under that field, see ui.js). */
 export function readItemForm(page, form, previous) {
   const data = { ...previous };
   const errors = [];
@@ -129,25 +130,25 @@ export function readItemForm(page, form, previous) {
     const raw = form.elements[name].value;
     if (field.type === 'list') {
       const values = [...new Set(lines(raw))];
-      if (field.exact && values.length !== field.exact) errors.push(`${field.label}: потрібно рівно ${field.exact}`);
-      if (field.min && values.length < field.min) errors.push(`${field.label}: щонайменше ${field.min}`);
+      if (field.exact && values.length !== field.exact) errors.push({ name, message: `${field.label}: потрібно рівно ${field.exact} (зараз ${values.length})` });
+      if (field.min && values.length < field.min) errors.push({ name, message: `${field.label}: щонайменше ${field.min} (зараз ${values.length})` });
       data[field.key] = values;
     } else if (field.type === 'components') {
       data[field.key] = parseComponents(raw);
     } else {
       const value = raw.replace(/\s+/g, ' ').trim();
-      if (field.required && !value) errors.push(`${field.label}: обов’язкове поле`);
+      if (field.required && !value) errors.push({ name, message: `${field.label}: обов’язкове поле` });
       data[field.key] = value;
     }
   }
 
   if (page === 'wine' && (data.distractors || []).some(d => d.toLowerCase() === String(data.grapes).toLowerCase())) {
-    errors.push('Неправильні варіанти сорту не можуть збігатися з правильною відповіддю');
+    errors.push({ name: 'f_distractors', message: 'Неправильні варіанти сорту не можуть збігатися з правильною відповіддю' });
   }
   if (page === 'menu') {
     data.quizIngredients = data.ingredients.filter(i => i.length <= MAX_QUIZ_INGREDIENT);
     if (data.ingredients.length >= 2 && data.quizIngredients.length < 2) {
-      errors.push(`Інгредієнти: щонайменше 2 мають бути коротшими за ${MAX_QUIZ_INGREDIENT} символи`);
+      errors.push({ name: 'f_ingredients', message: `Інгредієнти: щонайменше 2 мають бути коротшими за ${MAX_QUIZ_INGREDIENT} символи` });
     }
     // Where each allergen comes from (shown in the dish card); allergens ticked here are marked as such.
     const sources = previous.allergenSources || {};
