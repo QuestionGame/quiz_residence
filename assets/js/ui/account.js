@@ -1,9 +1,9 @@
 /* Account button in the header (initials) and its sheet: who is signed in, profile and admin links, sign out.
    For a guest: a person icon and a sheet that explains guest mode and leads to login.html. */
-import { store } from './context.js';
-import { escapeHtml } from './utils.js';
+import { store } from '../core/context.js';
+import { escapeHtml } from '../core/utils.js';
 import { createSheet } from './sheet.js';
-import { initials, signOut } from './auth.js';
+import { initials, signOut } from '../core/auth.js';
 
 const sheet = createSheet({ rootId: 'accountSheet', dialogId: 'accountSheetDialog', stateKey: 'account' });
 

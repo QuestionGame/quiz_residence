@@ -1,6 +1,6 @@
 /* Mistakes mode: list of items answered wrong at least once. */
-import { CONFIG, groupLabel, groupOf, state, store } from './context.js';
-import { escapeHtml, itemImage } from './utils.js';
+import { CONFIG, groupLabel, groupOf, state, store } from '../core/context.js';
+import { escapeHtml, itemImage } from '../core/utils.js';
 
 export function renderMistakesList() {
   const container = document.getElementById('mistakesListContainer');

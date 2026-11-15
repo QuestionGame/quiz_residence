@@ -1,6 +1,6 @@
 /* Results tab: every worker's quiz results (all time) by section, with a per-worker breakdown. */
-import { supabase } from '../auth.js';
-import { PAGE_LINKS } from '../pages.js';
+import { supabase } from '../core/auth.js';
+import { PAGE_LINKS } from '../core/pages.js';
 import { accuracyTone, escapeHtml, formatAgo, formatDate, openDialog, percent } from './ui.js';
 
 const SECTIONS = Object.fromEntries(PAGE_LINKS.map(link => [link.id, link]));

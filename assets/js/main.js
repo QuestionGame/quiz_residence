@@ -1,19 +1,19 @@
 /* Entry point: renders the page, wires up events and loads the page's data.
    Loaded from every HTML page as <script type="module" src="./assets/js/main.js">. */
-import { PAGE_ID, state, store } from './context.js';
-import { getViewer, loginHref } from './auth.js';
-import { loadItems } from './data.js';
-import { sound } from './sound.js';
-import { loadStats, resetMistakes } from './storage.js';
-import { renderLayout } from './layout.js';
-import { TAB_ACTIVE, TAB_IDLE } from './header.js';
-import { checkQuizAnswer, initQuiz, nextQuizItem, prevQuizItem, renderCategoryFilters, restartQuiz, resumeOrRestartQuiz, setMistakeMode, startQuizForItem } from './quiz.js';
-import { updateStatsUI } from './stats.js';
-import { renderFlashcards } from './flashcards.js';
-import { renderMistakesList } from './mistakes.js';
-import { bindItemSheet, closeItemSheet, openItemSheet } from './item-sheet.js';
-import { QUIZ_HASH, bindTrainerPicker, closeTrainerPicker, openTrainerPicker } from './trainer-picker.js';
-import { bindAccount, closeAccount, openAccount, signOut } from './account.js';
+import { PAGE_ID, state, store } from './core/context.js';
+import { getViewer, loginHref } from './core/auth.js';
+import { loadItems } from './core/data.js';
+import { sound } from './core/sound.js';
+import { loadStats, resetMistakes } from './core/storage.js';
+import { renderLayout } from './ui/layout.js';
+import { TAB_ACTIVE, TAB_IDLE } from './ui/header.js';
+import { checkQuizAnswer, initQuiz, nextQuizItem, prevQuizItem, renderCategoryFilters, restartQuiz, resumeOrRestartQuiz, setMistakeMode, startQuizForItem } from './modes/quiz.js';
+import { updateStatsUI } from './modes/stats.js';
+import { renderFlashcards } from './modes/flashcards.js';
+import { renderMistakesList } from './modes/mistakes.js';
+import { bindItemSheet, closeItemSheet, openItemSheet } from './ui/item-sheet.js';
+import { QUIZ_HASH, bindTrainerPicker, closeTrainerPicker, openTrainerPicker } from './ui/trainer-picker.js';
+import { bindAccount, closeAccount, openAccount, signOut } from './ui/account.js';
 
 /* ------------------------------------------------------- mode switching */
 

@@ -1,6 +1,6 @@
 /* Static page shell: header + the four mode sections + footer, rendered from the page config. */
-import { CONFIG, TEXT, store } from './context.js';
-import { escapeHtml } from './utils.js';
+import { CONFIG, TEXT, store } from '../core/context.js';
+import { escapeHtml } from '../core/utils.js';
 import { renderBottomNavigation, renderHeader } from './header.js';
 import { renderTrainerPicker } from './trainer-picker.js';
 import { renderAccountSheet } from './account.js';

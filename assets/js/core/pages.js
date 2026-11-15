@@ -31,7 +31,7 @@ const COUNTRY_FLAGS = {
 };
 const withFlag = country => `${COUNTRY_FLAGS[country] || "🌍"} ${country}`;
 
-/* 14 major food allergens (EU Regulation 1169/2011). Keep in sync with ALLERGENS in scripts/kitchen.mjs. */
+/* 14 major food allergens (EU Regulation 1169/2011). */
 export const MENU_ALLERGENS = ['Глютен', 'Ракоподібні', 'Молюски', 'Риба', 'Яйця', 'Молоко', 'Горіхи', 'Арахіс',
   'Соя', 'Кунжут', 'Гірчиця', 'Селера', 'Сульфіти', 'Люпин'];
 

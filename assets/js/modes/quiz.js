@@ -1,9 +1,9 @@
 /* Quiz mode: building answer options, the test flow (forward / back / skip / finish), checking answers. */
-import { CONFIG, TEXT, groupLabel, groupOf, state, store } from './context.js';
-import { escapeHtml, formatItemCount, itemImage, shuffle, unique } from './utils.js';
-import { sound } from './sound.js';
+import { CONFIG, TEXT, groupLabel, groupOf, state, store } from '../core/context.js';
+import { escapeHtml, formatItemCount, itemImage, shuffle, unique } from '../core/utils.js';
+import { sound } from '../core/sound.js';
 import { updateStatsUI } from './stats.js';
-import { recordAttempt } from './storage.js';
+import { recordAttempt } from '../core/storage.js';
 
 const formatOption = (question, value) => (question.format ? question.format(value) : value);
 const asArray = value => (Array.isArray(value) ? value : value ? [value] : []);

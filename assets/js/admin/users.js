@@ -1,6 +1,6 @@
 /* Users tab: staff accounts — create, rename, change role, reset password, block / unblock.
    All changes go through api/admin-users.js (service-role key on the server). */
-import { apiFetch } from '../auth.js';
+import { apiFetch } from '../core/auth.js';
 import { escapeHtml, formatAgo, formatDate, generatePassword, openDialog, showFormErrors, toast, validityErrors, withBusy } from './ui.js';
 
 const ROLE_LABELS = { staff: 'Працівник', admin: 'Адміністратор' };

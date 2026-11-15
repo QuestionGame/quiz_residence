@@ -1,5 +1,5 @@
 /* Header counters (streak, accuracy, mistakes) — refreshed after every change (answers are saved in storage.js). */
-import { state } from './context.js';
+import { state } from '../core/context.js';
 import { renderMistakesList } from './mistakes.js';
 
 export function updateStatsUI() {

@@ -52,7 +52,7 @@ const TRANSLIT = {
   к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'kh', ц: 'ts',
   ч: 'ch', ш: 'sh', щ: 'shch', ь: '', ю: 'iu', я: 'ia', ы: 'y', э: 'e', ъ: ''
 };
-/* Same slugs as scripts/build_quiz_data.mjs: "Б’янка міні" → "b-ianka-mini". */
+/* Makes an id from a name: "Б’янка міні" → "b-ianka-mini" (used for new menu items). */
 export function slug(text) {
   return String(text).replace(/\s+/g, ' ').trim().toLowerCase()
     .split('').map(ch => TRANSLIT[ch] ?? ch).join('')

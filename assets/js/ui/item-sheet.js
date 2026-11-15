@@ -1,7 +1,7 @@
 /* Item detail sheet shared by every catalog (wine, bar, cocktails, kitchen).
    Bottom sheet on phones (swipe down / Back button / Esc closes it), centered dialog on desktop. */
-import { CONFIG, PAGE_ID, store } from './context.js';
-import { escapeHtml, itemImage } from './utils.js';
+import { CONFIG, PAGE_ID, store } from '../core/context.js';
+import { escapeHtml, itemImage } from '../core/utils.js';
 import { createSheet } from './sheet.js';
 
 const sheet = createSheet({ rootId: 'itemSheet', dialogId: 'itemSheetDialog', stateKey: 'item' });
@@ -24,7 +24,7 @@ function renderComposition(item) {
     </section>`;
 }
 
-/* Kitchen only: allergens derived from the dish composition (scripts/kitchen.mjs) — always to be confirmed with the kitchen. */
+/* Kitchen only: allergens of the dish — always to be confirmed with the kitchen. */
 function renderAllergens(item) {
   if (!Array.isArray(item.allergens)) return '';
   const rows = item.allergens.length

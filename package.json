@@ -9,7 +9,7 @@
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
     "seed": "node scripts/seed_supabase.mjs",
-    "build:data": "node scripts/build_quiz_data.mjs"
+    "export": "node scripts/export_supabase.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.118.0"

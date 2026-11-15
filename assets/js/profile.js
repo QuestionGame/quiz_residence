@@ -1,5 +1,5 @@
 /* profile.html: the signed-in user changes their first / last name and their password. */
-import { changePassword, initials, requireProfile, safeNext, signOut, updateMyName } from './auth.js';
+import { changePassword, initials, requireProfile, safeNext, signOut, updateMyName } from './core/auth.js';
 
 const NAME_MAX = 40;
 const PASSWORD_MIN = 8;

@@ -1,8 +1,8 @@
 /* "Тренажер" (bottom navigation): a sheet to choose which quiz to take — wine, bar, cocktails or kitchen.
    The current section opens its quiz in place; another section opens its page straight in quiz mode (#quiz). */
-import { PAGE_LINKS, PAGES } from './pages.js';
-import { PAGE_ID } from './context.js';
-import { escapeHtml } from './utils.js';
+import { PAGE_LINKS, PAGES } from '../core/pages.js';
+import { PAGE_ID } from '../core/context.js';
+import { escapeHtml } from '../core/utils.js';
 import { createSheet } from './sheet.js';
 
 export const QUIZ_HASH = '#quiz';

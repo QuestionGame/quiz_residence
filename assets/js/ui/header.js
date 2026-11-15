@@ -1,7 +1,7 @@
 /* Shared mobile-first header and persistent primary navigation. */
-import { PAGE_LINKS } from './pages.js';
-import { PAGE_ID, TEXT } from './context.js';
-import { escapeHtml } from './utils.js';
+import { PAGE_LINKS } from '../core/pages.js';
+import { PAGE_ID, TEXT } from '../core/context.js';
+import { escapeHtml } from '../core/utils.js';
 import { renderAccountButton } from './account.js';
 
 export const TAB_ACTIVE = 'mode-tab is-active';

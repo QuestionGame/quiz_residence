@@ -1,5 +1,5 @@
 /* admin.html entry: admin-only guard, tabs (#results / #items / #users / #sync). Each tab renders lazily. */
-import { requireProfile, signOut } from '../auth.js';
+import { requireProfile, signOut } from '../core/auth.js';
 import { escapeHtml } from './ui.js';
 import { renderResults } from './results.js';
 import { renderItems } from './items.js';

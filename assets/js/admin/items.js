@@ -1,6 +1,6 @@
 /* Items tab: browse, edit, add and delete menu items of a section (table menu_items, admin-only RLS). */
-import { supabase } from '../auth.js';
-import { PAGE_LINKS } from '../pages.js';
+import { supabase } from '../core/auth.js';
+import { PAGE_LINKS } from '../core/pages.js';
 import { escapeHtml, formatDate, openDialog, showFormErrors, slug, toast, withBusy } from './ui.js';
 import { renderItemFields, readItemForm } from './item-forms.js';
 
@@ -75,8 +75,9 @@ function uniqueId(name) {
   return id;
 }
 
-function itemForm(row) {
-  const data = row?.data || {};
+/* `draft` pre-fills a NEW item (e.g. «Створити позицію» in the ChoiceQR tab): { data, choiceqr_name }. */
+function itemForm(row, draft = null) {
+  const data = row?.data || draft?.data || {};
   return `
     <form class="admin-form admin-item-form" novalidate>
       <div class="admin-photo">
@@ -89,9 +90,9 @@ function itemForm(row) {
       </div>
       <div class="admin-form-grid">${renderItemFields(state.page, data, suggestions)}</div>
       <details class="admin-details">
-        <summary>Службове</summary>
+        <summary>Прив’язка до ChoiceQR</summary>
         <label class="admin-field"><span>Назва в ChoiceQR</span>
-          <input name="choiceqrName" value="${escapeHtml(row?.choiceqr_name || '')}" autocomplete="off" spellcheck="false">
+          <input name="choiceqrName" value="${escapeHtml(row?.choiceqr_name || draft?.choiceqr_name || '')}" autocomplete="off" spellcheck="false">
           <small>Для вкладки ChoiceQR: «НАЗВА» або «КАТЕГОРІЯ|НАЗВА» як у ChoiceQR. Порожнє — позиція не синхронізується.</small></label>
         ${row ? `<p class="admin-muted">ID: <code>${escapeHtml(row.id)}</code></p>` : ''}
       </details>
@@ -113,7 +114,7 @@ function storagePath(url) {
 }
 
 /* Deletes the item and its photo in Storage. Workers' answers about it stay in the results (stored by name). */
-async function removeItem(row) {
+export async function removeItem(row) {
   const { error } = await supabase.from('menu_items').delete().eq('page', row.page).eq('id', row.id).select('id').single();
   if (error) throw new Error(`Не вдалося видалити: ${error.message}`);
   const photo = storagePath(row.data.image);
@@ -140,6 +141,14 @@ async function save(form, row) {
   return data.name;
 }
 
+/* «Створити позицію» from the ChoiceQR tab: call this, then go to #items — the form opens pre-filled
+   as soon as this tab is visible (after its first render, or on the hash change if it was rendered before).
+   prefill = { page, data, choiceqr_name }. */
+let pendingDraft = null;
+export function requestNewItem(prefill) {
+  pendingDraft = prefill;
+}
+
 export async function renderItems(panel) {
   panel.innerHTML = `
     <div class="admin-toolbar">
@@ -160,16 +169,37 @@ export async function renderItems(panel) {
   const list = panel.querySelector('#itemsList');
   const dialog = panel.querySelector('#itemDialog');
   const reload = async () => { await loadRows(); renderList(list); };
+  const showPage = async page => {
+    state.page = page;
+    panel.querySelectorAll('[data-page]').forEach(b => {
+      const active = b.dataset.page === page;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-pressed', String(active));
+    });
+    list.innerHTML = '<p class="admin-muted">Завантаження…</p>';
+    await reload();
+  };
 
-  const open = row => {
+  const open = (row, draft = null) => {
     const section = PAGE_LINKS.find(l => l.id === state.page);
     dialog.querySelector('h2').textContent = row ? row.data.name : `Нова позиція · ${section.label}`;
-    dialog.querySelector('.admin-dialog-body').innerHTML = itemForm(row);
+    dialog.querySelector('.admin-dialog-body').innerHTML = itemForm(row, draft);
     dialog.dataset.itemId = row?.id || '';
     const form = dialog.querySelector('form');
     form.photo.addEventListener('change', () => {
       const file = form.photo.files[0];
       if (file) form.querySelector('.admin-photo-preview').innerHTML = `<img src="${URL.createObjectURL(file)}" alt="">`;
+    });
+    // Symbol chips (₴, •): keep the input focused on press, then insert the symbol at the caret.
+    form.addEventListener('mousedown', event => { if (event.target.closest('[data-insert]')) event.preventDefault(); });
+    form.addEventListener('click', event => {
+      const chip = event.target.closest('[data-insert]');
+      if (!chip) return;
+      const input = form.elements[chip.dataset.for];
+      const start = input.selectionStart ?? input.value.length;
+      const end = input.selectionEnd ?? start;
+      input.setRangeText(chip.dataset.insert, start, end, 'end');
+      input.focus();
     });
     form.addEventListener('submit', async event => {
       event.preventDefault();
@@ -188,17 +218,7 @@ export async function renderItems(panel) {
 
   panel.addEventListener('click', async event => {
     const pageButton = event.target.closest('[data-page]');
-    if (pageButton) {
-      state.page = pageButton.dataset.page;
-      panel.querySelectorAll('[data-page]').forEach(b => {
-        const active = b === pageButton;
-        b.classList.toggle('is-active', active);
-        b.setAttribute('aria-pressed', String(active));
-      });
-      list.innerHTML = '<p class="admin-muted">Завантаження…</p>';
-      await reload();
-      return;
-    }
+    if (pageButton) return showPage(pageButton.dataset.page);
     if (event.target.closest('[data-new-item]')) return open(null);
     const edit = event.target.closest('[data-edit-item]');
     if (edit) return open(state.rows.find(row => row.id === edit.dataset.editItem));
@@ -230,4 +250,15 @@ export async function renderItems(panel) {
     if (event.target.matches('[data-search]')) { state.search = event.target.value; renderList(list); }
   });
   await reload();
+
+  const openDraft = async () => {
+    if (!pendingDraft) return;
+    const { page, ...draft } = pendingDraft;
+    pendingDraft = null;
+    if (page !== state.page) await showPage(page);
+    open(null, draft);
+  };
+  // admin/main.js shows the tab in its own hashchange listener, registered earlier, so the panel is visible here.
+  window.addEventListener('hashchange', () => { if (location.hash === '#items') openDraft(); });
+  await openDraft();
 }

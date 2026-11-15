@@ -1,6 +1,6 @@
 /* login.html: sign in with the login and password issued by an admin. */
-import { isConfigured } from './config.js';
-import { getProfile, safeNext, signIn } from './auth.js';
+import { isConfigured } from './core/config.js';
+import { getProfile, safeNext, signIn } from './core/auth.js';
 
 const form = document.getElementById('loginForm');
 const errorBox = document.getElementById('loginError');
@@ -15,7 +15,7 @@ function showError(message) {
 }
 
 if (!isConfigured) {
-  showError('Сайт ще не підключено до бази даних (assets/js/config.js).');
+  showError('Сайт ще не підключено до бази даних (assets/js/core/config.js).');
   submit.disabled = true;
 } else {
   if (params.get('blocked')) showError('Доступ заблоковано. Зверніться до адміністратора.');

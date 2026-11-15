@@ -372,6 +372,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   gap: 14px 16px;
+  /* Each field is only as tall as its own content: a hint under one field no longer
+     stretches the inputs of its neighbours in the same row. */
+  align-items: start;
 }
 
 .admin-field {
@@ -418,6 +421,22 @@
 }
 
 .admin-input-row { display: flex; gap: 8px; }
+
+/* Quick-insert symbol buttons under a field (₴, •) — awkward characters the admin can click in. */
+.admin-symbols { display: flex; flex-wrap: wrap; gap: 6px; }
+.admin-symbol {
+  min-width: 30px;
+  height: 28px;
+  padding: 0 9px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  color: var(--residence-champagne);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+}
+.admin-symbol:hover { background: rgba(212, 175, 55, 0.16); border-color: rgba(212, 175, 55, 0.5); }
 .admin-input-row input { flex: 1; }
 
 .admin-check {
@@ -494,7 +513,16 @@
   background: rgba(6, 78, 59, 0.3);
 }
 
-.admin-details summary { cursor: pointer; color: var(--residence-muted); font-size: 13px; }
+.admin-details summary {
+  cursor: pointer;
+  padding: 10px 12px;
+  border: 1px dashed rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  color: var(--residence-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+.admin-details summary:hover { border-color: rgba(212, 175, 55, 0.55); }
 .admin-details[open] summary { margin-bottom: 10px; }
 
 .admin-photo { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
@@ -666,4 +694,10 @@
 .admin-ignored summary { font-weight: 600; }
 @media (max-width: 520px) {
   .admin-fresh li .admin-button { width: 100%; justify-content: center; }
+}
+
+/* ChoiceQR: «Перейменувати / Видалити», «Створити позицію / Не додавати в тренажер». */
+.admin-fresh-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (max-width: 520px) {
+  .admin-fresh-actions { width: 100%; flex-direction: column; }
 }

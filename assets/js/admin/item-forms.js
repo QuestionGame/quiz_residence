@@ -1,8 +1,8 @@
-/* Edit forms for menu items, per section. The fields are the ones the quiz pages read (assets/js/pages.js);
+/* Edit forms for menu items, per section. The fields are the ones the quiz pages read (assets/js/core/pages.js);
    select options come from the quiz config so an item can't get an answer the quiz doesn't know.
    Field types: text · textarea · select · datalist (free text + suggestions) · list (one per line)
                 · components (kitchen groups) · allergens (checkboxes) · checkbox */
-import { MENU_ALLERGENS, PAGES } from '../pages.js';
+import { MENU_ALLERGENS, PAGES } from '../core/pages.js';
 import { escapeHtml } from './ui.js';
 
 const optionsOf = (page, key) => {
@@ -22,8 +22,8 @@ export const ITEM_FORMS = {
     { key: 'classificationGeneral', label: 'Класифікація повністю', type: 'text', required: true, hint: 'Показується в розборі відповіді, напр. «Червоне, сухе (кошерне)».' },
     { key: 'grapes', label: 'Сортовий склад (правильна відповідь)', type: 'text', required: true },
     { key: 'distractors', label: 'Неправильні варіанти сорту', type: 'list', exact: 3, hint: 'Рівно 3, по одному на рядок.' },
-    { key: 'priceHint', label: 'Ціна', type: 'text', hint: 'Напр. «250 ₴ (100 мл)».' },
-    { key: 'volume', label: 'Об’єм / міцність', type: 'text' },
+    { key: 'priceHint', label: 'Ціна', type: 'text', symbols: ['₴'], hint: 'Напр. «250 ₴ (100 мл)».' },
+    { key: 'volume', label: 'Об’єм / міцність', type: 'text', symbols: ['•'], hint: 'Напр. «100 мл • 13%».' },
     { key: 'tastingNotes', label: 'Дегустаційні ноти', type: 'textarea' }
   ],
   bar: [
@@ -33,7 +33,7 @@ export const ITEM_FORMS = {
     { key: 'country', label: 'Країна', type: 'datalist', hint: 'Порожнє — питання про країну для цієї позиції не ставиться.' },
     { key: 'style', label: 'Стиль / особливість', type: 'text', required: true },
     { key: 'volume', label: 'Порція', type: 'text', hint: 'Напр. «50 мл».' },
-    { key: 'price', label: 'Ціна', type: 'text', hint: 'Напр. «180 ₴».' },
+    { key: 'price', label: 'Ціна', type: 'text', symbols: ['₴'], hint: 'Напр. «180 ₴».' },
     { key: 'notes', label: 'Смакові ноти / опис', type: 'textarea' }
   ],
   cocktails: [
@@ -42,7 +42,7 @@ export const ITEM_FORMS = {
     { key: 'base', label: 'Основа', type: 'select', required: true, options: optionsOf('cocktails', 'base') },
     { key: 'ingredients', label: 'Склад', type: 'text', required: true, hint: 'Через кому, напр. «Джин, вермут, біттер».' },
     { key: 'volume', label: 'Об’єм', type: 'text' },
-    { key: 'price', label: 'Ціна', type: 'text' },
+    { key: 'price', label: 'Ціна', type: 'text', symbols: ['₴'], hint: 'Напр. «245 ₴».' },
     { key: 'notes', label: 'Опис', type: 'textarea' }
   ],
   menu: [
@@ -50,7 +50,7 @@ export const ITEM_FORMS = {
     { key: 'group', label: 'Розділ меню', type: 'datalist', required: true },
     { key: 'isNew', label: 'Новинка', type: 'checkbox' },
     { key: 'weight', label: 'Вихід', type: 'text', hint: 'Напр. «350 г».' },
-    { key: 'price', label: 'Ціна', type: 'text', hint: 'Напр. «325 ₴» або «197 ₴ / 100 г».' },
+    { key: 'price', label: 'Ціна', type: 'text', symbols: ['₴'], hint: 'Напр. «325 ₴» або «197 ₴ / 100 г».' },
     { key: 'ingredients', label: 'Інгредієнти (для квізу)', type: 'list', min: 2, hint: 'По одному на рядок, щонайменше 2. Короткі назви — довгі фрази в квіз не потрапляють.' },
     { key: 'components', label: 'Склад по групах (картка страви)', type: 'components', hint: 'Рядок = група: «Основа: лосось; шпинат». Значення через крапку з комою.' },
     { key: 'allergens', label: 'Алергени', type: 'allergens' },
@@ -93,8 +93,13 @@ function fieldHtml(field, data, suggestions) {
         <small>Перевірені кухнею. Автоматично визначені алергени були лише підказкою.</small></fieldset>`;
     case 'checkbox':
       return `<label class="admin-check"><input type="checkbox" name="${name}" ${value ? 'checked' : ''}><span>${label}</span></label>`;
-    default:
-      return `<label class="admin-field"><span>${label}</span><input name="${name}" value="${escapeHtml(value ?? '')}" ${required} autocomplete="off">${hint}</label>`;
+    default: {
+      // Quick-insert buttons for symbols that are awkward to type (₴, •); they insert at the cursor.
+      const chips = (field.symbols || []).map(sym =>
+        `<button type="button" class="admin-symbol" data-insert="${escapeHtml(sym)}" data-for="${name}" tabindex="-1" title="Вставити ${escapeHtml(sym)}">${escapeHtml(sym)}</button>`).join('');
+      const symbols = chips ? `<div class="admin-symbols">${chips}</div>` : '';
+      return `<label class="admin-field"><span>${label}</span><input name="${name}" value="${escapeHtml(value ?? '')}" ${required} autocomplete="off">${symbols}${hint}</label>`;
+    }
   }
 }
 
@@ -136,7 +141,9 @@ export function readItemForm(page, form, previous) {
     } else if (field.type === 'components') {
       data[field.key] = parseComponents(raw);
     } else {
-      const value = raw.replace(/\s+/g, ' ').trim();
+      let value = raw.replace(/\s+/g, ' ').trim();
+      // "160" → "160 ₴": the admin can type just the number for a price field.
+      if (field.symbols?.includes('₴') && /^\d[\d\s]*$/.test(value)) value = `${value} ₴`;
       if (field.required && !value) errors.push({ name, message: `${field.label}: обов’язкове поле` });
       data[field.key] = value;
     }

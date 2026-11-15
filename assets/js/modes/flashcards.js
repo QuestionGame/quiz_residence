@@ -1,6 +1,6 @@
 /* Catalog mode: searchable grid of item cards. A card opens the item sheet (item-sheet.js). */
-import { CONFIG, groupOf, store } from './context.js';
-import { escapeHtml, formatItemCount, itemImage } from './utils.js';
+import { CONFIG, groupOf, store } from '../core/context.js';
+import { escapeHtml, formatItemCount, itemImage } from '../core/utils.js';
 
 function renderCard(item) {
   const tags = [...new Set((CONFIG.cardTags ? CONFIG.cardTags(item) : []).filter(Boolean))].slice(0, 3);

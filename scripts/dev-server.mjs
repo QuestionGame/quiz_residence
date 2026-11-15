@@ -36,7 +36,9 @@ async function runApi(name, req, res) {
     res.statusCode = 404;
     return res.end(JSON.stringify({ error: 'Not found' }));
   }
-  const { default: handler } = await import(pathToFileURL(file).href);
+  // ?v=<mtime>: an edited api/*.js is picked up without restarting the server (Node caches imported modules).
+  // Changes in lib/*.mjs still need a restart.
+  const { default: handler } = await import(`${pathToFileURL(file).href}?v=${fs.statSync(file).mtimeMs}`);
   await handler(req, decorate(res));
 }
 
@@ -44,7 +46,8 @@ function serveStatic(urlPath, res) {
   const relative = decodeURIComponent(urlPath === '/' ? '/index.html' : urlPath);
   const file = path.resolve(ROOT, `.${relative}`);
   // Never serve dotfiles (.env.local holds the service-role key, .git, …) or server-side code.
-  const blocked = /(^|[\\/])(\.[^\\/]*|node_modules|supabase|scripts|lib|api)([\\/]|$)/.test(path.relative(ROOT, file));
+  // Same folders that vercel.json hides in production (the app loads menu data from Supabase, not /data).
+  const blocked = /(^|[\\/])(\.[^\\/]*|node_modules|supabase|scripts|lib|api|data)([\\/]|$)/.test(path.relative(ROOT, file));
   if (!file.startsWith(ROOT + path.sep) || blocked || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
     res.statusCode = 404;
     return res.end('Not found');

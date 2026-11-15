@@ -56,7 +56,7 @@ async function sync(req) {
   for (const row of rows) {
     const source = index.get(choiceqrKey(row.choiceqr_name));
     if (!source) {
-      report.missing.push({ page: row.page, id: row.id, name: row.name, choiceqrName: row.choiceqr_name });
+      report.missing.push({ page: row.page, id: row.id, name: row.name, choiceqrName: row.choiceqr_name, image: row.data.image || '' });
       continue;
     }
     linked.add(source);
@@ -109,7 +109,19 @@ async function sync(req) {
   const tracked = new Set(TRACKED_SECTIONS);
   report.fresh = choiceqrItems
     .filter(item => tracked.has(choiceqrKey(item.section)) && !linked.has(item))
-    .map(item => ({ key: `${choiceqrKey(item.category)}|${choiceqrKey(item.name)}`, section: item.section, category: item.category, name: item.name, price: formatPrice(item.price) }))
+    .map(item => {
+      // Price, portion and description are sent too: «Створити позицію» pre-fills the new item's form with them.
+      const perHundred = isPricePerHundred(item.description);
+      return {
+        key: `${choiceqrKey(item.category)}|${choiceqrKey(item.name)}`,
+        section: item.section,
+        category: item.category,
+        name: item.name,
+        price: formatPrice(item.price, perHundred),
+        volume: perHundred ? '' : formatVolume(item.volume),
+        description: cleanDescription(item.description)
+      };
+    })
     .filter(item => !ignored.has(item.key));
 
   if (apply) {
