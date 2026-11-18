@@ -1,16 +1,19 @@
 /* Entry point: renders the page, wires up events and loads the page's data.
    Loaded from every HTML page as <script type="module" src="./assets/js/main.js">. */
-import { CONFIG, PAGE_ID, state, store } from './context.js';
-import { sound } from './sound.js';
-import { loadStats } from './storage.js';
-import { renderLayout } from './layout.js';
-import { TAB_ACTIVE, TAB_IDLE } from './header.js';
-import { checkQuizAnswer, initQuiz, nextQuizItem, onQuizFilterChange, renderCategoryFilters, setMistakeMode, startQuizForItem } from './quiz.js';
-import { updateStatsUI } from './stats.js';
-import { renderFlashcards } from './flashcards.js';
-import { renderMistakesList } from './mistakes.js';
-import { bindItemSheet, closeItemSheet, openItemSheet } from './item-sheet.js';
-import { QUIZ_HASH, bindTrainerPicker, closeTrainerPicker, openTrainerPicker } from './trainer-picker.js';
+import { PAGE_ID, state, store } from './core/context.js';
+import { getViewer, loginHref } from './core/auth.js';
+import { loadItems } from './core/data.js';
+import { sound } from './core/sound.js';
+import { loadStats, resetMistakes } from './core/storage.js';
+import { renderLayout } from './ui/layout.js';
+import { TAB_ACTIVE, TAB_IDLE } from './ui/header.js';
+import { checkQuizAnswer, initQuiz, nextQuizItem, prevQuizItem, renderCategoryFilters, restartQuiz, resumeOrRestartQuiz, setMistakeMode, startQuizForItem } from './modes/quiz.js';
+import { updateStatsUI } from './modes/stats.js';
+import { renderFlashcards } from './modes/flashcards.js';
+import { renderMistakesList } from './modes/mistakes.js';
+import { bindItemSheet, closeItemSheet, openItemSheet } from './ui/item-sheet.js';
+import { QUIZ_HASH, bindTrainerPicker, closeTrainerPicker, openTrainerPicker } from './ui/trainer-picker.js';
+import { bindAccount, closeAccount, openAccount, signOut } from './ui/account.js';
 
 /* ------------------------------------------------------- mode switching */
 
@@ -46,11 +49,13 @@ function startMistakesQuiz() {
   setMistakeMode(true);
   switchMode('quiz');
   initQuiz();
+  window.scrollTo({ top: 0 });
 }
 
 function clearMistakes() {
   state.stats.mistakesSet.clear();
   updateStatsUI();
+  resetMistakes();
 }
 
 function trainCurrentItem() {
@@ -71,21 +76,31 @@ function selectCategoryChip(chip) {
 
 /* ------------------------------------------------------------- events */
 
+/* Guest → login.html, then back to the same section (and straight into the quiz if it was open). */
+const goToLogin = () => location.assign(loginHref({ hash: currentMode === 'quiz' ? QUIZ_HASH : '' }));
+
 const ACTIONS = {
+  goToLogin,
   skipQuizItem: nextQuizItem,
+  prevQuizItem,
   checkQuizAnswer,
   nextQuizItem,
+  restartQuiz,
   startMistakesQuiz,
   clearMistakes,
   closeItemSheet,
   trainCurrentItem,
   openTrainerPicker,
-  closeTrainerPicker
+  closeTrainerPicker,
+  openAccount,
+  closeAccount,
+  signOut
 };
 
 function bindEvents() {
   bindItemSheet();
-  bindTrainerPicker({ onCurrentPage: () => switchMode('quiz') });
+  bindTrainerPicker({ onCurrentPage: () => { resumeOrRestartQuiz(); switchMode('quiz'); } });
+  bindAccount();
 
   document.addEventListener('click', event => {
     const target = event.target instanceof Element ? event.target : null;
@@ -98,10 +113,6 @@ function bindEvents() {
     if (modeButton) switchMode(modeButton.dataset.mode);
     const actionButton = target.closest('[data-action]');
     if (actionButton) ACTIONS[actionButton.dataset.action]?.();
-  });
-
-  document.addEventListener('change', event => {
-    if (event.target.dataset.changeAction === 'onQuizFilterChange') onQuizFilterChange();
   });
 
   // The search field lives in the header on every mode, but it filters the catalog — show the catalog while typing.
@@ -120,25 +131,20 @@ function bindEvents() {
 /* -------------------------------------------------------------- start */
 
 async function initializeApp() {
+  // Signed in → answers are reported to the admin; guest (null) → the trainer works, nothing leaves the browser.
+  store.profile = await getViewer();
+  if (store.profile === undefined) return; // blocked account, redirected to login.html
+
   renderLayout();
   bindEvents();
   try {
-    const response = await fetch(CONFIG.dataUrl);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-    const items = await response.json();
-    if (!Array.isArray(items) || items.length === 0) {
-      throw new Error('Data is empty or invalid');
-    }
-
-    store.items = items;
+    store.items = await loadItems(PAGE_ID);
+    if (!store.items.length) throw new Error('у цьому розділі ще немає позицій');
     if (PAGE_ID === 'menu') {
       // Wine list for the pairing hint in the dish sheet; the page works without it.
-      store.wineItems = await fetch('./data/wines.json')
-        .then(result => (result.ok ? result.json() : []))
-        .catch(() => []);
+      store.wineItems = await loadItems('wine').catch(() => []);
     }
-    loadStats();
+    await loadStats();
     renderCategoryFilters();
     initQuiz();
     updateStatsUI();
@@ -150,9 +156,9 @@ async function initializeApp() {
       switchMode('flashcards', false);
     }
   } catch (error) {
-    console.error(`Unable to load ${CONFIG.dataUrl}:`, error);
+    console.error('Unable to load the page data:', error);
     const status = document.getElementById('appStatus');
-    status.textContent = `Не вдалося завантажити ${CONFIG.dataUrl.replace('./', '')}. Запустіть сторінку через локальний вебсервер (наприклад, Live Server) і оновіть її.`;
+    status.textContent = `Не вдалося завантажити дані: ${error.message}. Перевірте інтернет і оновіть сторінку.`;
     status.classList.remove('hidden');
   }
 }

@@ -1,0 +1,472 @@
+/* Quiz mode: building answer options, the test flow (forward / back / skip / finish), checking answers. */
+import { CONFIG, TEXT, groupLabel, groupOf, state, store } from '../core/context.js';
+import { escapeHtml, formatItemCount, itemImage, shuffle, unique } from '../core/utils.js';
+import { sound } from '../core/sound.js';
+import { updateStatsUI } from './stats.js';
+import { recordAttempt } from '../core/storage.js';
+
+const formatOption = (question, value) => (question.format ? question.format(value) : value);
+const asArray = value => (Array.isArray(value) ? value : value ? [value] : []);
+
+/* Questions that have an answer for this item (others are skipped). */
+export function questionsFor(item) {
+  return CONFIG.questions.filter(q => asArray(q.answer(item)).length > 0);
+}
+
+/* First 5 letters of every word of 4+ letters — used to keep near-synonyms out of wrong options
+   ("Пармезан" must not be a wrong option for a dish with "Сир пармезан"). */
+function wordStems(text) {
+  return new Set(String(text).toLowerCase().replace(/['’ʼ]/g, '').split(/[^a-zа-яіїєґ0-9]+/i).filter(w => w.length >= 4).map(w => w.slice(0, 5)));
+}
+
+/* Multi-answer (checklist) question: a sample of correct answers + wrong ones from other items.
+   Returns { options, correct } where `correct` is the subset of options that is right. */
+export function buildChecklist(question, item) {
+  const allCorrect = asArray(question.answer(item));
+  const spec = question.options;
+  if (spec.all) return { options: unique([...spec.all, ...allCorrect]), correct: allCorrect };
+
+  const correct = spec.correct === 'all' ? allCorrect : shuffle([...allCorrect]).slice(0, spec.correct || 4);
+  const ownStems = wordStems(spec.similarText ? spec.similarText(item) : allCorrect.join(' '));
+  const ownValues = new Set(allCorrect.map(value => value.toLowerCase()));
+  const wrong = shuffle(unique(store.items.filter(other => other !== item).flatMap(other => asArray(question.answer(other)))))
+    .filter(value => !ownValues.has(value.toLowerCase()) && ![...wordStems(value)].some(stem => ownStems.has(stem)))
+    .slice(0, spec.wrong || 4);
+  return { options: shuffle([...correct, ...wrong]), correct };
+}
+
+/* Correct answer + wrong ones, using the strategy from question.options (see pages.js). */
+export function buildOptions(question, item) {
+  const correct = question.answer(item);
+  const spec = question.options;
+  if (spec.all) return unique([...spec.all, correct]);
+
+  const count = spec.count || 4;
+  let candidates;
+  if (spec.distractors) {
+    candidates = spec.distractors(item) || [];
+  } else {
+    const tiers = (spec.pool || []).map(field =>
+      shuffle(unique(store.items.filter(other => other[field] === item[field]).map(question.answer))));
+    if (spec.pool) tiers.push(shuffle(unique(store.items.map(question.answer))));
+    if (spec.list) tiers.push(shuffle([...spec.list]));
+    candidates = tiers.flat();
+  }
+  const picks = unique(candidates).filter(value => value !== correct).slice(0, count - 1);
+  return shuffle([correct, ...picks]);
+}
+
+/* ---------------------------------------------------------- catalog filters */
+
+export function renderCategoryFilters() {
+  const counts = new Map();
+  store.items.forEach(item => counts.set(groupOf(item), (counts.get(groupOf(item)) || 0) + 1));
+
+  const flashSelect = document.getElementById('flashcardCategoryFilter');
+  flashSelect.innerHTML = `<option value="ALL">Всі категорії</option>`;
+  counts.forEach((count, group) => flashSelect.add(new Option(groupLabel(group), group)));
+
+  document.getElementById('flashcardCountBadge').textContent = store.items.length;
+  document.getElementById('flashcardResultCount').textContent = formatItemCount(store.items.length);
+  const chips = document.getElementById('categoryChips');
+  chips.innerHTML = [
+    `<button type="button" class="category-chip is-selected" data-category-filter="ALL" aria-pressed="true">Усе <span>${store.items.length}</span></button>`,
+    ...[...counts].map(([group, count]) => `<button type="button" class="category-chip" data-category-filter="${escapeHtml(group)}" aria-pressed="false">${escapeHtml(groupLabel(group))} <span>${count}</span></button>`)
+  ].join('');
+}
+
+/* ---------------------------------------------------------- quiz flow
+   A test is one pass over the pool and ends with a summary. Every visited question keeps its record in
+   state.history (shown options, answers, result), so "← Попереднє" shows it exactly as it was.
+   Mistake training is the exception: when the pool runs out it starts again with the items that are
+   still wrong, until none are left. */
+
+const mistakeItems = () => store.items.filter(item => state.stats.mistakesSet.has(item.id));
+
+export function initQuiz() {
+  let pool = state.mistakesModeActive ? mistakeItems() : [];
+  if (!pool.length) {
+    setMistakeMode(false);
+    pool = [...store.items];
+  }
+  state.quizPool = shuffle(pool);
+  startRound();
+}
+
+/* "Тренувати цю позицію": the chosen item comes first, then the test continues over the whole menu. */
+export function startQuizForItem(itemId) {
+  const item = store.items.find(entry => entry.id === itemId);
+  if (!item) return false;
+  setMistakeMode(false);
+  state.quizPool = [item, ...shuffle(store.items.filter(entry => entry !== item))];
+  startRound();
+  return true;
+}
+
+/* "Тренажер" picker: continue a regular test in progress, otherwise start a new one. */
+export function resumeOrRestartQuiz() {
+  if (state.finished || state.mistakesModeActive) {
+    setMistakeMode(false);
+    initQuiz();
+  }
+}
+
+export function setMistakeMode(active) {
+  state.mistakesModeActive = active;
+  document.getElementById('mistakeModeIndicator').classList.toggle('hidden', !active);
+}
+
+function startRound() {
+  state.history = [];
+  state.currentIndex = 0;
+  setFinished(false);
+  loadQuizQuestion();
+}
+
+function setFinished(finished) {
+  state.finished = finished;
+  document.getElementById('quizHeader').classList.toggle('hidden', finished);
+  document.getElementById('quizBody').classList.toggle('hidden', finished);
+  document.getElementById('quizFinish').classList.toggle('hidden', !finished);
+}
+
+/* New question → back to the top, so the photo and the name are on screen again. */
+function scrollToQuizTop() {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+}
+
+function loadQuizQuestion() {
+  const item = state.quizPool[state.currentIndex];
+  if (!item) return;
+  const record = state.history[state.currentIndex] ||= { options: {}, shownCorrect: {}, answers: null, checked: false };
+
+  state.answerChecked = false;
+  state.activeQuestions = questionsFor(item);
+  state.userAnswers = {};
+  state.shownCorrect = record.shownCorrect;
+
+  const total = state.quizPool.length;
+  document.getElementById('quizCurrentIndex').textContent = state.currentIndex + 1;
+  document.getElementById('quizTotalCount').textContent = total;
+  document.getElementById('quizProgressBar').style.width = `${((state.currentIndex + 1) / total) * 100}%`;
+
+  const badge = CONFIG.quizBadge(item);
+  const meta = CONFIG.quizMeta(item);
+  const badgeEl = document.getElementById('quizItemBadge');
+  const metaEl = document.getElementById('quizItemMeta');
+  badgeEl.textContent = badge;
+  badgeEl.classList.toggle('hidden', !badge);
+  metaEl.textContent = meta;
+  metaEl.classList.toggle('hidden', !meta);
+  document.getElementById('quizItemName').textContent = item.name;
+  document.getElementById('quizItemImage').innerHTML = itemImage(item,
+    'h-full w-full object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.6)] rounded-2xl',
+    'h-full w-full');
+
+  document.getElementById('quizResultPanel').classList.add('hidden');
+  const isLast = state.currentIndex === total - 1 && !state.mistakesModeActive;
+  document.getElementById('btnNextLabel').textContent = isLast ? 'Завершити тест' : TEXT.next;
+  document.getElementById('btnPrevItem').disabled = state.currentIndex === 0;
+
+  let step = 0;
+  CONFIG.questions.forEach(question => {
+    const block = document.getElementById(`block-${question.key}`);
+    const isActive = state.activeQuestions.includes(question);
+    block.classList.toggle('hidden', !isActive);
+    resetBadge(`badge-${question.key}`);
+    if (!isActive) return;
+    block.querySelector('[data-step-number]').textContent = ++step;
+    renderOptions(question, item, record);
+  });
+
+  if (record.checked) {
+    // Already answered: show it read-only with the verdict, without recording it again.
+    state.activeQuestions.forEach(q => {
+      const saved = record.answers[q.key];
+      state.userAnswers[q.key] = q.multi ? new Set(saved) : saved;
+    });
+    state.answerChecked = true;
+    showVerdict(item);
+  }
+  setButtons(record.checked);
+}
+
+function setButtons(checked) {
+  document.getElementById('btnCheckAnswer').classList.toggle('hidden', checked);
+  document.getElementById('btnNextItem').classList.toggle('hidden', !checked);
+  document.getElementById('btnSkipItem').classList.toggle('invisible', checked);
+  validateCanCheck();
+}
+
+function resetBadge(id) {
+  const el = document.getElementById(id);
+  el.className = "text-xs font-medium hidden";
+  el.innerHTML = "";
+}
+
+const OPTION_BASE_CLASS = "option-btn p-2 text-xs font-medium rounded-xl border border-white/10 bg-slate-800/80 hover:bg-slate-700/80 hover:border-amber-500/40 text-slate-300 transition active:scale-95 disabled:cursor-default disabled:active:scale-100";
+
+const SELECTED = ['bg-amber-500', 'text-slate-950', 'border-amber-400', 'font-bold'];
+const UNSELECTED = ['bg-slate-800/80', 'text-slate-300'];
+
+function setSelected(btn, selected) {
+  btn.classList.remove(...(selected ? UNSELECTED : SELECTED));
+  btn.classList.add(...(selected ? SELECTED : UNSELECTED));
+  btn.setAttribute(btn.getAttribute('role') === 'checkbox' ? 'aria-checked' : 'aria-pressed', String(selected));
+  const mark = btn.querySelector('[data-check-mark]');
+  if (mark) mark.textContent = selected ? '✓' : '';
+}
+
+/* Options are built once per question and kept in the record, so going back shows the same ones. */
+function renderOptions(question, item, record) {
+  const container = document.getElementById(`grid-${question.key}`);
+  container.innerHTML = "";
+  if (!record.options[question.key]) {
+    if (question.multi) {
+      const { options, correct } = buildChecklist(question, item);
+      record.options[question.key] = options;
+      record.shownCorrect[question.key] = correct;
+    } else {
+      record.options[question.key] = buildOptions(question, item);
+    }
+  }
+  if (question.multi) state.userAnswers[question.key] = new Set();
+
+  record.options[question.key].forEach(value => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.dataset.value = value;
+    btn.className = `${OPTION_BASE_CLASS} ${question.wide ? 'p-2.5 text-left' : 'text-center'}`;
+    if (question.multi) {
+      btn.setAttribute('role', 'checkbox');
+      btn.setAttribute('aria-checked', 'false');
+      btn.classList.add('flex', 'items-center', 'gap-2', 'min-h-[44px]');
+      btn.innerHTML = `
+        <span data-check-mark class="w-4 h-4 shrink-0 rounded border border-current flex items-center justify-center text-[11px] leading-none" aria-hidden="true"></span>
+        <span class="flex-1">${escapeHtml(formatOption(question, value))}</span>
+        <span data-result-note class="hidden text-[10px] font-semibold uppercase tracking-wide"></span>`;
+    } else {
+      btn.setAttribute('aria-pressed', 'false');
+      btn.textContent = formatOption(question, value);
+    }
+    btn.onclick = () => selectOption(question, value, btn);
+    container.appendChild(btn);
+  });
+}
+
+function selectOption(question, value, btn) {
+  if (state.answerChecked) return;
+  sound.playClick();
+  if (question.multi) {
+    const chosen = state.userAnswers[question.key];
+    if (chosen.has(value)) chosen.delete(value); else chosen.add(value);
+    setSelected(btn, chosen.has(value));
+  } else {
+    state.userAnswers[question.key] = value;
+    document.querySelectorAll(`#grid-${question.key} .option-btn`).forEach(b => setSelected(b, false));
+    setSelected(btn, true);
+  }
+  validateCanCheck();
+}
+
+const isAnswered = q => (q.multi ? state.userAnswers[q.key]?.size > 0 : Boolean(state.userAnswers[q.key]));
+/* Optional questions (e.g. allergens) never block checking and never count towards the score. */
+const allAnswered = () => state.activeQuestions.filter(q => !q.optional).every(isAnswered);
+
+const CHECK_BTN_BASE = "quiz-primary px-6 py-2.5 rounded-xl font-semibold text-sm transition shadow-lg flex items-center gap-2";
+const CHECK_BTN_ENABLED = "bg-gradient-to-r from-wine-600 to-amber-600 hover:from-wine-500 hover:to-amber-500 text-white cursor-pointer transform hover:-translate-y-0.5";
+const CHECK_BTN_DISABLED = "bg-slate-800 text-slate-500 cursor-not-allowed";
+
+function validateCanCheck() {
+  const btn = document.getElementById('btnCheckAnswer');
+  const canCheck = !state.answerChecked && allAnswered();
+  const hidden = btn.classList.contains('hidden');
+  btn.disabled = !canCheck;
+  btn.className = `${CHECK_BTN_BASE} ${canCheck ? CHECK_BTN_ENABLED : CHECK_BTN_DISABLED}`;
+  btn.classList.toggle('hidden', hidden);
+}
+
+/* Colours options after checking. Works for single answers and checklists:
+   picked & right → green, picked & wrong → red, missed right answer → dashed green "пропущено". */
+function markOptions(question, correctValues, chosenValues) {
+  const correct = new Set(correctValues);
+  const chosen = new Set(chosenValues);
+  document.querySelectorAll(`#grid-${question.key} .option-btn`).forEach(b => {
+    b.disabled = true;
+    const value = b.dataset.value;
+    const note = b.querySelector('[data-result-note]');
+    const setNote = text => { if (note) { note.textContent = text; note.classList.remove('hidden'); } };
+    if (correct.has(value) && (chosen.has(value) || !question.multi)) {
+      b.classList.add('!bg-emerald-600', '!text-white', '!border-emerald-400');
+    } else if (correct.has(value)) {
+      b.classList.add('!border-emerald-400', '!border-dashed', '!text-emerald-300');
+      setNote('пропущено');
+    } else if (chosen.has(value)) {
+      b.classList.add('!bg-rose-600', '!text-white', '!border-rose-400');
+      setNote('зайве');
+    } else {
+      b.classList.add('opacity-50');
+    }
+  });
+}
+
+/* Result for one question: { correct, chosen, isCorrect } */
+function evaluate(question, item) {
+  if (question.multi) {
+    const correct = state.shownCorrect[question.key];
+    const chosen = [...state.userAnswers[question.key]];
+    const isCorrect = chosen.length === correct.length && chosen.every(v => correct.includes(v));
+    return { correct, chosen, isCorrect };
+  }
+  const correct = question.answer(item);
+  const chosen = state.userAnswers[question.key];
+  return { correct: [correct], chosen: [chosen], isCorrect: chosen === correct };
+}
+
+function setBadgeStatus(elementId, isCorrect, optional = false) {
+  const el = document.getElementById(elementId);
+  const color = isCorrect ? 'text-emerald-400' : optional ? 'text-amber-400' : 'text-rose-400';
+  const text = isCorrect ? '✓ Вірно' : optional ? '△ Не все — на результат не впливає' : '✕ Помилка';
+  el.className = `text-xs font-semibold flex items-center gap-1 text-right ${color}`;
+  el.innerHTML = `<span>${text}</span>`;
+}
+
+/* Colours the options, sets the badges and fills the result panel for the current answers. */
+function showVerdict(item) {
+  let isAllCorrect = true;
+  const details = state.activeQuestions.map(question => {
+    const { correct, chosen, isCorrect } = evaluate(question, item);
+    if (!isCorrect && !question.optional) isAllCorrect = false;
+    markOptions(question, correct, chosen);
+    setBadgeStatus(`badge-${question.key}`, isCorrect, question.optional);
+    return { key: question.key, label: question.label, correct, chosen, isCorrect, optional: Boolean(question.optional) };
+  });
+
+  const panel = document.getElementById('quizResultPanel');
+  const header = document.getElementById('resultHeaderBadge');
+  if (isAllCorrect) {
+    header.innerHTML = `<span class="text-emerald-400">✨ Бездоганно! Усі відповіді правильні.</span>`;
+    panel.className = "mt-6 p-4 sm:p-5 rounded-2xl border border-emerald-500/40 bg-emerald-950/20 text-sm space-y-3";
+  } else {
+    header.innerHTML = `<span class="text-rose-400">⚠️ Є неточності. Зверніть увагу на розбір нижче:</span>`;
+    panel.className = "mt-6 p-4 sm:p-5 rounded-2xl border border-rose-500/40 bg-rose-950/20 text-sm space-y-3";
+  }
+
+  document.getElementById('resultDetails').innerHTML = state.activeQuestions.map(question => {
+    const value = question.result
+      ? question.result(item)
+      : asArray(question.answer(item)).map(v => formatOption(question, v)).join(', ');
+    return `<p>${question.resultIcon} <strong class="text-white">${escapeHtml(question.resultLabel)}:</strong> <span class="text-amber-300">${escapeHtml(value)}</span></p>`;
+  }).join('');
+
+  const note = CONFIG.notes(item);
+  document.getElementById('resultNote').textContent = note || '';
+  document.getElementById('resultNoteBox').classList.toggle('hidden', !note);
+  return { isAllCorrect, details };
+}
+
+/* «Прихований доступ» (profiles.answer_assist, set by an admin): whatever was picked becomes the correct answer. */
+function pickCorrectAnswers(item) {
+  state.activeQuestions.forEach(question => {
+    const correct = question.multi ? state.shownCorrect[question.key] : [question.answer(item)];
+    state.userAnswers[question.key] = question.multi ? new Set(correct) : correct[0];
+    document.querySelectorAll(`#grid-${question.key} .option-btn`).forEach(b => setSelected(b, correct.includes(b.dataset.value)));
+  });
+}
+
+export function checkQuizAnswer() {
+  const item = state.quizPool[state.currentIndex];
+  if (!item || state.answerChecked || !allAnswered()) return;
+  if (store.profile?.answer_assist) pickCorrectAnswers(item);
+  state.answerChecked = true;
+
+  const { isAllCorrect, details } = showVerdict(item);
+  Object.assign(state.history[state.currentIndex], {
+    checked: true,
+    isAllCorrect,
+    answers: Object.fromEntries(state.activeQuestions.map(q => [q.key, q.multi ? [...state.userAnswers[q.key]] : state.userAnswers[q.key]]))
+  });
+
+  state.stats.answeredTotal++;
+  if (isAllCorrect) {
+    sound.playCorrect();
+    state.stats.correctTotal++;
+    state.stats.streak++;
+    state.stats.mistakesSet.delete(item.id);
+  } else {
+    sound.playWrong();
+    state.stats.streak = 0;
+    state.stats.mistakesSet.add(item.id);
+  }
+  // Signed in: saved for the admin with the details of what was answered. Guest: kept in this browser only.
+  recordAttempt(item, isAllCorrect, details);
+  updateStatsUI();
+  setButtons(true);
+}
+
+/* "Наступне" and "Пропустити": a skipped question stays unanswered and can be reopened with "← Попереднє". */
+export function nextQuizItem() {
+  sound.playClick();
+  state.currentIndex++;
+  if (state.currentIndex < state.quizPool.length) loadQuizQuestion();
+  else if (state.mistakesModeActive && mistakeItems().length) initQuiz();
+  else showFinish();
+  scrollToQuizTop();
+}
+
+export function prevQuizItem() {
+  if (state.currentIndex === 0) return;
+  sound.playClick();
+  state.currentIndex--;
+  loadQuizQuestion();
+  scrollToQuizTop();
+}
+
+export function restartQuiz() {
+  sound.playClick();
+  setMistakeMode(false);
+  initQuiz();
+  scrollToQuizTop();
+}
+
+/* ---------------------------------------------------------- end of the test */
+
+function finishHeading(wasMistakeMode, answered, share) {
+  if (wasMistakeMode) return ['🎉', 'Усі помилки виправлено'];
+  if (!answered) return ['⏭️', 'Тест завершено без відповідей'];
+  if (share === 100) return ['🏆', 'Тест пройдено бездоганно'];
+  return share >= 70 ? ['👏', 'Тест завершено'] : ['📚', 'Тест завершено — варто повторити'];
+}
+
+function showFinish() {
+  const wasMistakeMode = state.mistakesModeActive;
+  const total = state.quizPool.length;
+  const answered = state.history.filter(record => record?.checked);
+  const correct = answered.filter(record => record.isAllCorrect).length;
+  const wrongItems = state.quizPool.filter((item, i) => state.history[i]?.checked && !state.history[i].isAllCorrect);
+  const skipped = total - answered.length;
+  const share = answered.length ? Math.round((correct / answered.length) * 100) : 0;
+  const mistakesLeft = state.stats.mistakesSet.size;
+  const [icon, title] = finishHeading(wasMistakeMode, answered.length, share);
+  setMistakeMode(false);
+
+  document.getElementById('quizFinish').innerHTML = `
+    <div class="quiz-finish-icon" aria-hidden="true">${icon}</div>
+    <h2 class="quiz-finish-title">${title}</h2>
+    ${wasMistakeMode
+      ? '<p class="quiz-finish-text">Кожну позицію зі списку помилок ви назвали правильно.</p>'
+      : `<p class="quiz-finish-text">Правильно <strong>${correct}</strong> з <strong>${total}</strong></p>
+        <div class="quiz-finish-stats">
+          <div><strong class="is-good">${correct}</strong><span>правильно</span></div>
+          <div><strong class="is-bad">${wrongItems.length}</strong><span>з помилками</span></div>
+          <div><strong>${skipped}</strong><span>пропущено</span></div>
+        </div>
+        ${wrongItems.length ? `<div class="quiz-finish-list"><p>Варто повторити</p><ul>${wrongItems.map(item => `<li>${escapeHtml(item.name)}</li>`).join('')}</ul></div>` : ''}`}
+    <div class="quiz-finish-actions">
+      ${mistakesLeft ? `<button type="button" class="quiz-finish-button is-primary" data-action="startMistakesQuiz">Тренувати помилки <span>${mistakesLeft}</span></button>` : ''}
+      <button type="button" class="quiz-finish-button${mistakesLeft ? '' : ' is-primary'}" data-action="restartQuiz">${wasMistakeMode ? 'Пройти тест' : 'Пройти ще раз'}</button>
+      <button type="button" class="quiz-finish-button is-ghost" data-mode="flashcards">До каталогу</button>
+    </div>`;
+  setFinished(true);
+}

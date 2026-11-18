@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Адмін-панель | Residence Trainer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+  <link rel="stylesheet" href="./assets/css/admin.css">
+</head>
+<!-- Rendered by assets/js/admin/main.js; only active admins get past requireProfile({ admin: true }). -->
+<body class="admin-body">
+  <div id="admin" hidden>
+    <header class="admin-header">
+      <div class="admin-header-main">
+        <a class="residence-brand" href="./index.html" aria-label="До тренажера">
+          <span class="residence-monogram" aria-hidden="true">R</span>
+          <span class="residence-brand-copy"><span class="residence-eyebrow">STAFF EDITION</span><span class="residence-brand-title">Адмін-панель</span></span>
+        </a>
+        <div class="admin-header-actions">
+          <a class="admin-link" href="./index.html">← Тренажер</a>
+          <span id="adminWho" class="admin-who"></span>
+          <button type="button" id="adminSignOut" class="admin-link">Вийти</button>
+        </div>
+      </div>
+      <nav class="admin-tabs" aria-label="Розділи адмін-панелі">
+        <a href="#results" data-tab="results">Результати</a>
+        <a href="#items" data-tab="items">Позиції</a>
+        <a href="#users" data-tab="users">Користувачі</a>
+        <a href="#sync" data-tab="sync">ChoiceQR</a>
+      </nav>
+    </header>
+    <main class="admin-main">
+      <section id="tab-results" data-panel="results" hidden></section>
+      <section id="tab-items" data-panel="items" hidden></section>
+      <section id="tab-users" data-panel="users" hidden></section>
+      <section id="tab-sync" data-panel="sync" hidden></section>
+    </main>
+  </div>
+  <div id="adminToast" class="admin-toast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="./assets/js/admin/main.js"></script>
+</body>
+</html>

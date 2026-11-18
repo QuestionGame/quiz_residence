@@ -1,376 +1,497 @@
 [
   {
     "id": "aviation",
+    "base": "Джин",
     "name": "AVIATION",
+    "group": "Класичний",
+    "image": "./assets/img/cocktails/aviation.webp",
+    "notes": "Квітковий, свіжий, міцний. Класичний коктейль початку XX століття на основі сухого джину з додаванням вишневого та фіалкового лікерів і краплі лимонного соку, що надає напою неповторного блідо-лавандового відтінку.",
     "price": "230 ₴",
     "volume": "",
-    "notes": "Квітковий, свіжий, міцний. Класичний коктейль початку XX століття на основі сухого джину з додаванням вишневого та фіалкового лікерів і краплі лимонного соку, що надає напою неповторного блідо-лавандового відтінку.",
-    "image": "./assets/img/cocktails/aviation.webp",
-    "group": "Класичний",
-    "base": "Джин",
-    "ingredients": "Сухий джин, вишневий лікер, фіалковий лікер, лимонний сік"
+    "ingredients": "Сухий джин, вишневий лікер, фіалковий лікер, лимонний сік",
+    "choiceqr": {
+      "name": "КЛАСИЧНІ|AVIATION",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/wLJwJxp-JlTLIHs-jIlIeZe.webp"
+    }
   },
   {
     "id": "witch-s-sin",
+    "base": "Текіла",
     "name": "WITCH'S SIN",
+    "group": "Авторський",
+    "image": "",
+    "notes": "Чаклунський твіст на класичну Маргариту. Баланс срібної текіли та автентичного мескаля дарує напою благородний копчено-димний аромат, підкреслений свіжим лимонним фрешем. Візуальний та смаковий акцент коктейлю — акуратний верхній шар із сухого червоного вина, що створює ефектне гранатове наслоєння та додає приємну танінну терпкість. • Склад: Біла текіла, мескаль, фреш лимона, цукровий сироп, червоне сухе вино (каберне).",
     "price": "245 ₴",
     "volume": "",
-    "notes": "Чаклунський твіст на класичну Маргариту. Баланс срібної текіли та автентичного мескаля дарує напою благородний копчено-димний аромат, підкреслений свіжим лимонним фрешем. Візуальний та смаковий акцент коктейлю — акуратний верхній шар із сухого червоного вина, що створює ефектне гранатове наслоєння та додає приємну танінну терпкість. • Склад: Біла текіла, мескаль, фреш лимона, цукровий сироп, червоне сухе вино (каберне).",
-    "image": "",
-    "group": "Авторський",
-    "base": "Текіла",
-    "ingredients": "Біла текіла, мескаль, фреш лимона, цукровий сироп, червоне сухе вино (каберне)"
+    "ingredients": "Біла текіла, мескаль, фреш лимона, цукровий сироп, червоне сухе вино (каберне)",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|WITCH'S SIN",
+      "photo": ""
+    }
   },
   {
     "id": "coconut-daiquiri-b-a",
+    "base": "Без алкоголю",
     "name": "COCONUT DAIQUIRI б/а",
+    "group": "Безалкогольний",
+    "image": "./assets/img/cocktails/coconut-daiquiri-b-a.webp",
+    "notes": "Освіжаючий безалкогольний мікс із насиченим кокосовим смаком, збалансований свіжістю лимонного фрешу та ніжною солодкістю сиропу. Легкий, тропічний і яскраво літній.",
     "price": "280 ₴",
     "volume": "",
-    "notes": "Освіжаючий безалкогольний мікс із насиченим кокосовим смаком, збалансований свіжістю лимонного фрешу та ніжною солодкістю сиропу. Легкий, тропічний і яскраво літній.",
-    "image": "./assets/img/cocktails/coconut-daiquiri-b-a.webp",
-    "group": "Безалкогольний",
-    "base": "Без алкоголю",
-    "ingredients": "Б/а ром, фреш лимона, кокосовий сироп"
+    "ingredients": "Б/а ром, фреш лимона, кокосовий сироп",
+    "choiceqr": {
+      "name": "БЕЗАЛКОГОЛЬНІ|COCONUT DAIQUIRI",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/BerIFkF-xcbakbF-TRSOckO.webp"
+    }
   },
   {
     "id": "big-lebowski",
+    "base": "Горілка",
     "name": "BIG LEBOWSKI",
+    "group": "Класичний",
+    "image": "./assets/img/cocktails/big-lebowski.webp",
+    "notes": "В основі горілка, кавовий лікер та вершки— м’який, оксамитовий смак із приємними кавовими нотами та легкою кремовою пінкою. ☕",
     "price": "270 ₴",
     "volume": "",
-    "notes": "В основі горілка, кавовий лікер та вершки— м’який, оксамитовий смак із приємними кавовими нотами та легкою кремовою пінкою. ☕",
-    "image": "./assets/img/cocktails/big-lebowski.webp",
-    "group": "Класичний",
-    "base": "Горілка",
-    "ingredients": "Горілка, кавовий лікер, вершки"
+    "ingredients": "Горілка, кавовий лікер, вершки",
+    "choiceqr": {
+      "name": "КЛАСИЧНІ|BIG LEBOWSKI",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/wuuziCw-ldOVWHN-vpKBwgH.webp"
+    }
   },
   {
     "id": "zombie-mojito",
+    "base": "Ром",
     "name": "ZOMBIE MOJITO",
+    "group": "Авторський",
+    "image": "",
+    "notes": "Освіжаючий лонг-дрінк у готичному стилі. Багатий та щільний смак ромового тріо (білий, золотий, темний) ідеально збалансований прохолодою м'яти та кислинкою лайма та лимонного фрешу. • Склад: Золотий ром, темний ром, білий ром, цукровий сироп, фреш лимона, мінеральна вода, м'ята, лайм, барвник.",
     "price": "230 ₴",
     "volume": "",
-    "notes": "Освіжаючий лонг-дрінк у готичному стилі. Багатий та щільний смак ромового тріо (білий, золотий, темний) ідеально збалансований прохолодою м'яти та кислинкою лайма та лимонного фрешу. • Склад: Золотий ром, темний ром, білий ром, цукровий сироп, фреш лимона, мінеральна вода, м'ята, лайм, барвник.",
-    "image": "",
-    "group": "Авторський",
-    "base": "Ром",
-    "ingredients": "Золотий ром, темний ром, білий ром, цукровий сироп, фреш лимона, мінеральна вода, м'ята, лайм, барвник"
+    "ingredients": "Золотий ром, темний ром, білий ром, цукровий сироп, фреш лимона, мінеральна вода, м'ята, лайм, барвник",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|ZOMBIE MOJITO",
+      "photo": ""
+    }
   },
   {
     "id": "new-york-sour-b-a",
+    "base": "Без алкоголю",
     "name": "NEW YORK SOUR б/а",
+    "group": "Безалкогольний",
+    "image": "",
+    "notes": "Безалкогольна варіація класичного коктейлю New York Sour: баланс яскравої кислинки свіжого лимонного фрешу, м’якої солодкості цукрового сиропу та глибоких нот безалкогольного віскі. Завершується легкою пінкою і витонченим шаром безалкогольного червоного сухого вина.",
     "price": "290 ₴",
     "volume": "",
-    "notes": "Безалкогольна варіація класичного коктейлю New York Sour: баланс яскравої кислинки свіжого лимонного фрешу, м’якої солодкості цукрового сиропу та глибоких нот безалкогольного віскі. Завершується легкою пінкою і витонченим шаром безалкогольного червоного сухого вина.",
-    "image": "",
-    "group": "Безалкогольний",
-    "base": "Без алкоголю",
-    "ingredients": "Б/а віскі, лимонний фреш, цукровий сироп, білок, б/а червоне вино"
+    "ingredients": "Б/а віскі, лимонний фреш, цукровий сироп, білок, б/а червоне вино",
+    "choiceqr": {
+      "name": "БЕЗАЛКОГОЛЬНІ|NEW YORK SOUR",
+      "photo": ""
+    }
   },
   {
     "id": "negroni",
+    "base": "Джин",
     "name": "NEGRONI",
+    "group": "Класичний",
+    "image": "./assets/img/cocktails/negroni.webp",
+    "notes": "Коктейль якому 105 років. Джин, вермут та біттер. Ідеальний баланс гіркого та солодкого. Міцна класика.",
     "price": "240 ₴",
     "volume": "",
-    "notes": "Коктейль якому 105 років. Джин, вермут та біттер. Ідеальний баланс гіркого та солодкого. Міцна класика.",
-    "image": "./assets/img/cocktails/negroni.webp",
-    "group": "Класичний",
-    "base": "Джин",
-    "ingredients": "Джин, червоний вермут, біттер"
+    "ingredients": "Джин, червоний вермут, біттер",
+    "choiceqr": {
+      "name": "КЛАСИЧНІ|NEGRONI",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/GtaYnnf-rGNdcDQ-OQpJYlL.webp"
+    }
   },
   {
     "id": "inquisition",
+    "base": "Бурбон / віскі",
     "name": "INQUISITION",
+    "group": "Авторський",
+    "image": "",
+    "notes": "Твіст на класичний Boulevardier із витонченим кондитерським акцентом. Потужний дует бурбона та трав'яного іспанського лікеру Heretic, збалансований солодким червоним вермутом. Фінальний акорд зв'язує композицію в єдиний щільний аромат смаженого фундука та темного какао. Ідеальний дигестив для осіннього вечора. • Склад: Бурбон, червоний солодкий вермут, лікер Heretic, шоколадно-горіховий сироп.",
     "price": "270 ₴",
     "volume": "",
-    "notes": "Твіст на класичний Boulevardier із витонченим кондитерським акцентом. Потужний дует бурбона та трав'яного іспанського лікеру Heretic, збалансований солодким червоним вермутом. Фінальний акорд зв'язує композицію в єдиний щільний аромат смаженого фундука та темного какао. Ідеальний дигестив для осіннього вечора. • Склад: Бурбон, червоний солодкий вермут, лікер Heretic, шоколадно-горіховий сироп.",
-    "image": "",
-    "group": "Авторський",
-    "base": "Бурбон / віскі",
-    "ingredients": "Бурбон, червоний солодкий вермут, лікер Heretic, шоколадно-горіховий сироп"
+    "ingredients": "Бурбон, червоний солодкий вермут, лікер Heretic, шоколадно-горіховий сироп",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|INQUISITION",
+      "photo": ""
+    }
   },
   {
     "id": "clover-club-b-a",
+    "base": "Без алкоголю",
     "name": "CLOVER CLUB б/а",
+    "group": "Безалкогольний",
+    "image": "./assets/img/cocktails/clover-club-b-a.webp",
+    "notes": "Безалкогольна класика із ніжною кислинкою та повітряною пінкою.",
     "price": "235 ₴",
     "volume": "",
-    "notes": "Безалкогольна класика із ніжною кислинкою та повітряною пінкою.",
-    "image": "./assets/img/cocktails/clover-club-b-a.webp",
-    "group": "Безалкогольний",
-    "base": "Без алкоголю",
-    "ingredients": "Б/а джин, малиновий сироп, лимонний сік, білок"
+    "ingredients": "Б/а джин, малиновий сироп, лимонний сік, білок",
+    "choiceqr": {
+      "name": "БЕЗАЛКОГОЛЬНІ|CLOVER CLUB",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/nswMzPG-ZLYFAnu-lXrUEDD.webp"
+    }
   },
   {
     "id": "whiskey-sour",
+    "base": "Бурбон / віскі",
     "name": "WHISKEY SOUR",
+    "group": "Класичний",
+    "image": "./assets/img/cocktails/whiskey-sour.webp",
+    "notes": "Щільний смак. Классика на основі американського віскі. Гарний вибір, коли не знаєш з чого почати. Кисло-солодкий, середньої міцності",
     "price": "240 ₴",
     "volume": "",
-    "notes": "Щільний смак. Классика на основі американського віскі. Гарний вибір, коли не знаєш з чого почати. Кисло-солодкий, середньої міцності",
-    "image": "./assets/img/cocktails/whiskey-sour.webp",
-    "group": "Класичний",
-    "base": "Бурбон / віскі",
-    "ingredients": "Бурбон, лимонний сік, цукровий сироп, білкова піна (рослинна)"
+    "ingredients": "Бурбон, лимонний сік, цукровий сироп, білкова піна (рослинна)",
+    "choiceqr": {
+      "name": "КЛАСИЧНІ|WHISKEY SOUR",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/SkYiWFv-VOJtbFh-DYzJKVC.webp"
+    }
   },
   {
     "id": "melon-wave",
+    "base": "Ром",
     "name": "MELON WAVE",
+    "group": "Авторський",
+    "image": "./assets/img/cocktails/melon-wave.webp",
+    "notes": "Гармонійне поєднання темного рому, персикового та динного лікерів з ананасовим соком. Тропічний, оксамитовий та насичений коктейль із довгим фруктовим післясмаком.",
     "price": "260 ₴",
     "volume": "",
-    "notes": "Гармонійне поєднання темного рому, персикового та динного лікерів з ананасовим соком. Тропічний, оксамитовий та насичений коктейль із довгим фруктовим післясмаком.",
-    "image": "./assets/img/cocktails/melon-wave.webp",
-    "group": "Авторський",
-    "base": "Ром",
-    "ingredients": "Темний ром, персиковий лікер, динний лікер, ананасовий сік"
+    "ingredients": "Темний ром, персиковий лікер, динний лікер, ананасовий сік",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|MELON WAVE",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/HHXANgJ-bcDGNIN-kqkgNef.webp"
+    }
   },
   {
     "id": "pineapple-spritz-b-a",
+    "base": "Без алкоголю",
     "name": "PINEAPPLE SPRITZ б/а",
+    "group": "Безалкогольний",
+    "image": "./assets/img/cocktails/pineapple-spritz-b-a.webp",
+    "notes": "Це сонячний, тропічний коктейль із яскравим смаком ананаса та легкою ігристістю",
     "price": "250 ₴",
     "volume": "200 мл",
-    "notes": "Це сонячний, тропічний коктейль із яскравим смаком ананаса та легкою ігристістю",
-    "image": "./assets/img/cocktails/pineapple-spritz-b-a.webp",
-    "group": "Безалкогольний",
-    "base": "Без алкоголю",
-    "ingredients": "Ананас, б/а ігриста основа"
+    "ingredients": "Ананас, б/а ігриста основа",
+    "choiceqr": {
+      "name": "БЕЗАЛКОГОЛЬНІ|PINEAPPLE SPRITZ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/HgQabIm-iHhzSnc-JDimnek.webp"
+    }
   },
   {
     "id": "mai-thai",
+    "base": "Ром",
     "name": "MAI THAI",
+    "group": "Класичний",
+    "image": "./assets/img/cocktails/mai-thai.webp",
+    "notes": "Тропічний чемпіон. Поєднання бельгійського та панамського рому, циртус та мигдаль. Кисло-солодкий, середньої міцності",
     "price": "270 ₴",
     "volume": "",
-    "notes": "Тропічний чемпіон. Поєднання бельгійського та панамського рому, циртус та мигдаль. Кисло-солодкий, середньої міцності",
-    "image": "./assets/img/cocktails/mai-thai.webp",
-    "group": "Класичний",
-    "base": "Ром",
-    "ingredients": "Темний ром, золотистий ром, апельсиновий лікер (Cointreau), мигдальний сироп, цукровий сироп"
+    "ingredients": "Темний ром, золотистий ром, апельсиновий лікер (Cointreau), мигдальний сироп, цукровий сироп",
+    "choiceqr": {
+      "name": "КЛАСИЧНІ|MAI THAI",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/jTcrlle-NlJcwre-dHirMBc.webp"
+    }
   },
   {
     "id": "montenegro-cherry-spritz",
+    "base": "Біттер / аперитив",
     "name": "MONTENEGRO CHERRY SPRITZ",
+    "group": "Авторський",
+    "image": "",
+    "notes": "Авторський сприц, у якому яскрава чорна вишня поєднується з витонченими цитрусово-трав'яними нотами Amaro Montenegro а ігристе вино та содова дарують легкість і свіжий післясмак.",
     "price": "320 ₴",
     "volume": "",
-    "notes": "Авторський сприц, у якому яскрава чорна вишня поєднується з витонченими цитрусово-трав'яними нотами Amaro Montenegro а ігристе вино та содова дарують легкість і свіжий післясмак.",
-    "image": "",
-    "group": "Авторський",
-    "base": "Біттер / аперитив",
-    "ingredients": "Amaro Montenegro, джин Whitley Neill Black Cherry, солодкий вермут Dubonnet, содова, ігристе вино"
+    "ingredients": "Amaro Montenegro, джин Whitley Neill Black Cherry, солодкий вермут Dubonnet, содова, ігристе вино",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|MONTENEGRO CHERRY SPRITZ",
+      "photo": ""
+    }
   },
   {
     "id": "aperol-spritz-b-a",
+    "base": "Без алкоголю",
     "name": "APEROL SPRITZ б/а",
+    "group": "Безалкогольний",
+    "image": "./assets/img/cocktails/aperol-spritz-b-a.webp",
+    "notes": "це легкий, яскравий та освіжаючий коктейль, що дарує атмосферу літа без градусів.",
     "price": "250 ₴",
     "volume": "200 мл",
-    "notes": "це легкий, яскравий та освіжаючий коктейль, що дарує атмосферу літа без градусів.",
-    "image": "./assets/img/cocktails/aperol-spritz-b-a.webp",
-    "group": "Безалкогольний",
-    "base": "Без алкоголю",
-    "ingredients": "Б/а біттер-аперитив, б/а ігриста основа, апельсин"
+    "ingredients": "Б/а біттер-аперитив, б/а ігриста основа, апельсин",
+    "choiceqr": {
+      "name": "БЕЗАЛКОГОЛЬНІ|APEROL SPRITZ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/DbZICwi-kHmHzYO-GTCVcFC.webp"
+    }
   },
   {
     "id": "porn-star-martini",
+    "base": "Горілка",
     "name": "PORN STAR MARTINI",
+    "group": "Класичний",
+    "image": "./assets/img/cocktails/porn-star-martini.webp",
+    "notes": "Тропічний, повнотілий світовий бестселлер. Кисло-солодкий, средньої міцності",
     "price": "250 ₴",
     "volume": "",
-    "notes": "Тропічний, повнотілий світовий бестселлер. Кисло-солодкий, средньої міцності",
-    "image": "./assets/img/cocktails/porn-star-martini.webp",
-    "group": "Класичний",
-    "base": "Горілка",
-    "ingredients": "Горілка, пюре маракуї, сік лайма, ігристе вино (подається окремо)"
+    "ingredients": "Горілка, пюре маракуї, сік лайма, ігристе вино (подається окремо)",
+    "choiceqr": {
+      "name": "КЛАСИЧНІ|PORN STAR MARTINI",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/keNokXf-IRetUDR-TlHbqku.webp"
+    }
   },
   {
     "id": "reposita",
+    "base": "Текіла",
     "name": "REPOSITA",
+    "group": "Авторський",
+    "image": "./assets/img/cocktails/reposita.webp",
+    "notes": "«Tекільна» відповідь класичному Негроні. Витримана текіла Reposado у поєднанні з двома видами вермутів та трав’яним бітером Amaro Montenegro створює складний, оксамитовий смак із м'якими пряними нотами.",
     "price": "270 ₴",
     "volume": "",
-    "notes": "«Tекільна» відповідь класичному Негроні. Витримана текіла Reposado у поєднанні з двома видами вермутів та трав’яним бітером Amaro Montenegro створює складний, оксамитовий смак із м'якими пряними нотами.",
-    "image": "./assets/img/cocktails/reposita.webp",
-    "group": "Авторський",
-    "base": "Текіла",
-    "ingredients": "Текіла, Amaro Montenegro, білий сухий вермут, червоний солодкий вермут"
+    "ingredients": "Текіла, Amaro Montenegro, білий сухий вермут, червоний солодкий вермут",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|REPOSITA",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/cACFmjs-jtpoGab-mYrKlHp.webp"
+    }
   },
   {
     "id": "mojito-b-a",
+    "base": "Без алкоголю",
     "name": "MOJITO б/а",
+    "group": "Безалкогольний",
+    "image": "./assets/img/cocktails/mojito-b-a.webp",
+    "notes": "освіжаючий коктейль із поєднанням м'яти, лайму та ігристої содової",
     "price": "130 ₴",
     "volume": "300 мл",
-    "notes": "освіжаючий коктейль із поєднанням м'яти, лайму та ігристої содової",
-    "image": "./assets/img/cocktails/mojito-b-a.webp",
-    "group": "Безалкогольний",
-    "base": "Без алкоголю",
-    "ingredients": "М'ята, лайм, содова"
+    "ingredients": "М'ята, лайм, содова",
+    "choiceqr": {
+      "name": "БЕЗАЛКОГОЛЬНІ|MOJITO",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/YYmwQje-kQCUKLJ-eOXGpID.webp"
+    }
   },
   {
     "id": "french-75",
+    "base": "Джин",
     "name": "FRENCH 75",
+    "group": "Класичний",
+    "image": "./assets/img/cocktails/french-75.webp",
+    "notes": "Красива класика поєднання витонченого джину з грайливістю іспанського ігристого вина. Кисло-солодкий, освіжаючий, легкий.",
     "price": "225 ₴",
     "volume": "",
-    "notes": "Красива класика поєднання витонченого джину з грайливістю іспанського ігристого вина. Кисло-солодкий, освіжаючий, легкий.",
-    "image": "./assets/img/cocktails/french-75.webp",
-    "group": "Класичний",
-    "base": "Джин",
-    "ingredients": "Джин, ігристе вино, лимонний сік, цукровий сироп"
+    "ingredients": "Джин, ігристе вино, лимонний сік, цукровий сироп",
+    "choiceqr": {
+      "name": "КЛАСИЧНІ|FRENCH 75",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/iIObCIA-kuWgfOC-afZezkQ.webp"
+    }
   },
   {
     "id": "aero-amaretto",
+    "base": "Лікер",
     "name": "AERO AMARETTO",
+    "group": "Авторський",
+    "image": "./assets/img/cocktails/aero-amaretto.webp",
+    "notes": "Легкий кавовий коктейль із мигдальною солодкістю та ніжним шоколадно-горіховим післясмаком.",
     "price": "190 ₴",
     "volume": "",
-    "notes": "Легкий кавовий коктейль із мигдальною солодкістю та ніжним шоколадно-горіховим післясмаком.",
-    "image": "./assets/img/cocktails/aero-amaretto.webp",
-    "group": "Авторський",
-    "base": "Лікер",
-    "ingredients": "Мигдальний лікер (амаретто), кавовий лікер, шоколадно-горіховий сироп, еспресо"
+    "ingredients": "Мигдальний лікер (амаретто), кавовий лікер, шоколадно-горіховий сироп, еспресо",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|AERO AMARETTO",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/BgHVJHW-zoFbnCB-atmksKA.webp"
+    }
   },
   {
     "id": "clover-club",
+    "base": "Джин",
     "name": "CLOVER CLUB",
+    "group": "Класичний",
+    "image": "./assets/img/cocktails/clover-club.webp",
+    "notes": "Майже фаворит серед класики. Джин та малина . Пухнастий та мʼякий. Кисло-солодкий, середньої міцності.",
     "price": "235 ₴",
     "volume": "",
-    "notes": "Майже фаворит серед класики. Джин та малина . Пухнастий та мʼякий. Кисло-солодкий, середньої міцності.",
-    "image": "./assets/img/cocktails/clover-club.webp",
-    "group": "Класичний",
-    "base": "Джин",
-    "ingredients": "Джин, малиновий сироп, лимонний сік, білок"
+    "ingredients": "Джин, малиновий сироп, лимонний сік, білок",
+    "choiceqr": {
+      "name": "КЛАСИЧНІ|CLOVER CLUB",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/MHIllMx-hNlfrFT-kfforpM.webp"
+    }
   },
   {
     "id": "strawberry-spritz",
+    "base": "Ігристе вино",
     "name": "STRAWBERRY SPRITZ",
+    "group": "Авторський",
+    "image": "./assets/img/cocktails/strawberry-spritz.webp",
+    "notes": "Втілення літа у келиху. Бульбашки ігристого, терпкість вермуту та насичений смак стиглої полуниці для ігристого настрою.",
     "price": "260 ₴",
     "volume": "",
-    "notes": "Втілення літа у келиху. Бульбашки ігристого, терпкість вермуту та насичений смак стиглої полуниці для ігристого настрою.",
-    "image": "./assets/img/cocktails/strawberry-spritz.webp",
-    "group": "Авторський",
-    "base": "Ігристе вино",
-    "ingredients": "Білий сухий вермут, аперитив (Aperativo), пюре полуниці, содова, ігристе вино"
+    "ingredients": "Білий сухий вермут, аперитив (Aperativo), пюре полуниці, содова, ігристе вино",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|STRAWBERRY SPRITZ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/dlcPEDL-tDrkZOM-iPiYRLx.webp"
+    }
   },
   {
     "id": "aperol-spritz",
+    "base": "Біттер / аперитив",
     "name": "APEROL SPRITZ",
+    "group": "Класичний",
+    "image": "./assets/img/cocktails/aperol-spritz.webp",
+    "notes": "Робимо на італійський аперетиві з Венеції. Щедра порція ігристого та апельсин.",
     "price": "250 ₴",
     "volume": "",
-    "notes": "Робимо на італійський аперетиві з Венеції. Щедра порція ігристого та апельсин.",
-    "image": "./assets/img/cocktails/aperol-spritz.webp",
-    "group": "Класичний",
-    "base": "Біттер / аперитив",
-    "ingredients": "Аперитив (Aperativo), ігристе вино, мінеральна вода"
+    "ingredients": "Аперитив (Aperativo), ігристе вино, мінеральна вода",
+    "choiceqr": {
+      "name": "КЛАСИЧНІ|APEROL SPRITZ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/hmYwUms-cLmGVle-dbYGevi.webp"
+    }
   },
   {
     "id": "twist-espresso-martini",
+    "base": "Ром",
     "name": "TWIST ESPRESSO MARTINI",
+    "group": "Авторський",
+    "image": "./assets/img/cocktails/twist-espresso-martini.webp",
+    "notes": "Насичений кавовий коктейль на основі рому з яскравим еспрессо та м'яким шоколадно-горіховим характером. Густий, оксамитовий і спокусливо десертний - ідеальний вибір для вечора",
     "price": "260 ₴",
     "volume": "",
-    "notes": "Насичений кавовий коктейль на основі рому з яскравим еспрессо та м'яким шоколадно-горіховим характером. Густий, оксамитовий і спокусливо десертний - ідеальний вибір для вечора",
-    "image": "./assets/img/cocktails/twist-espresso-martini.webp",
-    "group": "Авторський",
-    "base": "Ром",
-    "ingredients": "Ром Botafogo Spiced, кавовий лікер, шоколадно-горіховий сироп, еспресо"
+    "ingredients": "Ром Botafogo Spiced, кавовий лікер, шоколадно-горіховий сироп, еспресо",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|TWIST ESPRESSO MARTINI",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/ylJPJQi-QwqVkUW-iXQlAEb.webp"
+    }
   },
   {
     "id": "pisco-sour",
+    "base": "Піско",
     "name": "PISCO SOUR",
+    "group": "Класичний",
+    "image": "./assets/img/cocktails/pisco-sour.webp",
+    "notes": "Народний чілійський напій Pisco з класичним кисло-солодким поєднанням.",
     "price": "220 ₴",
     "volume": "100 мл",
-    "notes": "Народний чілійський напій Pisco з класичним кисло-солодким поєднанням.",
-    "image": "./assets/img/cocktails/pisco-sour.webp",
-    "group": "Класичний",
-    "base": "Піско",
-    "ingredients": "Піско, лимонний сік, цукровий сироп, білкова піна, біттер"
+    "ingredients": "Піско, лимонний сік, цукровий сироп, білкова піна, біттер",
+    "choiceqr": {
+      "name": "КЛАСИЧНІ|PISCO SOUR",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/FkGHuZk-jibbOKl-otpeyiq.webp"
+    }
   },
   {
     "id": "24",
+    "base": "Ігристе вино",
     "name": "№ 24",
+    "group": "Авторський",
+    "image": "./assets/img/cocktails/24.webp",
+    "notes": "ігристе, грейпфрутне тіло, вишнева солодкість та легка кислинка",
     "price": "250 ₴",
     "volume": "",
-    "notes": "ігристе, грейпфрутне тіло, вишнева солодкість та легка кислинка",
-    "image": "./assets/img/cocktails/24.webp",
-    "group": "Авторський",
-    "base": "Ігристе вино",
-    "ingredients": "Вишневий сік, ігристе вино, фреш грейпфрута, лікер Мараскін, цукровий сироп"
+    "ingredients": "Вишневий сік, ігристе вино, фреш грейпфрута, лікер Мараскін, цукровий сироп",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|№ 24",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/DhFEXeh-AemUMde-xNCyapc.webp"
+    }
   },
   {
     "id": "queens-colada",
+    "base": "Джин",
     "name": "QUEENS COLADA",
+    "group": "Авторський",
+    "image": "./assets/img/cocktails/queens-colada.webp",
+    "notes": "Тропічна мрія з королівським акцентом: айвовий джин, банан, ананас і ніжна лимонна кислинка. Легка, свіжа та витончена.",
     "price": "225 ₴",
     "volume": "",
-    "notes": "Тропічна мрія з королівським акцентом: айвовий джин, банан, ананас і ніжна лимонна кислинка. Легка, свіжа та витончена.",
-    "image": "./assets/img/cocktails/queens-colada.webp",
-    "group": "Авторський",
-    "base": "Джин",
-    "ingredients": "Джин Whitley Neill Quince (айва), ананасовий сироп, банановий лікер, лимонний фреш"
+    "ingredients": "Джин Whitley Neill Quince (айва), ананасовий сироп, банановий лікер, лимонний фреш",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|QUEENS COLADA",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/dGIlkHd-GGckGMu-UJnKAjs.webp"
+    }
   },
   {
     "id": "forest-gump",
+    "base": "Джин",
     "name": "FOREST GUMP",
+    "group": "Авторський",
+    "image": "./assets/img/cocktails/forest-gump.webp",
+    "notes": "Коктейль зі свіжістю огірка та м'яти, з солодким сиропом з квітів бузини. За основу взятий джин настояний на жасминовому чаєві",
     "price": "275 ₴",
     "volume": "",
-    "notes": "Коктейль зі свіжістю огірка та м'яти, з солодким сиропом з квітів бузини. За основу взятий джин настояний на жасминовому чаєві",
-    "image": "./assets/img/cocktails/forest-gump.webp",
-    "group": "Авторський",
-    "base": "Джин",
-    "ingredients": "Крафтовий джин на жасмині, огірок, сироп бузини, фреш лимона, м'ята"
+    "ingredients": "Крафтовий джин на жасмині, огірок, сироп бузини, фреш лимона, м'ята",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|FOREST GUMP",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/HhJGCka-MWxemaY-xkwwUGN.webp"
+    }
   },
   {
     "id": "aperol-coconut-margarita",
+    "base": "Текіла",
     "name": "APEROL COCONUT MARGARITA",
+    "group": "Авторський",
+    "image": "./assets/img/cocktails/aperol-coconut-margarita.webp",
+    "notes": "Біла текіла, аперитив, кокосовий сироп та лимонний фреш",
     "price": "245 ₴",
     "volume": "",
-    "notes": "Біла текіла, аперитив, кокосовий сироп та лимонний фреш",
-    "image": "./assets/img/cocktails/aperol-coconut-margarita.webp",
-    "group": "Авторський",
-    "base": "Текіла",
-    "ingredients": "Біла текіла Jarana, аперитив (Aperativo), кокосовий сироп, фреш лимона"
+    "ingredients": "Біла текіла Jarana, аперитив (Aperativo), кокосовий сироп, фреш лимона",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|APEROL COCONUT MARGARITA",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/WiDEZHq-EdJGlrU-rExDKXE.webp"
+    }
   },
   {
     "id": "res-tonic",
+    "base": "Джин",
     "name": "RES TONIC",
+    "group": "Авторський",
+    "image": "./assets/img/cocktails/res-tonic.webp",
+    "notes": "Поєднання гірчинки червоного аперитиву та солодкого пюре манго. В основі лежить класичний джин тонік",
     "price": "210 ₴",
     "volume": "",
-    "notes": "Поєднання гірчинки червоного аперитиву та солодкого пюре манго. В основі лежить класичний джин тонік",
-    "image": "./assets/img/cocktails/res-tonic.webp",
-    "group": "Авторський",
-    "base": "Джин",
-    "ingredients": "Джин, аперитив (Aperativo), пюре манго, тонік"
+    "ingredients": "Джин, аперитив (Aperativo), пюре манго, тонік",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|RES TONIC",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/zDiVXcC-CFTZVbd-ClBLauR.webp"
+    }
   },
   {
     "id": "pineapple-spritz",
+    "base": "Ігристе вино",
     "name": "PINEAPPLE SPRITZ",
+    "group": "Авторський",
+    "image": "./assets/img/cocktails/pineapple-spritz.webp",
+    "notes": "Освіжаючий шпрітц на основі ігристого з ананасовою солодкістю та легкою гірчинкою травяного біттера Amaro Montenegro",
     "price": "260 ₴",
     "volume": "",
-    "notes": "Освіжаючий шпрітц на основі ігристого з ананасовою солодкістю та легкою гірчинкою травяного біттера Amaro Montenegro",
-    "image": "./assets/img/cocktails/pineapple-spritz.webp",
-    "group": "Авторський",
-    "base": "Ігристе вино",
-    "ingredients": "Пюре ананаса, Amaro Montenegro, фреш лимона, ігристе вино"
-  },
-  {
-    "id": "cucumber-gin-tonic",
-    "name": "CUCUMBER GIN TONIC",
-    "price": "200 ₴",
-    "volume": "",
-    "notes": "Джин, огірковий сироп, лимонний фреш, тонік",
-    "image": "./assets/img/cocktails/cucumber-gin-tonic.webp",
-    "group": "Авторський",
-    "base": "Джин",
-    "ingredients": "Джин, огірковий сироп, фреш лимона, тонік"
+    "ingredients": "Пюре ананаса, Amaro Montenegro, фреш лимона, ігристе вино",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|PINEAPPLE SPRITZ",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/zwQJetB-sSQCJmS-eGzObIA.webp"
+    }
   },
   {
     "id": "bear-berry",
+    "base": "Джин",
     "name": "BEAR BERRY",
+    "group": "Авторський",
+    "image": "./assets/img/cocktails/bear-berry.webp",
+    "notes": "Ягідний коктейль з полуницею та приємною цитрусовою кислинкою. В основі джин настояний на цедрі лимону",
     "price": "225 ₴",
     "volume": "",
-    "notes": "Ягідний коктейль з полуницею та приємною цитрусовою кислинкою. В основі джин настояний на цедрі лимону",
-    "image": "./assets/img/cocktails/bear-berry.webp",
-    "group": "Авторський",
-    "base": "Джин",
-    "ingredients": "Лимонний джин, пюре полуниці, фреш лимона, цукровий сироп"
+    "ingredients": "Лимонний джин, пюре полуниці, фреш лимона, цукровий сироп",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|BEAR BERRY",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/ewnenrj-ZDIbsHS-TTsAJus.webp"
+    }
   },
   {
     "id": "violet-gin-tonic",
+    "base": "Джин",
     "name": "VIOLET GIN TONIC",
+    "group": "Авторський",
+    "image": "./assets/img/cocktails/violet-gin-tonic.webp",
+    "notes": "Англійський джин та тайський синій чай в поєднанні з лавандовим сиропом та тоніком.",
     "price": "210 ₴",
     "volume": "",
-    "notes": "Англійський джин та тайський синій чай в поєднанні з лавандовим сиропом та тоніком.",
-    "image": "./assets/img/cocktails/violet-gin-tonic.webp",
-    "group": "Авторський",
-    "base": "Джин",
-    "ingredients": "Синій джин, фреш лимона, лавандовий сироп, тонік"
+    "ingredients": "Синій джин, фреш лимона, лавандовий сироп, тонік",
+    "choiceqr": {
+      "name": "АВТОРСЬКІ|VIOLET GIN TONIC",
+      "photo": "https://cdn-media.choiceqr.com/prod-eat-residence1/menu/tIgVMZN-ZeouOPY-OkqREal.webp"
+    }
   }
 ]

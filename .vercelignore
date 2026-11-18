@@ -1,0 +1,7 @@
+# Not deployed to Vercel — none of this is needed at runtime (the api/ functions bundle lib/ on their own).
+# Everything here stays in git; it is used locally (seeding, DB reset) or kept as source material.
+# lib/ is NOT listed: the serverless functions import it. vercel.json hides /lib/* from public URLs instead.
+data
+scripts
+supabase
+README.md
